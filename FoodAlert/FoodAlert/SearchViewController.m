@@ -9,7 +9,7 @@
 #import "SearchViewController.h"
 
 @interface SearchViewController ()
-
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
 @implementation SearchViewController
