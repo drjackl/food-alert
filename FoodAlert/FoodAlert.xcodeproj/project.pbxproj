@@ -16,6 +16,8 @@
 		04E6FECD1C9483E200AB0E61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E6FECB1C9483E200AB0E61 /* LaunchScreen.storyboard */; };
 		04E6FED81C9483E200AB0E61 /* FoodAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FED71C9483E200AB0E61 /* FoodAlertTests.m */; };
 		04E6FEE31C9483E200AB0E61 /* FoodAlertUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEE21C9483E200AB0E61 /* FoodAlertUITests.m */; };
+		04E6FEF11C94869900AB0E61 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E6FEF01C94869900AB0E61 /* MapKit.framework */; };
+		04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEF31C9542DC00AB0E61 /* MapViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,9 @@
 		04E6FEDE1C9483E200AB0E61 /* FoodAlertUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodAlertUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E6FEE21C9483E200AB0E61 /* FoodAlertUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FoodAlertUITests.m; sourceTree = "<group>"; };
 		04E6FEE41C9483E200AB0E61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04E6FEF01C94869900AB0E61 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		04E6FEF21C9542DC00AB0E61 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		04E6FEF31C9542DC00AB0E61 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E6FEF11C94869900AB0E61 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,7 @@
 		04E6FEAE1C9483E100AB0E61 = {
 			isa = PBXGroup;
 			children = (
+				04E6FEF01C94869900AB0E61 /* MapKit.framework */,
 				04E6FEB91C9483E100AB0E61 /* FoodAlert */,
 				04E6FED61C9483E200AB0E61 /* FoodAlertTests */,
 				04E6FEE11C9483E200AB0E61 /* FoodAlertUITests */,
@@ -106,6 +113,8 @@
 			children = (
 				04E6FEBD1C9483E100AB0E61 /* AppDelegate.h */,
 				04E6FEBE1C9483E100AB0E61 /* AppDelegate.m */,
+				04E6FEF21C9542DC00AB0E61 /* MapViewController.h */,
+				04E6FEF31C9542DC00AB0E61 /* MapViewController.m */,
 				04E6FEC01C9483E100AB0E61 /* FirstViewController.h */,
 				04E6FEC11C9483E100AB0E61 /* FirstViewController.m */,
 				04E6FEC31C9483E100AB0E61 /* SecondViewController.h */,
@@ -212,6 +221,11 @@
 				TargetAttributes = {
 					04E6FEB61C9483E100AB0E61 = {
 						CreatedOnToolsVersion = 7.2;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					04E6FED21C9483E200AB0E61 = {
 						CreatedOnToolsVersion = 7.2;
@@ -277,6 +291,7 @@
 			files = (
 				04E6FEC51C9483E100AB0E61 /* SecondViewController.m in Sources */,
 				04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */,
+				04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */,
 				04E6FEC21C9483E100AB0E61 /* FirstViewController.m in Sources */,
 				04E6FEBC1C9483E100AB0E61 /* main.m in Sources */,
 			);
