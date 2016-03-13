@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--Map-->
+        <!--The Map-->
         <scene sceneID="AHa-GH-caC">
             <objects>
                 <viewController id="ITH-v5-Z0O" customClass="MapViewController" sceneMemberID="viewController">
@@ -50,6 +50,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="second" id="KvH-fx-Rcj"/>
+                    <navigationItem key="navigationItem" title="The Map" id="O4Q-uS-W9R"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nUz-w5-Plw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

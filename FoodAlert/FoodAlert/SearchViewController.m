@@ -8,7 +8,7 @@
 
 #import "SearchViewController.h"
 
-@interface SearchViewController ()
+@interface SearchViewController () <UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @end
 
@@ -17,11 +17,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.searchBar.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// for a type-to-filter-dropdown feature
+- (void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
+    NSLog(@"Text did change: %@", searchText);
 }
 
 /*
