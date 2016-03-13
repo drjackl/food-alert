@@ -17,6 +17,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="ITH-v5-Z0O" kind="relationship" relationship="viewControllers" id="jsE-iO-kne"/>
+                        <segue destination="gTi-nN-PZP" kind="relationship" relationship="viewControllers" id="cr6-E5-zjL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -47,14 +48,60 @@
                             <constraint firstItem="We8-aj-lhF" firstAttribute="leading" secondItem="2pN-Ov-imJ" secondAttribute="leading" id="wAz-5h-V9U"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="first" id="KvH-fx-Rcj"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="second" id="KvH-fx-Rcj"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nUz-w5-Plw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="765" y="-414"/>
+            <point key="canvasLocation" x="770" y="-542"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="zoA-R9-HjJ">
+            <objects>
+                <viewController id="gTi-nN-PZP" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yhs-9j-bgA"/>
+                        <viewControllerLayoutGuide type="bottom" id="KE2-Qz-dww"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xiT-I4-lo0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Jq0-gN-a5p">
+                                <rect key="frame" x="5" y="5" width="590" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gTi-nN-PZP" id="HIf-6G-Ugb"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Jq0-gN-a5p" firstAttribute="top" secondItem="xiT-I4-lo0" secondAttribute="top" constant="5" id="9bv-oO-MmD"/>
+                            <constraint firstAttribute="trailing" secondItem="Jq0-gN-a5p" secondAttribute="trailing" constant="5" id="S8o-eP-lXd"/>
+                            <constraint firstItem="Jq0-gN-a5p" firstAttribute="leading" secondItem="xiT-I4-lo0" secondAttribute="leading" constant="5" id="w6w-dK-eA2"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" image="first" id="pGZ-f6-DXV"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="6cf-MO-Xv5" id="87h-St-QWy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FQ3-UR-EZe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="6cf-MO-Xv5">
+                    <connections>
+                        <outlet property="delegate" destination="gTi-nN-PZP" id="OxI-Yb-BYM"/>
+                        <outlet property="searchBar" destination="Jq0-gN-a5p" id="hmq-ii-fY2"/>
+                        <outlet property="searchContentsController" destination="gTi-nN-PZP" id="RXS-C0-T02"/>
+                        <outlet property="searchResultsDataSource" destination="gTi-nN-PZP" id="Z8F-91-hsV"/>
+                        <outlet property="searchResultsDelegate" destination="gTi-nN-PZP" id="hLU-rY-h1M"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="770" y="148"/>
         </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
+        <image name="second" width="30" height="30"/>
     </resources>
 </document>

@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  SearchViewController.h
 //  FoodAlert
 //
 //  Created by Jack Li on 3/12/16.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
-
+@interface SearchViewController : UIViewController
 
 @end
-
