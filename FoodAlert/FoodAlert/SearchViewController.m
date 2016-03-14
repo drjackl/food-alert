@@ -7,6 +7,7 @@
 //
 
 #import "SearchViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -26,10 +27,31 @@
     // Dispose of any resources that can be recreated.
 }
 
-// for a type-to-filter-dropdown feature
-- (void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
-    NSLog(@"Text did change: %@", searchText);
+- (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
+    NSLog(@"Search button clicked with text: %@", searchBar.text);
+    
+    MKLocalSearchRequest* request = [MKLocalSearchRequest new];
+    request.naturalLanguageQuery = searchBar.text;
+    //request.region = ; // get region
+    
+    MKLocalSearch* search = [[MKLocalSearch alloc] initWithRequest:request];
+    
+    [search startWithCompletionHandler:^(MKLocalSearchResponse*_Nullable response, NSError*_Nullable error) {
+        [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
+            NSLog(@"Item %ld: %@", i, item);
+        }];
+    }];
 }
+
+//// this doesn't start a search
+//- (void) searchBarTextDidEndEditing:(UISearchBar*)searchBar {
+//    NSLog(@"Search did end editing: %@", searchBar.text);
+//}
+
+//// for a type-to-filter-dropdown/type-to-suggest-autocomplete feature
+//- (void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
+//    NSLog(@"Text did change: %@", searchText);
+//}
 
 /*
 #pragma mark - Navigation

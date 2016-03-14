@@ -7,9 +7,10 @@
 //
 
 #import "MapViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface MapViewController ()
-
+@property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @end
 
 @implementation MapViewController
@@ -22,6 +23,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (MKCoordinateRegion) currentRegion {
+    return self.mapView.region;
 }
 
 /*
