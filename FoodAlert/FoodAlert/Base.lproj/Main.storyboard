@@ -61,6 +61,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puV-Or-xLG">
                                         <rect key="frame" x="7" y="17" width="47" height="30"/>
                                         <state key="normal" title="Switch"/>
+                                        <connections>
+                                            <action selector="switchViewControllers" destination="8jP-sb-qXU" eventType="touchUpInside" id="23m-Qt-xOz"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXl-e3-oiR">
                                         <rect key="frame" x="545" y="17" width="48" height="30"/>
