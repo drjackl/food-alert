@@ -30,12 +30,16 @@
 - (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
     NSLog(@"Search button clicked with text: %@", searchBar.text);
     
+    // simple search query from Apple's Location/Maps Programming Guide
+    // 1. setup search request
     MKLocalSearchRequest* request = [MKLocalSearchRequest new];
     request.naturalLanguageQuery = searchBar.text;
     //request.region = ; // get region
     
+    // 2. setup search
     MKLocalSearch* search = [[MKLocalSearch alloc] initWithRequest:request];
     
+    // 3. start search and get results
     [search startWithCompletionHandler:^(MKLocalSearchResponse*_Nullable response, NSError*_Nullable error) {
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
             NSLog(@"Item %ld: %@", i, item);

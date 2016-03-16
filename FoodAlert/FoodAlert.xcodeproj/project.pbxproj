@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040635961C985E300027FDD9 /* CoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040635951C985E300027FDD9 /* CoinViewController.m */; };
 		04E6FEBC1C9483E100AB0E61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBB1C9483E100AB0E61 /* main.m */; };
 		04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBE1C9483E100AB0E61 /* AppDelegate.m */; };
 		04E6FEC81C9483E100AB0E61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E6FEC61C9483E100AB0E61 /* Main.storyboard */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		040635941C985E300027FDD9 /* CoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinViewController.h; sourceTree = "<group>"; };
+		040635951C985E300027FDD9 /* CoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinViewController.m; sourceTree = "<group>"; };
 		04E6FEB71C9483E100AB0E61 /* FoodAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E6FEBB1C9483E100AB0E61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		04E6FEBD1C9483E100AB0E61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 			children = (
 				04E6FEBD1C9483E100AB0E61 /* AppDelegate.h */,
 				04E6FEBE1C9483E100AB0E61 /* AppDelegate.m */,
+				040635941C985E300027FDD9 /* CoinViewController.h */,
+				040635951C985E300027FDD9 /* CoinViewController.m */,
 				04E6FEF21C9542DC00AB0E61 /* MapViewController.h */,
 				04E6FEF31C9542DC00AB0E61 /* MapViewController.m */,
 				04E6FEF51C9547AE00AB0E61 /* SearchViewController.h */,
@@ -284,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040635961C985E300027FDD9 /* CoinViewController.m in Sources */,
 				04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */,
 				04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */,
 				04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */,
@@ -513,6 +519,7 @@
 				04E6FEE91C9483E200AB0E61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		04E6FEEA1C9483E200AB0E61 /* Build configuration list for PBXNativeTarget "FoodAlertTests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +528,7 @@
 				04E6FEEC1C9483E200AB0E61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		04E6FEED1C9483E200AB0E61 /* Build configuration list for PBXNativeTarget "FoodAlertUITests" */ = {
 			isa = XCConfigurationList;
@@ -529,6 +537,7 @@
 				04E6FEEF1C9483E200AB0E61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
