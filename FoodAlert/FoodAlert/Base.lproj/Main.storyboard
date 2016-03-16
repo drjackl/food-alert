@@ -37,33 +37,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2NO-Wa-TR4">
-                                <rect key="frame" x="20" y="381" width="311" height="188"/>
-                                <connections>
-                                    <segue destination="vkk-lX-yhg" kind="embed" id="e3f-Xm-BgD"/>
-                                </connections>
-                            </containerView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BYZ-Yq-JtG">
-                                <rect key="frame" x="0.0" y="25" width="600" height="44"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BYZ-Yq-JtG">
+                                <rect key="frame" x="0.0" y="40" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="Ewu-24-7aX"/>
                                 </items>
                             </navigationBar>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fXf-xt-gZi">
-                                <rect key="frame" x="32" y="97" width="548" height="276"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXf-xt-gZi">
+                                <rect key="frame" x="0.0" y="84" width="600" height="516"/>
                                 <connections>
                                     <segue destination="ITH-v5-Z0O" kind="embed" id="KWf-RL-ps0"/>
                                 </connections>
                             </containerView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="y1D-JY-l1x">
-                                <rect key="frame" x="360" y="472" width="240" height="128"/>
-                            </mapView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFn-mh-Oiq">
+                                <rect key="frame" x="0.0" y="84" width="600" height="516"/>
+                                <connections>
+                                    <segue destination="vkk-lX-yhg" kind="embed" id="anT-g9-ViS"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fXf-xt-gZi" firstAttribute="top" secondItem="BYZ-Yq-JtG" secondAttribute="bottom" id="K32-Uz-Egw"/>
+                            <constraint firstItem="fXf-xt-gZi" firstAttribute="width" secondItem="BYZ-Yq-JtG" secondAttribute="width" id="Ndr-Jq-4Wa"/>
+                            <constraint firstItem="Bbl-iz-fLU" firstAttribute="top" secondItem="fXf-xt-gZi" secondAttribute="bottom" id="Rmr-KY-rCU"/>
+                            <constraint firstItem="sFn-mh-Oiq" firstAttribute="leading" secondItem="fXf-xt-gZi" secondAttribute="leading" id="SIh-jr-y3J"/>
+                            <constraint firstItem="BYZ-Yq-JtG" firstAttribute="width" secondItem="W6S-Uo-msh" secondAttribute="width" id="e3X-C1-Wd5"/>
+                            <constraint firstItem="BYZ-Yq-JtG" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" constant="20" id="f0C-Iu-S4R"/>
+                            <constraint firstItem="BYZ-Yq-JtG" firstAttribute="centerX" secondItem="W6S-Uo-msh" secondAttribute="centerX" id="glv-NM-tXI"/>
+                            <constraint firstItem="sFn-mh-Oiq" firstAttribute="height" secondItem="fXf-xt-gZi" secondAttribute="height" id="iqH-ac-xey"/>
+                            <constraint firstItem="sFn-mh-Oiq" firstAttribute="top" secondItem="fXf-xt-gZi" secondAttribute="top" id="j41-C2-fZz"/>
+                            <constraint firstItem="sFn-mh-Oiq" firstAttribute="width" secondItem="fXf-xt-gZi" secondAttribute="width" id="mVb-Xb-2DE"/>
+                            <constraint firstItem="fXf-xt-gZi" firstAttribute="centerX" secondItem="BYZ-Yq-JtG" secondAttribute="centerX" id="njo-Vs-RCg"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="view1" destination="fXf-xt-gZi" id="tkk-pZ-RMY"/>
-                        <outlet property="view2" destination="2NO-Wa-TR4" id="c6r-VR-Nj0"/>
+                        <outlet property="view2" destination="sFn-mh-Oiq" id="Flm-0h-MPX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SIj-iK-iGF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -79,11 +89,11 @@
                         <viewControllerLayoutGuide type="bottom" id="72N-v1-3Uu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2pN-Ov-imJ">
-                        <rect key="frame" x="0.0" y="0.0" width="548" height="276"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
-                                <rect key="frame" x="0.0" y="20" width="548" height="531"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -146,33 +156,27 @@
             </objects>
             <point key="canvasLocation" x="770" y="148"/>
         </scene>
-        <!--Map View Controller-->
-        <scene sceneID="Xbn-hk-1Hw">
-            <objects>
-                <viewController id="Mab-Xf-YEf" customClass="MapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Nh5-T0-PkX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="06T-Wj-1Hd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="573" y="-1535"/>
-        </scene>
-        <!--Search View Controller-->
+        <!--View Controller-->
         <scene sceneID="pVU-38-ir6">
             <objects>
-                <viewController id="vkk-lX-yhg" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController id="vkk-lX-yhg" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t1Y-Kc-U5o">
-                        <rect key="frame" x="0.0" y="0.0" width="311" height="188"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Random view" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IpD-Qt-3zk">
+                                <rect key="frame" x="168" y="337" width="103" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGx-zl-HEZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="574" y="-1062"/>
+            <point key="canvasLocation" x="594" y="-1208"/>
         </scene>
     </scenes>
     <resources>
