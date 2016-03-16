@@ -13,6 +13,7 @@
 // Outlets
 @property (weak, nonatomic) IBOutlet UIView* view1;
 @property (weak, nonatomic) IBOutlet UIView* view2;
+@property (weak, nonatomic) IBOutlet UIButton* otherViewButton;
 @end
 
 @implementation CoinViewController
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.currentView = self.view1;
+    self.currentView = self.view2;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,14 +32,35 @@
 
 - (IBAction) switchViewControllers {
     // if currently on view1
+//    if (self.currentView == self.view1) {
+//        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+//            self.view2.alpha = 1.0; // show view2 by making opaque
+//        } completion:nil];
+//        self.currentView = self.view2;
+//    } else {
+//        self.view2.alpha = 0.0; // show view1 by making view2 clear
+//        self.currentView = self.view1;
+//    }
+    
+    //UIView* otherView = self.currentView==self.view1 ? self.view2 : self.view1;
+    
+    UIView* otherView;
+    UIViewAnimationOptions transition;
     if (self.currentView == self.view1) {
-        self.view2.alpha = 1.0; // show view2 by making opaque
-        self.currentView = self.view2;
+        otherView = self.view2;
+        transition = UIViewAnimationOptionTransitionFlipFromLeft;
     } else {
-        self.view2.alpha = 0.0; // show view1 by making view2 clear
-        self.currentView = self.view1;
+        otherView = self.view1;
+        transition = UIViewAnimationOptionTransitionFlipFromRight;
     }
-    NSLog(@"Button pressed!");
+    [UIView transitionFromView:self.currentView toView:otherView duration:0.5 options:transition completion:nil];
+    self.currentView = otherView;
+}
+
+- (void) setCurrentView:(UIView*)currentView {
+    _currentView = currentView;
+    NSString* otherViewString = currentView==self.view1 ? NSLocalizedString(@"View 2", @"View 2") : NSLocalizedString(@"View 1", @"View 1");
+    [self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
 }
 
 
