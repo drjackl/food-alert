@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CoinSideViewController.h"
 #import "MapViewController.h"
+#import "SimpleListViewController.h"
 
-@interface SearchViewController : CoinSideViewController
+@interface SearchViewController : UIViewController
 
 @property (nonatomic) MapViewController* mapViewController;
+@property (nonatomic) SimpleListViewController* listViewController;
 
 @end

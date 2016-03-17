@@ -9,12 +9,13 @@
 #import "CoinViewController.h"
 #import "CoinSideViewController.h"
 #import "MapViewController.h"
+#import "SimpleListViewController.h"
 #import "SearchViewController.h"
 
 @interface CoinViewController ()
 @property (nonatomic) UIView* currentView;
 @property (nonatomic) MapViewController* mapViewController;
-@property (nonatomic) CoinSideViewController* listViewController;
+@property (nonatomic) SimpleListViewController* listViewController;
 @property (nonatomic) SearchViewController* searchViewController;
 // Outlets
 @property (weak, nonatomic) IBOutlet UIView* view1; // mapVC container
@@ -31,6 +32,7 @@
     
     self.currentView = self.view1;
     self.searchViewController.mapViewController = self.mapViewController;
+    self.searchViewController.listViewController = self.listViewController;
 }
 
 - (void) didReceiveMemoryWarning {
@@ -54,8 +56,8 @@
     //NSLog(@"segue ID: %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"mapViewController"]) {
         self.mapViewController = (MapViewController*) segue.destinationViewController;
-    } else if ([segue.identifier isEqualToString:@"searchViewController"]) {
-        self.listViewController = (CoinSideViewController*) segue.destinationViewController;
+    } else if ([segue.identifier isEqualToString:@"listEmbedSegue"]) {
+        self.listViewController = (SimpleListViewController*) segue.destinationViewController;
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
     }

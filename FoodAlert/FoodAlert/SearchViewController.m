@@ -46,9 +46,13 @@
     
     // 3. start search and get results
     [search startWithCompletionHandler:^(MKLocalSearchResponse*_Nullable response, NSError*_Nullable error) {
+        NSMutableString* results = [NSMutableString new];
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
-            NSLog(@"Item %ld: %@", i, item);
+            //NSLog(@"Item %ld: %@", i, item);
+            [results appendFormat:@"Item %ld: %@\n", i, item];
         }];
+        //NSLog(@"Results String:\n%@", results);
+        [self.listViewController.textView setText:results];
     }];
 }
 
