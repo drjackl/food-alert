@@ -56,6 +56,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXl-e3-oiR">
                                         <rect key="frame" x="545" y="17" width="48" height="30"/>
                                         <state key="normal" title="Search"/>
+                                        <connections>
+                                            <action selector="showSearch" destination="8jP-sb-qXU" eventType="touchUpInside" id="oE5-ti-Mm9"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,7 +72,7 @@
                                     <constraint firstAttribute="trailing" secondItem="uXl-e3-oiR" secondAttribute="trailing" constant="7" id="neO-VY-om1"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sEt-Vz-QaU">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sEt-Vz-QaU" userLabel="CoinSides">
                                 <rect key="frame" x="0.0" y="84" width="600" height="516"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXf-xt-gZi">
@@ -97,20 +100,33 @@
                                     <constraint firstItem="sFn-mh-Oiq" firstAttribute="height" secondItem="sEt-Vz-QaU" secondAttribute="height" id="wNs-z9-9NQ"/>
                                 </constraints>
                             </view>
+                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
+                                <rect key="frame" x="0.0" y="84" width="600" height="456"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="456" id="aeQ-GN-NKm"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="gTi-nN-PZP" kind="embed" identifier="searchEmbedSegue" id="Fgl-EN-Y8M"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="X2g-wD-tB6" firstAttribute="width" secondItem="W6S-Uo-msh" secondAttribute="width" id="43z-5k-ydS"/>
                             <constraint firstItem="X2g-wD-tB6" firstAttribute="centerX" secondItem="W6S-Uo-msh" secondAttribute="centerX" id="G1Y-k1-faw"/>
                             <constraint firstItem="sEt-Vz-QaU" firstAttribute="centerX" secondItem="W6S-Uo-msh" secondAttribute="centerX" id="I14-cJ-8DT"/>
+                            <constraint firstItem="rxE-pV-B18" firstAttribute="width" secondItem="W6S-Uo-msh" secondAttribute="width" id="MSy-FM-FLr"/>
                             <constraint firstItem="sEt-Vz-QaU" firstAttribute="width" secondItem="W6S-Uo-msh" secondAttribute="width" id="RkQ-gP-oya"/>
                             <constraint firstItem="Bbl-iz-fLU" firstAttribute="top" secondItem="sEt-Vz-QaU" secondAttribute="bottom" id="TEF-O5-OtV"/>
                             <constraint firstItem="sEt-Vz-QaU" firstAttribute="top" secondItem="X2g-wD-tB6" secondAttribute="bottom" id="XQs-ev-f8F"/>
                             <constraint firstItem="X2g-wD-tB6" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" id="gmR-PB-OPz"/>
+                            <constraint firstItem="rxE-pV-B18" firstAttribute="leading" secondItem="W6S-Uo-msh" secondAttribute="leadingMargin" constant="-20" id="lOw-Qf-cDU"/>
+                            <constraint firstItem="rxE-pV-B18" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" constant="64" id="pr8-ps-CAg"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="otherViewButton" destination="puV-Or-xLG" id="oYU-01-QEC"/>
+                        <outlet property="searchView" destination="rxE-pV-B18" id="bKo-9R-bc1"/>
                         <outlet property="view1" destination="fXf-xt-gZi" id="tkk-pZ-RMY"/>
                         <outlet property="view2" destination="sFn-mh-Oiq" id="Flm-0h-MPX"/>
                     </connections>
@@ -162,7 +178,7 @@
                         <viewControllerLayoutGuide type="bottom" id="KE2-Qz-dww"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xiT-I4-lo0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="456"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
@@ -220,7 +236,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vg2-kh-fUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="557" y="-1868"/>
+            <point key="canvasLocation" x="609" y="-2276"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="pVU-38-ir6">
@@ -242,7 +258,20 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGx-zl-HEZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="594" y="-1208"/>
+            <point key="canvasLocation" x="614" y="-1608"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="vbG-v2-WbP">
+            <objects>
+                <viewController id="Kvj-NI-xWR" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KAZ-kk-UxU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTn-uY-eRV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
@@ -250,7 +279,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Fgl-EN-Y8M"/>
         <segue reference="Kvu-F8-Htx"/>
-        <segue reference="LYv-q5-HgG"/>
     </inferredMetricsTieBreakers>
 </document>

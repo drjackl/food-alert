@@ -38,7 +38,8 @@
     // 1. setup search request
     MKLocalSearchRequest* request = [MKLocalSearchRequest new];
     request.naturalLanguageQuery = searchBar.text;
-    //request.region = ; // get region
+    request.region = [self.mapViewController currentRegion]; // get region
+    self.mapViewController.currentRegion;
     
     // 2. setup search
     MKLocalSearch* search = [[MKLocalSearch alloc] initWithRequest:request];

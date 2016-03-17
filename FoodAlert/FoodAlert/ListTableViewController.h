@@ -1,5 +1,5 @@
 //
-//  ListViewController.h
+//  ListTableViewController.h
 //  FoodAlert
 //
 //  Created by Jack Li on 3/16/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListViewController : UITableViewController
+@interface ListTableViewController : UITableViewController
 
 @end

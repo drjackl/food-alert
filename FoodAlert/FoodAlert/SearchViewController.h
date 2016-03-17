@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "CoinSideViewController.h"
+#import "MapViewController.h"
 
 @interface SearchViewController : CoinSideViewController
+
+@property (nonatomic) MapViewController* mapViewController;
 
 @end

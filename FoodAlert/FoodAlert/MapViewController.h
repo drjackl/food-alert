@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "CoinSideViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface MapViewController : CoinSideViewController
+
+- (MKCoordinateRegion) currentRegion;
 
 @end

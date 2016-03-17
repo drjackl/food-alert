@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		040635961C985E300027FDD9 /* CoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040635951C985E300027FDD9 /* CoinViewController.m */; };
 		0406359A1C9A38E50027FDD9 /* CoinSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040635991C9A38E50027FDD9 /* CoinSideViewController.m */; };
-		0406359D1C9A582B0027FDD9 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406359C1C9A582B0027FDD9 /* ListViewController.m */; };
+		040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406359F1C9A5A650027FDD9 /* ListTableViewController.m */; };
 		04E6FEBC1C9483E100AB0E61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBB1C9483E100AB0E61 /* main.m */; };
 		04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBE1C9483E100AB0E61 /* AppDelegate.m */; };
 		04E6FEC81C9483E100AB0E61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E6FEC61C9483E100AB0E61 /* Main.storyboard */; };
@@ -45,8 +45,8 @@
 		040635971C9A35DB0027FDD9 /* CoinSide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinSide.h; sourceTree = "<group>"; };
 		040635981C9A38E50027FDD9 /* CoinSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoinSideViewController.h; sourceTree = "<group>"; };
 		040635991C9A38E50027FDD9 /* CoinSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoinSideViewController.m; sourceTree = "<group>"; };
-		0406359B1C9A582B0027FDD9 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		0406359C1C9A582B0027FDD9 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		0406359E1C9A5A650027FDD9 /* ListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewController.h; sourceTree = "<group>"; };
+		0406359F1C9A5A650027FDD9 /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewController.m; sourceTree = "<group>"; };
 		04E6FEB71C9483E100AB0E61 /* FoodAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E6FEBB1C9483E100AB0E61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		04E6FEBD1C9483E100AB0E61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 				04E6FEF31C9542DC00AB0E61 /* MapViewController.m */,
 				04E6FEF51C9547AE00AB0E61 /* SearchViewController.h */,
 				04E6FEF61C9547AE00AB0E61 /* SearchViewController.m */,
-				0406359B1C9A582B0027FDD9 /* ListViewController.h */,
-				0406359C1C9A582B0027FDD9 /* ListViewController.m */,
+				0406359E1C9A5A650027FDD9 /* ListTableViewController.h */,
+				0406359F1C9A5A650027FDD9 /* ListTableViewController.m */,
 				04E6FEC61C9483E100AB0E61 /* Main.storyboard */,
 				04E6FEC91C9483E200AB0E61 /* Assets.xcassets */,
 				04E6FECB1C9483E200AB0E61 /* LaunchScreen.storyboard */,
@@ -303,8 +303,8 @@
 			files = (
 				040635961C985E300027FDD9 /* CoinViewController.m in Sources */,
 				04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */,
-				0406359D1C9A582B0027FDD9 /* ListViewController.m in Sources */,
 				0406359A1C9A38E50027FDD9 /* CoinSideViewController.m in Sources */,
+				040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */,
 				04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */,
 				04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */,
 				04E6FEBC1C9483E100AB0E61 /* main.m in Sources */,
