@@ -25,6 +25,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSString*) name {
+    return NSLocalizedString(@"Map", @"Map button");
+}
+
 - (MKCoordinateRegion) currentRegion {
     return self.mapView.region;
 }

@@ -75,13 +75,13 @@
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXf-xt-gZi">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                                         <connections>
-                                            <segue destination="haS-Kh-uGz" kind="embed" id="S7J-5Y-sCH"/>
+                                            <segue destination="ITH-v5-Z0O" kind="embed" identifier="mapViewController" id="Kvu-F8-Htx"/>
                                         </connections>
                                     </containerView>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFn-mh-Oiq">
+                                    <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFn-mh-Oiq">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                                         <connections>
-                                            <segue destination="vkk-lX-yhg" kind="embed" id="anT-g9-ViS"/>
+                                            <segue destination="gTi-nN-PZP" kind="embed" identifier="searchViewController" id="LYv-q5-HgG"/>
                                         </connections>
                                     </containerView>
                                 </subviews>
@@ -128,11 +128,11 @@
                         <viewControllerLayoutGuide type="bottom" id="72N-v1-3Uu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2pN-Ov-imJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
-                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -162,13 +162,17 @@
                         <viewControllerLayoutGuide type="bottom" id="KE2-Qz-dww"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xiT-I4-lo0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
-                                <rect key="frame" x="20" y="20" width="560" height="44"/>
+                                <rect key="frame" x="20" y="0.0" width="560" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nY7-A1-wmc">
+                                <rect key="frame" x="89" y="144" width="240" height="128"/>
+                                <color key="backgroundColor" red="0.14592799540000001" green="0.37945199010000003" blue="0.083113901320000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -204,7 +208,7 @@
                         <viewControllerLayoutGuide type="bottom" id="opf-Rm-m2V"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Vvs-aW-Jss">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6xz-SN-xay">
@@ -223,7 +227,7 @@
             <objects>
                 <viewController id="vkk-lX-yhg" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t1Y-Kc-U5o">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Second view" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IpD-Qt-3zk">
@@ -245,4 +249,8 @@
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Kvu-F8-Htx"/>
+        <segue reference="LYv-q5-HgG"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoinSideViewController.h"
 
-@interface MapViewController : UIViewController
+@interface MapViewController : CoinSideViewController
 
 @end

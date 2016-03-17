@@ -27,6 +27,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (NSString*) name {
+    return NSLocalizedString(@"List", @"List button");
+}
+
 - (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
     NSLog(@"Search button clicked with text: %@", searchBar.text);
     

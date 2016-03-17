@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoinSideViewController.h"
 
-@interface SearchViewController : UIViewController
+@interface SearchViewController : CoinSideViewController
 
 @end
