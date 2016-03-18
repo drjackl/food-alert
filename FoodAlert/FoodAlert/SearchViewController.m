@@ -31,6 +31,7 @@
     return NSLocalizedString(@"List", @"List button");
 }
 
+// search bar delegate to execute search once entered
 - (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
     NSLog(@"Search button clicked with text: %@", searchBar.text);
     
@@ -39,7 +40,7 @@
     MKLocalSearchRequest* request = [MKLocalSearchRequest new];
     request.naturalLanguageQuery = searchBar.text;
     request.region = [self.mapViewController currentRegion]; // get region
-    self.mapViewController.currentRegion;
+    //self.mapViewController.currentRegion;
     
     // 2. setup search
     MKLocalSearch* search = [[MKLocalSearch alloc] initWithRequest:request];
