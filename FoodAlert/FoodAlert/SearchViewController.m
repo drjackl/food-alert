@@ -8,6 +8,7 @@
 
 #import "SearchViewController.h"
 #import <MapKit/MapKit.h>
+#import "Spot.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -48,12 +49,16 @@
     // 3. start search and get results
     [search startWithCompletionHandler:^(MKLocalSearchResponse*_Nullable response, NSError*_Nullable error) {
         NSMutableString* results = [NSMutableString new];
+        NSMutableArray* spotsArray = [NSMutableArray new];
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
             //NSLog(@"Item %ld: %@", i, item);
             [results appendFormat:@"Item %ld: %@\n", i, item];
+            Spot* spot = [[Spot alloc] initWithTitle:item.name coordinates:item.placemark.location.coordinate];
+            [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);
         [self.listViewController.textView setText:results];
+        [self.mapViewController addSpots:spotsArray];
     }];
 }
 

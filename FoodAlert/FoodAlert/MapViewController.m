@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
 
-@interface MapViewController ()
+@interface MapViewController () //<MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @end
 
@@ -18,6 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //self.mapView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,6 +34,15 @@
 - (MKCoordinateRegion) currentRegion {
     return self.mapView.region;
 }
+
+- (void) addSpots:(NSArray*)spotsArray {
+    [self.mapView addAnnotations:spotsArray];
+}
+
+// map delegate for adding annotations
+//- (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+//    
+//}
 
 /*
 #pragma mark - Navigation

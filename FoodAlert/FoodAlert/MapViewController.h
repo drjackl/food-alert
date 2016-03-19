@@ -13,5 +13,6 @@
 @interface MapViewController : CoinSideViewController
 
 - (MKCoordinateRegion) currentRegion;
+- (void) addSpots:(NSArray*)spotsArray;
 
 @end

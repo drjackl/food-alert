@@ -14,4 +14,6 @@
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate; // MKAnnotation required, KVC
 @property (nonatomic, readonly, copy) NSString* title; // MKAnnotation
 
+- (instancetype) initWithTitle:(NSString*)title coordinates:(CLLocationCoordinate2D)coordinate;
+
 @end

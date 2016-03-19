@@ -94,7 +94,9 @@
 }
 
 - (IBAction)showSearch {
-    self.searchView.alpha = ((int)self.searchView.alpha + 1) % 2;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.searchView.alpha = ((int)self.searchView.alpha + 1) % 2;
+    }];
 }
 
 // part of setting the current view is also ensuring the Other View button gets set to the otherView
