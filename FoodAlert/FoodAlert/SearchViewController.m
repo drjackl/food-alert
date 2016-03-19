@@ -60,6 +60,9 @@
         [self.listViewController.textView setText:results];
         [self.mapViewController addSpots:spotsArray];
     }];
+    
+    [searchBar resignFirstResponder];
+    //[delegate searchBarDidHide:searchBar];
 }
 
 //// this doesn't start a search

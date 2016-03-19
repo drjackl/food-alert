@@ -15,4 +15,6 @@
 @property (nonatomic) MapViewController* mapViewController;
 @property (nonatomic) SimpleListViewController* listViewController;
 
+//@property (nonatomic, weak) SearchViewControllerDelegate* id;
+
 @end

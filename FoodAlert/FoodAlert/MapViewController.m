@@ -8,8 +8,9 @@
 
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
+#import "Spot.h"
 
-@interface MapViewController () //<MKMapViewDelegate>
+@interface MapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @end
 
@@ -19,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //self.mapView.delegate = self;
+    self.mapView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,9 +41,31 @@
 }
 
 // map delegate for adding annotations
-//- (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-//    
-//}
+- (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    // adopted from Apple docs: provide pins
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil; // if annotation is user location, return nil
+    }
+    
+    // handle Spot annotations
+    if ([annotation isKindOfClass:[Spot class]]) {
+        // try to dequeue an existing pin first
+        MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"spotPinAnnotationView"];
+        
+        if (!pinView) { // if existing pin not available, create one
+            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotPinAnnotationView"];
+            pinView.animatesDrop = YES;
+            pinView.canShowCallout = YES;
+            
+            pinView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        } else { // reuse
+            pinView.annotation = annotation;
+        }
+        return pinView;
+    }
+    
+    return nil;
+}
 
 /*
 #pragma mark - Navigation

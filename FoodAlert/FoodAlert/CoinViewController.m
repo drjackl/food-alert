@@ -93,7 +93,7 @@
     //    self.currentView = otherView;
 }
 
-- (IBAction)showSearch {
+- (IBAction) showSearch {
     [UIView animateWithDuration:0.5 animations:^{
         self.searchView.alpha = ((int)self.searchView.alpha + 1) % 2;
     }];
@@ -106,7 +106,5 @@
     NSString* otherViewString = currentView==self.view1 ? [self.listViewController name] : [self.mapViewController name];
     [self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
 }
-
-
 
 @end
