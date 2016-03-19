@@ -53,7 +53,7 @@
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
             //NSLog(@"Item %ld: %@", i, item);
             [results appendFormat:@"Item %ld: %@\n", i, item];
-            Spot* spot = [[Spot alloc] initWithTitle:item.name coordinates:item.placemark.location.coordinate];
+            Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name];
             [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);

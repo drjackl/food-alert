@@ -12,6 +12,7 @@
 
 @interface MapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
+@property (nonatomic) NSMutableArray* savedSpots; // put in model later
 @end
 
 @implementation MapViewController
@@ -20,7 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.savedSpots = [NSMutableArray new];
+    
     self.mapView.delegate = self;
+    
+    // load savedSpots from archive
+    [self unarchiveSavedSpots];
+    //[self addSpots:self.savedSpots]; this is still empty by the time called
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,6 +39,8 @@
     return NSLocalizedString(@"Map", @"Map button");
 }
 
+#pragma mark - mapView methods
+
 - (MKCoordinateRegion) currentRegion {
     return self.mapView.region;
 }
@@ -39,6 +48,8 @@
 - (void) addSpots:(NSArray*)spotsArray {
     [self.mapView addAnnotations:spotsArray];
 }
+
+#pragma mark - mapView delegate methods
 
 // map delegate for adding annotations
 - (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -57,15 +68,80 @@
             pinView.animatesDrop = YES;
             pinView.canShowCallout = YES;
             
-            pinView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        } else { // reuse
+            UIButton* saveButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+            pinView.leftCalloutAccessoryView = saveButton;
+            //[saveButton addTarget:self action:@selector(saveSpot:) forControlEvents:UIControlEventTouchUpInside];
+        } else { // reuse existing pin
             pinView.annotation = annotation;
         }
+        
+        if ([annotation isKindOfClass:[Spot class]]) {
+            Spot* recastedSpotAnnotation = (Spot*)annotation;
+            if (recastedSpotAnnotation.saved) {
+                pinView.pinTintColor = [UIColor yellowColor];
+            } else {
+                pinView.pinTintColor = [UIColor blueColor];
+            }
+        }
+        
         return pinView;
     }
     
     return nil;
 }
+
+- (void) mapView:(MKMapView*)mapView annotationView:(MKAnnotationView*)view calloutAccessoryControlTapped:(UIControl*)control {
+    [self saveSpot:(Spot*)view.annotation];
+}
+
+- (void) saveSpot:(Spot*)spot {
+    spot.saved = YES;
+    [self.savedSpots addObject:spot];
+    
+    [self archiveSavedSpots];
+}
+
+- (void) archiveSavedSpots {
+    // based off blocstagram
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* fullPath = [self pathForSavedSpots];
+        NSData* savedSpotsToStore = [NSKeyedArchiver archivedDataWithRootObject:self.savedSpots];
+        NSError* dataError;
+        
+        BOOL wroteSuccessfully = [savedSpotsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+        
+        if (!wroteSuccessfully) {
+            NSLog(@"Couldn't write file: %@", dataError);
+        }
+    });
+}
+
+- (void) unarchiveSavedSpots {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* fullPath = [self pathForSavedSpots];
+        
+        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        
+        // maybe i don't need this since i'm not downloading blocstagram images?
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+            self.savedSpots = mutableSavedSpots;
+            
+            [self addSpots:self.savedSpots];
+        });
+    });
+}
+
+- (NSString*) pathForSavedSpots {
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString* directory = [paths firstObject];
+    NSString* dataPath = [directory stringByAppendingString:NSStringFromSelector(@selector(savedSpots))];
+    return dataPath;
+}
+
+//- (void) saveSpot:(UIButton*)sender {
+//    
+//}
 
 /*
 #pragma mark - Navigation

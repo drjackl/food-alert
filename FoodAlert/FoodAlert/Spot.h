@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface Spot : NSObject <MKAnnotation>
+@interface Spot : NSObject <MKAnnotation, NSCoding>
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate; // MKAnnotation required, KVC
 @property (nonatomic, readonly, copy) NSString* title; // MKAnnotation
 
-- (instancetype) initWithTitle:(NSString*)title coordinates:(CLLocationCoordinate2D)coordinate;
+@property (nonatomic) BOOL saved;
+
+- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title;
 
 @end
