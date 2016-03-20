@@ -57,7 +57,7 @@
             [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);
-        [self.listViewController.textView setText:results];
+        //[self.listViewController.textView setText:results];
         [self.mapViewController addSpots:spotsArray];
     }];
     

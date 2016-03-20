@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CoinSideViewController.h"
+#import "CoinSide.h"
 #import <MapKit/MapKit.h>
 
-@interface MapViewController : CoinSideViewController
+@interface MapViewController : UIViewController <CoinSide>
 
 - (MKCoordinateRegion) currentRegion;
 - (void) addSpots:(NSArray*)spotsArray;

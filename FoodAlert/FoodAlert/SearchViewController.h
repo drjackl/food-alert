@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "MapViewController.h"
-#import "SimpleListViewController.h"
+#import "ListTableViewController.h"
 
 @interface SearchViewController : UIViewController
 
 @property (nonatomic) MapViewController* mapViewController;
-@property (nonatomic) SimpleListViewController* listViewController;
+@property (nonatomic) ListTableViewController* listViewController;
 
 //@property (nonatomic, weak) SearchViewControllerDelegate* id;
 

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CoinSide.h"
 
-@interface ListTableViewController : UITableViewController
+@interface ListTableViewController : UITableViewController <CoinSide>
 
 @end

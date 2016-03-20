@@ -7,15 +7,19 @@
 //
 
 #import "CoinViewController.h"
-#import "CoinSideViewController.h"
+//#import "CoinSideViewController.h" // not generic anymore
 #import "MapViewController.h"
-#import "SimpleListViewController.h"
+//#import "SimpleListViewController.h"
+#import "ListTableViewController.h"
 #import "SearchViewController.h"
+#import "DataSource.h" // remove when KVO in
+#import "CoinSide.h"
 
 @interface CoinViewController ()
 @property (nonatomic) UIView* currentView;
-@property (nonatomic) MapViewController* mapViewController;
-@property (nonatomic) SimpleListViewController* listViewController;
+@property (nonatomic) MapViewController<CoinSide>* mapViewController; // if generic, just be CoinSide
+//@property (nonatomic) SimpleListViewController* listViewController;
+@property (nonatomic) ListTableViewController<CoinSide>* listViewController; // just needs be CoinSide
 @property (nonatomic) SearchViewController* searchViewController;
 // Outlets
 @property (weak, nonatomic) IBOutlet UIView* view1; // mapVC container
@@ -56,8 +60,9 @@
     //NSLog(@"segue ID: %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"mapViewController"]) {
         self.mapViewController = (MapViewController*) segue.destinationViewController;
+        [DataSource sharedInstance].mapVC = self.mapViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"listEmbedSegue"]) {
-        self.listViewController = (SimpleListViewController*) segue.destinationViewController;
+        self.listViewController = (ListTableViewController*) segue.destinationViewController;
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
     }
@@ -97,6 +102,9 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.searchView.alpha = ((int)self.searchView.alpha + 1) % 2;
     }];
+}
+
+- (IBAction) showCategories {
 }
 
 // part of setting the current view is also ensuring the Other View button gets set to the otherView

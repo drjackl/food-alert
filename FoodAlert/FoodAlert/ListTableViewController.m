@@ -10,4 +10,8 @@
 
 @implementation ListTableViewController
 
+- (NSString*) buttonName {
+    return NSLocalizedString(@"List", @"List button");
+}
+
 @end

@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
 #import "Spot.h"
+#import "DataSource.h"
 
 @interface MapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
@@ -26,7 +27,7 @@
     self.mapView.delegate = self;
     
     // load savedSpots from archive
-    [self unarchiveSavedSpots];
+    [[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
     //[self addSpots:self.savedSpots]; this is still empty by the time called
 }
 
@@ -35,7 +36,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSString*) name {
+- (NSString*) buttonName {
     return NSLocalizedString(@"Map", @"Map button");
 }
 
@@ -98,46 +99,46 @@
     spot.saved = YES;
     [self.savedSpots addObject:spot];
     
-    [self archiveSavedSpots];
+    [[DataSource sharedInstance] archiveSavedSpots];
 }
 
-- (void) archiveSavedSpots {
-    // based off blocstagram
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForSavedSpots];
-        NSData* savedSpotsToStore = [NSKeyedArchiver archivedDataWithRootObject:self.savedSpots];
-        NSError* dataError;
-        
-        BOOL wroteSuccessfully = [savedSpotsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
-        
-        if (!wroteSuccessfully) {
-            NSLog(@"Couldn't write file: %@", dataError);
-        }
-    });
-}
+//- (void) archiveSavedSpots {
+//    // based off blocstagram
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSString* fullPath = [self pathForSavedSpots];
+//        NSData* savedSpotsToStore = [NSKeyedArchiver archivedDataWithRootObject:self.savedSpots];
+//        NSError* dataError;
+//        
+//        BOOL wroteSuccessfully = [savedSpotsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+//        
+//        if (!wroteSuccessfully) {
+//            NSLog(@"Couldn't write file: %@", dataError);
+//        }
+//    });
+//}
 
-- (void) unarchiveSavedSpots {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForSavedSpots];
-        
-        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
-        
-        // maybe i don't need this since i'm not downloading blocstagram images?
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
-            self.savedSpots = mutableSavedSpots;
-            
-            [self addSpots:self.savedSpots];
-        });
-    });
-}
+//- (void) unarchiveSavedSpots {
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSString* fullPath = [self pathForSavedSpots];
+//        
+//        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+//        
+//        // maybe i don't need this since i'm not downloading blocstagram images?
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+//            self.savedSpots = mutableSavedSpots;
+//            
+//            [self addSpots:self.savedSpots];
+//        });
+//    });
+//}
 
-- (NSString*) pathForSavedSpots {
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString* directory = [paths firstObject];
-    NSString* dataPath = [directory stringByAppendingString:NSStringFromSelector(@selector(savedSpots))];
-    return dataPath;
-}
+//- (NSString*) pathForSavedSpots {
+//    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+//    NSString* directory = [paths firstObject];
+//    NSString* dataPath = [directory stringByAppendingString:NSStringFromSelector(@selector(savedSpots))];
+//    return dataPath;
+//}
 
 //- (void) saveSpot:(UIButton*)sender {
 //    
