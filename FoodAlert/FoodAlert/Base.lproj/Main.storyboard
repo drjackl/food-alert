@@ -195,7 +195,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="spotCell" textLabel="crX-xO-jCW" detailTextLabel="muS-FB-4CI" style="IBUITableViewCellStyleSubtitle" id="rry-GO-R1Y">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="listCell" textLabel="crX-xO-jCW" detailTextLabel="muS-FB-4CI" style="IBUITableViewCellStyleSubtitle" id="rry-GO-R1Y">
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rry-GO-R1Y" id="q9p-js-bAZ">
@@ -264,7 +264,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EGQ-qf-fO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="782" y="37"/>
+            <point key="canvasLocation" x="1186" y="0.0"/>
         </scene>
         <!--Search-->
         <scene sceneID="zoA-R9-HjJ">

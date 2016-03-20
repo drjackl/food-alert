@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MapViewController.h"
+#import "ListTableViewController.h"
 
 @interface DataSource : NSObject
 
@@ -17,6 +18,7 @@
 @property (nonatomic) NSArray* currentSearchedSpots;
 
 @property (nonatomic) MapViewController* mapVC; // until get KVO in
+@property (nonatomic) ListTableViewController* listVC;
 
 // both should be taken out after KVO
 - (void) archiveSavedSpots;

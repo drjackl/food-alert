@@ -63,6 +63,7 @@
         [DataSource sharedInstance].mapVC = self.mapViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"listEmbedSegue"]) {
         self.listViewController = (ListTableViewController*) segue.destinationViewController;
+        [DataSource sharedInstance].listVC = self.listViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
     }
@@ -111,7 +112,7 @@
 - (void) setCurrentView:(UIView*)currentView {
     _currentView = currentView;
     //NSString* otherViewString = currentView==self.view1 ? NSLocalizedString(@"View 2", @"View 2") : NSLocalizedString(@"View 1", @"View 1");
-    NSString* otherViewString = currentView==self.view1 ? [self.listViewController name] : [self.mapViewController name];
+    NSString* otherViewString = currentView==self.view1 ? [self.listViewController buttonName] : [self.mapViewController buttonName];
     [self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
 }
 

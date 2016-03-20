@@ -27,7 +27,7 @@
     self.mapView.delegate = self;
     
     // load savedSpots from archive
-    [[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
+    //[[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
     //[self addSpots:self.savedSpots]; this is still empty by the time called
 }
 
@@ -61,10 +61,10 @@
     
     // handle Spot annotations
     if ([annotation isKindOfClass:[Spot class]]) {
-        // try to dequeue an existing pin first
+        // try to dequeue an existing pin first (maybe don't need check if new one created)
         MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"spotPinAnnotationView"];
         
-        if (!pinView) { // if existing pin not available, create one
+        if (!pinView) { // if existing pin not available, create one (maybe don't need to create new one)
             pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotPinAnnotationView"];
             pinView.animatesDrop = YES;
             pinView.canShowCallout = YES;

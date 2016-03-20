@@ -23,6 +23,8 @@
     self = [super init];
     if (self) {
         self.currentSearchedSpots = [NSArray array];
+        
+        [self unarchiveSavedSpots];
     }
     return self;
 }
@@ -54,7 +56,8 @@
             self.savedSpots = mutableSavedSpots;
             
             // delete when KVO in
-            [self.mapVC addSpots:self.savedSpots];
+            [self.mapVC addSpots:self.savedSpots]; // table ought to load same time here ...
+            [self.listVC reloadTableView];
         });
     });
 }
