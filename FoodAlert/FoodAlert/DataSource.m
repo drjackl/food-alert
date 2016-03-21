@@ -23,6 +23,9 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
+        self.savedSpots = [NSMutableArray array];
+        self.categories = [NSArray array];
+        
         self.currentSearchedSpots = [NSArray array];
         
         [self unarchiveSavedSpots];
@@ -59,12 +62,15 @@
         
         // once unarchived, dispatch back to main to set savedSpots to what we unarchived
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
-            self.savedSpots = mutableSavedSpots;
-            
-            // delete when KVO in
-            [self.mapVC addSpots:self.savedSpots]; // table ought to load same time here ...
-            [self.listVC reloadTableView];
+            if (savedSpotsToLoad.count > 0) { // if don't check, savedSpots set back to nil
+                NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+                self.savedSpots = mutableSavedSpots;
+                
+                // delete when KVO in
+                [self.mapVC addSpots:self.savedSpots]; // table ought to load same time here ...
+                [self.listVC reloadTableView];
+            }
+
         });
     });
 }
@@ -128,9 +134,9 @@
 }
 
 - (NSString*) pathForFilename:(NSString*)filename {
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* directory = [paths firstObject];
-    NSString* dataPath = [directory stringByAppendingString:filename];
+    NSString* dataPath = [directory stringByAppendingPathComponent:filename];
     return dataPath;
 }
 

@@ -14,7 +14,7 @@
 
 + (instancetype) sharedInstance;
 
-@property (nonatomic) NSArray* savedSpots;
+@property (nonatomic) NSMutableArray* savedSpots;
 @property (nonatomic) NSArray* categories;
 
 @property (nonatomic) NSArray* currentSearchedSpots;

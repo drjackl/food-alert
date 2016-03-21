@@ -13,7 +13,7 @@
 
 @interface MapViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
-@property (nonatomic) NSMutableArray* savedSpots; // put in model later
+//@property (nonatomic) NSMutableArray* savedSpots; // put in model later
 @end
 
 @implementation MapViewController
@@ -22,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.savedSpots = [NSMutableArray new];
+    //self.savedSpots = [NSMutableArray new];
     
     self.mapView.delegate = self;
     
@@ -97,7 +97,7 @@
 
 - (void) saveSpot:(Spot*)spot {
     spot.saved = YES;
-    [self.savedSpots addObject:spot];
+    [[DataSource sharedInstance].savedSpots addObject:spot];
     
     [[DataSource sharedInstance] archiveSavedSpots];
 }
