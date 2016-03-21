@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CategoryEditViewController : UIViewController
+@interface CategoryEditViewController : UITableViewController
 
 @end

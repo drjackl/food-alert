@@ -14,6 +14,7 @@
 		04CC5ED91C9C4FE700BF3B62 /* Spot.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5ED81C9C4FE700BF3B62 /* Spot.m */; };
 		04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5EDB1C9E45A200BF3B62 /* CategoryEditViewController.m */; };
 		04CC5EDF1C9E6D0800BF3B62 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5EDE1C9E6D0800BF3B62 /* DataSource.m */; };
+		04CC5F751C9F8C8400BF3B62 /* Categorie.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5F741C9F8C8400BF3B62 /* Categorie.m */; };
 		04E6FEBC1C9483E100AB0E61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBB1C9483E100AB0E61 /* main.m */; };
 		04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEBE1C9483E100AB0E61 /* AppDelegate.m */; };
 		04E6FEC81C9483E100AB0E61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E6FEC61C9483E100AB0E61 /* Main.storyboard */; };
@@ -59,6 +60,8 @@
 		04CC5EDB1C9E45A200BF3B62 /* CategoryEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryEditViewController.m; sourceTree = "<group>"; };
 		04CC5EDD1C9E6D0800BF3B62 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		04CC5EDE1C9E6D0800BF3B62 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		04CC5F731C9F8C8400BF3B62 /* Categorie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Categorie.h; sourceTree = "<group>"; };
+		04CC5F741C9F8C8400BF3B62 /* Categorie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Categorie.m; sourceTree = "<group>"; };
 		04E6FEB71C9483E100AB0E61 /* FoodAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E6FEBB1C9483E100AB0E61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		04E6FEBD1C9483E100AB0E61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				04CC5EDE1C9E6D0800BF3B62 /* DataSource.m */,
 				04CC5ED71C9C4FE700BF3B62 /* Spot.h */,
 				04CC5ED81C9C4FE700BF3B62 /* Spot.m */,
+				04CC5F731C9F8C8400BF3B62 /* Categorie.h */,
+				04CC5F741C9F8C8400BF3B62 /* Categorie.m */,
 				04E6FEC61C9483E100AB0E61 /* Main.storyboard */,
 				04E6FEC91C9483E200AB0E61 /* Assets.xcassets */,
 				04E6FECB1C9483E200AB0E61 /* LaunchScreen.storyboard */,
@@ -328,6 +333,7 @@
 				04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */,
 				040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */,
 				04CC5ED91C9C4FE700BF3B62 /* Spot.m in Sources */,
+				04CC5F751C9F8C8400BF3B62 /* Categorie.m in Sources */,
 				04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */,
 				04CC5EDF1C9E6D0800BF3B62 /* DataSource.m in Sources */,
 				04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */,

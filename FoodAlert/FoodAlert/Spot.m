@@ -22,9 +22,12 @@
     return self;
 }
 
-// NSCoding
+
+#pragma mark - NSCoding
+
 - (instancetype) initWithCoder:(NSCoder*)aDecoder {
     self = [super init];
+    //self = [super initWithCoder:aDecoder]; // why doesn't this work?
     if (self) {
 //        NSValue* coordinateValue = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(coordinate))];
 //        _coordinate = coordinateValue.MKCoordinateValue;
