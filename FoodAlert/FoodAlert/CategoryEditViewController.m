@@ -25,10 +25,19 @@
     // does dequeue automatically create a new cell? it apparently does as long as supply reuse ID
     
     Categorie* category = [DataSource sharedInstance].categories[indexPath.row];
-    cell.textLabel.text = category.title;
+    
+    //cell.textLabel.text = category.title;
+    UITextField* nameField = (UITextField*)[cell viewWithTag:101];
+    nameField.text = category.title;
+    [nameField addTarget:self action:@selector(setCategoryTitle) forControlEvents:UIControlEventEditingChanged];
+    
     cell.backgroundColor = category.color;
     
     return cell;
+}
+
+- (void) setCategoryTitle {
+    NSLog(@"setting category title");
 }
 
 @end
