@@ -9,6 +9,7 @@
 #import "CategoryEditViewController.h"
 #import "DataSource.h"
 #import "Categorie.h"
+#import "CategoryEditViewCell.h"
 
 @implementation CategoryEditViewController
 
@@ -21,17 +22,19 @@
 }
 
 - (UITableViewCell*) tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"categoryEditingCell" forIndexPath:indexPath];
-    // does dequeue automatically create a new cell? it apparently does as long as supply reuse ID
+    CategoryEditViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"catEditCell" forIndexPath:indexPath];
     
     Categorie* category = [DataSource sharedInstance].categories[indexPath.row];
+
+    // switch Custom UITableViewCell for real custom CategoryEditViewCell
+//    //cell.textLabel.text = category.title; // switch Basic title for Custom textField
+//    UITextField* nameField = (UITextField*)[cell viewWithTag:101];
+//    nameField.text = category.title;
+//    [nameField addTarget:self action:@selector(setCategoryTitle) forControlEvents:UIControlEventEditingChanged];
+//    
+//    cell.backgroundColor = category.color;
     
-    //cell.textLabel.text = category.title;
-    UITextField* nameField = (UITextField*)[cell viewWithTag:101];
-    nameField.text = category.title;
-    [nameField addTarget:self action:@selector(setCategoryTitle) forControlEvents:UIControlEventEditingChanged];
-    
-    cell.backgroundColor = category.color;
+    cell.category = category;
     
     return cell;
 }

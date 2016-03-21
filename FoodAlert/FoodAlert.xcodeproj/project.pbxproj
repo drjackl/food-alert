@@ -11,6 +11,7 @@
 		0406359A1C9A38E50027FDD9 /* CoinSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040635991C9A38E50027FDD9 /* CoinSideViewController.m */; };
 		040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0406359F1C9A5A650027FDD9 /* ListTableViewController.m */; };
 		040635A61C9B0E590027FDD9 /* SimpleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040635A51C9B0E590027FDD9 /* SimpleListViewController.m */; };
+		04A2B1A51CA06FC20062BFD6 /* CategoryEditViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A2B1A41CA06FC20062BFD6 /* CategoryEditViewCell.m */; };
 		04CC5ED91C9C4FE700BF3B62 /* Spot.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5ED81C9C4FE700BF3B62 /* Spot.m */; };
 		04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5EDB1C9E45A200BF3B62 /* CategoryEditViewController.m */; };
 		04CC5EDF1C9E6D0800BF3B62 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CC5EDE1C9E6D0800BF3B62 /* DataSource.m */; };
@@ -54,6 +55,8 @@
 		0406359F1C9A5A650027FDD9 /* ListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewController.m; sourceTree = "<group>"; };
 		040635A41C9B0E590027FDD9 /* SimpleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleListViewController.h; sourceTree = "<group>"; };
 		040635A51C9B0E590027FDD9 /* SimpleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleListViewController.m; sourceTree = "<group>"; };
+		04A2B1A31CA06FC20062BFD6 /* CategoryEditViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryEditViewCell.h; sourceTree = "<group>"; };
+		04A2B1A41CA06FC20062BFD6 /* CategoryEditViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryEditViewCell.m; sourceTree = "<group>"; };
 		04CC5ED71C9C4FE700BF3B62 /* Spot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spot.h; sourceTree = "<group>"; };
 		04CC5ED81C9C4FE700BF3B62 /* Spot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spot.m; sourceTree = "<group>"; };
 		04CC5EDA1C9E45A200BF3B62 /* CategoryEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryEditViewController.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				0406359F1C9A5A650027FDD9 /* ListTableViewController.m */,
 				04CC5EDA1C9E45A200BF3B62 /* CategoryEditViewController.h */,
 				04CC5EDB1C9E45A200BF3B62 /* CategoryEditViewController.m */,
+				04A2B1A31CA06FC20062BFD6 /* CategoryEditViewCell.h */,
+				04A2B1A41CA06FC20062BFD6 /* CategoryEditViewCell.m */,
 				04CC5EDD1C9E6D0800BF3B62 /* DataSource.h */,
 				04CC5EDE1C9E6D0800BF3B62 /* DataSource.m */,
 				04CC5ED71C9C4FE700BF3B62 /* Spot.h */,
@@ -329,6 +334,7 @@
 				040635961C985E300027FDD9 /* CoinViewController.m in Sources */,
 				04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */,
 				040635A61C9B0E590027FDD9 /* SimpleListViewController.m in Sources */,
+				04A2B1A51CA06FC20062BFD6 /* CategoryEditViewCell.m in Sources */,
 				0406359A1C9A38E50027FDD9 /* CoinSideViewController.m in Sources */,
 				04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */,
 				040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */,

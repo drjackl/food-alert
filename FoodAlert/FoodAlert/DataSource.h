@@ -26,4 +26,6 @@
 - (void) archiveSavedSpots;
 - (void) unarchiveSavedSpots;
 
+- (void) archiveCategories;
+
 @end

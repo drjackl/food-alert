@@ -49,6 +49,10 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9Q-lz-amg">
+                                <rect key="frame" x="238" y="16" width="54" height="30"/>
+                                <state key="normal" title="Dismiss"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -56,8 +60,10 @@
                             <constraint firstItem="qyN-tG-MvY" firstAttribute="top" secondItem="LZJ-pN-wYr" secondAttribute="bottom" id="Krq-Nn-vdU"/>
                             <constraint firstItem="B5O-MY-QFQ" firstAttribute="width" secondItem="hah-MP-0aM" secondAttribute="width" id="Sbf-J6-YlK"/>
                             <constraint firstItem="B5O-MY-QFQ" firstAttribute="top" secondItem="qyN-tG-MvY" secondAttribute="bottom" constant="10" id="Ubd-ET-w0j"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="W9Q-lz-amg" secondAttribute="trailing" id="a1n-2U-8CX"/>
                             <constraint firstAttribute="leadingMargin" secondItem="qyN-tG-MvY" secondAttribute="leading" id="amb-eJ-yhv"/>
                             <constraint firstItem="mjP-Og-6tK" firstAttribute="top" secondItem="B5O-MY-QFQ" secondAttribute="bottom" id="sa3-8f-PU2"/>
+                            <constraint firstItem="W9Q-lz-amg" firstAttribute="centerY" secondItem="qyN-tG-MvY" secondAttribute="centerY" id="wSP-9V-pd9"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -76,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationLevel="1" indentationWidth="10" reuseIdentifier="categoryEditingCell" id="KnY-dd-erk">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationLevel="1" indentationWidth="10" reuseIdentifier="catEditCell" id="KnY-dd-erk" customClass="CategoryEditViewCell">
                                 <rect key="frame" x="0.0" y="28" width="400" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KnY-dd-erk" id="R05-Dn-JIZ">
@@ -85,8 +91,12 @@
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CR6-1r-7Wx">
                                             <rect key="frame" x="13" y="7" width="374" height="30"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <action selector="setCategoryName:" destination="KnY-dd-erk" eventType="editingDidEnd" id="Zzs-XQ-FAs"/>
+                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>
@@ -95,6 +105,9 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="CR6-1r-7Wx" secondAttribute="trailing" constant="5" id="mkG-gz-Edi"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameField" destination="CR6-1r-7Wx" id="KHp-V8-UXv"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
