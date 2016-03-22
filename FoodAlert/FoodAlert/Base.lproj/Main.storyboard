@@ -28,44 +28,54 @@
         <!--View Controller-->
         <scene sceneID="yWH-R5-2Lf">
             <objects>
-                <viewController id="2nG-Lm-RYG" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" modalPresentationStyle="overCurrentContext" id="2nG-Lm-RYG" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LZJ-pN-wYr"/>
                         <viewControllerLayoutGuide type="bottom" id="mjP-Og-6tK"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hah-MP-0aM">
+                    <view key="view" autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="hah-MP-0aM">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B5O-MY-QFQ">
-                                <rect key="frame" x="0.0" y="51" width="300" height="349"/>
-                                <connections>
-                                    <segue destination="dd5-vD-4gb" kind="embed" id="h7v-JA-3Hc"/>
-                                </connections>
-                            </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyN-tG-MvY">
-                                <rect key="frame" x="16" y="20" width="118" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9Q-lz-amg">
-                                <rect key="frame" x="238" y="16" width="54" height="30"/>
-                                <state key="normal" title="Dismiss"/>
-                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7e8-ge-87Z">
+                                <rect key="frame" x="0.0" y="54" width="300" height="346"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="346" id="Sm3-00-emS"/>
+                                    <constraint firstAttribute="width" constant="300" id="v93-tB-TBc"/>
+                                </constraints>
+                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="6QL-6r-Vpf">
+                                <rect key="frame" x="14" y="8" width="272" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyN-tG-MvY">
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9Q-lz-amg">
+                                        <rect key="frame" x="218" y="0.0" width="54" height="30"/>
+                                        <state key="normal" title="Dismiss"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="B5O-MY-QFQ" firstAttribute="centerX" secondItem="hah-MP-0aM" secondAttribute="centerX" id="0sZ-3q-Qc1"/>
-                            <constraint firstItem="qyN-tG-MvY" firstAttribute="top" secondItem="LZJ-pN-wYr" secondAttribute="bottom" id="Krq-Nn-vdU"/>
-                            <constraint firstItem="B5O-MY-QFQ" firstAttribute="width" secondItem="hah-MP-0aM" secondAttribute="width" id="Sbf-J6-YlK"/>
-                            <constraint firstItem="B5O-MY-QFQ" firstAttribute="top" secondItem="qyN-tG-MvY" secondAttribute="bottom" constant="10" id="Ubd-ET-w0j"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="W9Q-lz-amg" secondAttribute="trailing" id="a1n-2U-8CX"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="qyN-tG-MvY" secondAttribute="leading" id="amb-eJ-yhv"/>
-                            <constraint firstItem="mjP-Og-6tK" firstAttribute="top" secondItem="B5O-MY-QFQ" secondAttribute="bottom" id="sa3-8f-PU2"/>
-                            <constraint firstItem="W9Q-lz-amg" firstAttribute="centerY" secondItem="qyN-tG-MvY" secondAttribute="centerY" id="wSP-9V-pd9"/>
+                            <constraint firstItem="mjP-Og-6tK" firstAttribute="top" secondItem="7e8-ge-87Z" secondAttribute="bottom" id="4Q1-Ar-ocO"/>
+                            <constraint firstItem="7e8-ge-87Z" firstAttribute="top" secondItem="6QL-6r-Vpf" secondAttribute="bottom" constant="16" id="All-Nw-ZrT"/>
+                            <constraint firstItem="7e8-ge-87Z" firstAttribute="leading" secondItem="hah-MP-0aM" secondAttribute="leading" id="BqP-MX-kXS"/>
+                            <constraint firstItem="6QL-6r-Vpf" firstAttribute="top" secondItem="LZJ-pN-wYr" secondAttribute="bottom" constant="8" id="dHT-cO-Aqa"/>
+                            <constraint firstItem="6QL-6r-Vpf" firstAttribute="leading" secondItem="hah-MP-0aM" secondAttribute="leading" constant="14" id="g8z-PF-wHh"/>
+                            <constraint firstAttribute="trailing" secondItem="7e8-ge-87Z" secondAttribute="trailing" id="uf7-qa-Rzv"/>
+                            <constraint firstAttribute="trailing" secondItem="6QL-6r-Vpf" secondAttribute="trailing" constant="14" id="wod-4h-dYv"/>
                         </constraints>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="300" height="400"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="400"/>
                 </viewController>
@@ -125,7 +135,7 @@
         <!--Coin View Controller-->
         <scene sceneID="y1w-hz-cZW">
             <objects>
-                <viewController id="8jP-sb-qXU" customClass="CoinViewController" sceneMemberID="viewController">
+                <viewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="overCurrentContext" id="8jP-sb-qXU" customClass="CoinViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eTR-KW-Bs7"/>
                         <viewControllerLayoutGuide type="bottom" id="Bbl-iz-fLU"/>
@@ -137,32 +147,34 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2g-wD-tB6" userLabel="Header">
                                 <rect key="frame" x="0.0" y="20" width="600" height="64"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9t-xm-4p9">
-                                        <rect key="frame" x="260" y="22" width="81" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Food Alert" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9t-xm-4p9">
+                                        <rect key="frame" x="230" y="15" width="140" height="35"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puV-Or-xLG">
-                                        <rect key="frame" x="7" y="17" width="47" height="30"/>
-                                        <state key="normal" title="Switch"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puV-Or-xLG">
+                                        <rect key="frame" x="16" y="17" width="30" height="30"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="switchViewControllers" destination="8jP-sb-qXU" eventType="touchUpInside" id="23m-Qt-xOz"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXl-e3-oiR">
-                                        <rect key="frame" x="545" y="17" width="48" height="30"/>
-                                        <state key="normal" title="Search"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uXl-e3-oiR" userLabel="Search">
+                                        <rect key="frame" x="576" y="21" width="17" height="22"/>
+                                        <state key="normal" image="search"/>
                                         <connections>
                                             <action selector="showSearch" destination="8jP-sb-qXU" eventType="touchUpInside" id="oE5-ti-Mm9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Naa-gx-Hp0">
-                                        <rect key="frame" x="459" y="17" width="75" height="30"/>
-                                        <state key="normal" title="Categories"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Naa-gx-Hp0" userLabel="Categories">
+                                        <rect key="frame" x="548" y="21" width="17" height="22"/>
+                                        <state key="normal" image="categories"/>
                                         <connections>
                                             <action selector="showCategories" destination="8jP-sb-qXU" eventType="touchUpInside" id="OOP-c4-2q7"/>
-                                            <segue destination="2nG-Lm-RYG" kind="presentation" id="zyb-ZD-ra9"/>
+                                            <segue destination="2nG-Lm-RYG" kind="presentation" modalPresentationStyle="overCurrentContext" id="34O-hN-qoB"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -407,7 +419,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="categories" width="17" height="17"/>
         <image name="first" width="30" height="30"/>
+        <image name="search" width="17" height="17"/>
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>

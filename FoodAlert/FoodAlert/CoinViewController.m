@@ -112,8 +112,10 @@
 - (void) setCurrentView:(UIView*)currentView {
     _currentView = currentView;
     //NSString* otherViewString = currentView==self.view1 ? NSLocalizedString(@"View 2", @"View 2") : NSLocalizedString(@"View 1", @"View 1");
-    NSString* otherViewString = currentView==self.view1 ? [self.listViewController buttonName] : [self.mapViewController buttonName];
-    [self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
+    //NSString* otherViewString = currentView==self.view1 ? [self.listViewController buttonName] : [self.mapViewController buttonName];
+    //[self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
+    UIImage* otherViewImage = currentView==self.view1 ? [self.listViewController buttonImage] : [self.mapViewController buttonImage];
+    [self.otherViewButton setImage:otherViewImage forState:UIControlStateNormal];
 }
 
 @end

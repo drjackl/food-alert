@@ -22,6 +22,10 @@
     return NSLocalizedString(@"List", @"List button");
 }
 
+- (UIImage*) buttonImage {
+    return [UIImage imageNamed:@"list"];
+}
+
 #pragma mark - TableView Data Source delegate methods
 
 // numberOfSections defaults to 1

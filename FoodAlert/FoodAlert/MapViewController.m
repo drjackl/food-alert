@@ -40,6 +40,10 @@
     return NSLocalizedString(@"Map", @"Map button");
 }
 
+- (UIImage*) buttonImage {
+    return [UIImage imageNamed:@"map"];
+}
+
 #pragma mark - mapView methods
 
 - (MKCoordinateRegion) currentRegion {

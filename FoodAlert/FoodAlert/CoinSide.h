@@ -11,5 +11,6 @@
 @protocol CoinSide <NSObject>
 
 - (NSString*) buttonName;
+- (UIImage*) buttonImage;
 
 @end
