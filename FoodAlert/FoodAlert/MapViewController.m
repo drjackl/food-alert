@@ -66,30 +66,33 @@
     // handle Spot annotations
     if ([annotation isKindOfClass:[Spot class]]) {
         // try to dequeue an existing pin first (maybe don't need check if new one created)
-        MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"spotPinAnnotationView"];
+        //MKPinAnnotationView* spotAnnotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"spotPinAnnotationView"];
+        MKAnnotationView* spotAnnotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"spotSimpleShapeAnnotationView"];
         
-        if (!pinView) { // if existing pin not available, create one (maybe don't need to create new one)
-            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotPinAnnotationView"];
-            pinView.animatesDrop = YES;
-            pinView.canShowCallout = YES;
+        if (!spotAnnotationView) { // if existing pin not available, create one (maybe don't need to create new one)
+            spotAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotSimpleShapeAnnotationView"];
+            //spotAnnotationView.animatesDrop = YES; // specific to MKPinAV
+            spotAnnotationView.canShowCallout = YES;
             
             UIButton* saveButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-            pinView.leftCalloutAccessoryView = saveButton;
+            spotAnnotationView.leftCalloutAccessoryView = saveButton;
             //[saveButton addTarget:self action:@selector(saveSpot:) forControlEvents:UIControlEventTouchUpInside];
         } else { // reuse existing pin
-            pinView.annotation = annotation;
+            spotAnnotationView.annotation = annotation;
         }
         
         if ([annotation isKindOfClass:[Spot class]]) {
             Spot* recastedSpotAnnotation = (Spot*)annotation;
             if (recastedSpotAnnotation.saved) {
-                pinView.pinTintColor = [UIColor yellowColor];
+                //spotAnnotationView.pinTintColor = [UIColor yellowColor]; // specific to MKPinAV
+                spotAnnotationView.image = [UIImage imageNamed:@"spotSaved"];
             } else {
-                pinView.pinTintColor = [UIColor blueColor];
+                //spotAnnotationView.pinTintColor = [UIColor blueColor]; // specific to MKPinAV
+                spotAnnotationView.image = [UIImage imageNamed:@"spotSearched"];
             }
         }
         
-        return pinView;
+        return spotAnnotationView;
     }
     
     return nil;
