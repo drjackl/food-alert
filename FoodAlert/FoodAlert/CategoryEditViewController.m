@@ -39,6 +39,11 @@
     return cell;
 }
 
+- (IBAction) dismissViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewController]; // oops i was calling myself
+}
+
 - (void) setCategoryTitle {
     NSLog(@"setting category title");
 }

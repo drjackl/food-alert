@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="-176" y="0.0"/>
         </scene>
-        <!--View Controller-->
+        <!--Category Edit View Controller-->
         <scene sceneID="yWH-R5-2Lf">
             <objects>
-                <viewController autoresizesArchivedViewToFullSize="NO" modalPresentationStyle="overCurrentContext" id="2nG-Lm-RYG" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" modalPresentationStyle="overCurrentContext" id="2nG-Lm-RYG" customClass="CategoryEditViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LZJ-pN-wYr"/>
                         <viewControllerLayoutGuide type="bottom" id="mjP-Og-6tK"/>
@@ -44,6 +44,31 @@
                                     <constraint firstAttribute="height" constant="346" id="Sm3-00-emS"/>
                                     <constraint firstAttribute="width" constant="300" id="v93-tB-TBc"/>
                                 </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="catEditCell" id="hkZ-AR-Cfa" customClass="CategoryEditViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="300" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hkZ-AR-Cfa" id="MmU-3K-Hr8">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n4c-gL-hpe">
+                                                    <rect key="frame" x="8" y="0.0" width="284" height="30"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="setCategoryName:" destination="hkZ-AR-Cfa" eventType="editingDidEnd" id="lqr-si-L2c"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="2nG-Lm-RYG" id="K01-JL-UQy"/>
+                                    <outlet property="delegate" destination="2nG-Lm-RYG" id="RsB-6b-8Tt"/>
+                                </connections>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="6QL-6r-Vpf">
                                 <rect key="frame" x="14" y="8" width="272" height="30"/>
@@ -57,6 +82,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9Q-lz-amg">
                                         <rect key="frame" x="218" y="0.0" width="54" height="30"/>
                                         <state key="normal" title="Dismiss"/>
+                                        <connections>
+                                            <action selector="dismissViewController" destination="2nG-Lm-RYG" eventType="touchUpInside" id="vRd-gD-5Mp"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -104,9 +132,6 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
-                                            <connections>
-                                                <action selector="setCategoryName:" destination="KnY-dd-erk" eventType="editingDidEnd" id="Zzs-XQ-FAs"/>
-                                            </connections>
                                         </textField>
                                     </subviews>
                                     <constraints>
@@ -270,10 +295,10 @@
                         <viewControllerLayoutGuide type="bottom" id="72N-v1-3Uu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2pN-Ov-imJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                             </mapView>
                         </subviews>
@@ -384,10 +409,10 @@
                         <viewControllerLayoutGuide type="bottom" id="KE2-Qz-dww"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xiT-I4-lo0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
+                            <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
                                 <rect key="frame" x="20" y="0.0" width="560" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -425,7 +450,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Kvu-F8-Htx"/>
-        <segue reference="Fgl-EN-Y8M"/>
+        <segue reference="jsE-iO-kne"/>
+        <segue reference="cr6-E5-zjL"/>
     </inferredMetricsTieBreakers>
 </document>
