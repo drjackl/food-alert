@@ -6,25 +6,6 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
-        <scene sceneID="yl2-sM-qoP">
-            <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
-                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="ITH-v5-Z0O" kind="relationship" relationship="viewControllers" id="jsE-iO-kne"/>
-                        <segue destination="gTi-nN-PZP" kind="relationship" relationship="viewControllers" id="cr6-E5-zjL"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-176" y="0.0"/>
-        </scene>
         <!--Category Edit View Controller-->
         <scene sceneID="yWH-R5-2Lf">
             <objects>
@@ -63,6 +44,9 @@
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameField" destination="n4c-gL-hpe" id="xZs-sd-NJo"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -178,9 +162,9 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puV-Or-xLG">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puV-Or-xLG">
                                         <rect key="frame" x="7" y="17" width="30" height="30"/>
-                                        <state key="normal" image="first">
+                                        <state key="normal" image="list">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -295,10 +279,10 @@
                         <viewControllerLayoutGuide type="bottom" id="72N-v1-3Uu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2pN-Ov-imJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="We8-aj-lhF">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="516"/>
                             </mapView>
                         </subviews>
@@ -329,28 +313,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" textLabel="crX-xO-jCW" detailTextLabel="muS-FB-4CI" style="IBUITableViewCellStyleSubtitle" id="rry-GO-R1Y">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" id="rry-GO-R1Y">
                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rry-GO-R1Y" id="q9p-js-bAZ">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="crX-xO-jCW">
-                                            <rect key="frame" x="15" y="5" width="32" height="20"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="112" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f5D-o6-Wfd">
+                                            <rect key="frame" x="63" y="11" width="34" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="muS-FB-4CI">
-                                            <rect key="frame" x="15" y="25" width="41" height="14"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <imageView userInteractionEnabled="NO" tag="111" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jkB-mr-7Rg">
+                                            <rect key="frame" x="13" y="8" width="37" height="27"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="37" id="fe5-QC-tZn"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="jkB-mr-7Rg" firstAttribute="leading" secondItem="q9p-js-bAZ" secondAttribute="leadingMargin" constant="5" id="I7R-g9-SbB"/>
+                                        <constraint firstItem="f5D-o6-Wfd" firstAttribute="leading" secondItem="jkB-mr-7Rg" secondAttribute="trailing" constant="13" id="W0K-7a-uqr"/>
+                                        <constraint firstItem="jkB-mr-7Rg" firstAttribute="top" secondItem="q9p-js-bAZ" secondAttribute="topMargin" id="Xj2-td-U4a"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="jkB-mr-7Rg" secondAttribute="bottom" id="gbi-NS-mNN"/>
+                                        <constraint firstItem="f5D-o6-Wfd" firstAttribute="centerY" secondItem="q9p-js-bAZ" secondAttribute="centerY" id="zzu-kv-iaP"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -398,7 +387,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EGQ-qf-fO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1186" y="0.0"/>
+            <point key="canvasLocation" x="698" y="-100"/>
         </scene>
         <!--Search-->
         <scene sceneID="zoA-R9-HjJ">
@@ -409,10 +398,10 @@
                         <viewControllerLayoutGuide type="bottom" id="KE2-Qz-dww"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xiT-I4-lo0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
                                 <rect key="frame" x="20" y="0.0" width="560" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -440,17 +429,14 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="776" y="638"/>
+            <point key="canvasLocation" x="-70" y="-404"/>
         </scene>
     </scenes>
     <resources>
         <image name="categories" width="17" height="17"/>
         <image name="first" width="30" height="30"/>
+        <image name="list" width="17" height="17"/>
         <image name="search" width="17" height="17"/>
         <image name="second" width="30" height="30"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="jsE-iO-kne"/>
-        <segue reference="cr6-E5-zjL"/>
-    </inferredMetricsTieBreakers>
 </document>
