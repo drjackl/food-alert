@@ -29,12 +29,32 @@
     // load savedSpots from archive
     //[[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
     //[self addSpots:self.savedSpots]; this is still empty by the time called
+    
+    [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void) dealloc {
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots))];
+}
+
+- (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary<NSString*,id>*)change context:(void*)context {
+    if (object == [DataSource sharedInstance] && [keyPath isEqualToString:NSStringFromSelector(@selector(currentSearchedSpots))]) {
+        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+        if (kindOfChange == NSKeyValueChangeSetting) {
+            // replace old if there's old
+            [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
+            // set new
+            [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
+        }
+    }
+}
+
+#pragma mark - CoinSide protocol methods
 
 - (NSString*) buttonName {
     return NSLocalizedString(@"Map", @"Map button");

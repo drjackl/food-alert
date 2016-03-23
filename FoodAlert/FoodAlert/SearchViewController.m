@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import <MapKit/MapKit.h>
 #import "Spot.h"
+#import "DataSource.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -28,9 +29,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSString*) name {
-    return NSLocalizedString(@"List", @"List button");
-}
+// no longer needed to test CoinVC
+//- (NSString*) name {
+//    return NSLocalizedString(@"List", @"List button");
+//}
 
 // search bar delegate to execute search once entered
 - (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
@@ -58,7 +60,8 @@
         }];
         //NSLog(@"Results String:\n%@", results);
         //[self.listViewController.textView setText:results];
-        [self.mapViewController addSpots:spotsArray];
+        //[self.mapViewController addSpots:spotsArray];
+        [DataSource sharedInstance].currentSearchedSpots = spotsArray;
     }];
     
     [searchBar resignFirstResponder];
