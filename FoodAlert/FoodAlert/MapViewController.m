@@ -28,7 +28,7 @@
     
     // load savedSpots from archive
     //[[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
-    //[self addSpots:self.savedSpots]; this is still empty by the time called
+    //[self addSpots:self.savedSpots]; this is still empty by the time called (since unarchive doesn't guarantee immediate unpackaging)
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
 }
@@ -94,9 +94,18 @@
             //spotAnnotationView.animatesDrop = YES; // specific to MKPinAV
             spotAnnotationView.canShowCallout = YES;
             
-            UIButton* saveButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-            spotAnnotationView.leftCalloutAccessoryView = saveButton;
+            spotAnnotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
+            //spotAnnotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoDark];
+            //spotAnnotationView.detailCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
             //[saveButton addTarget:self action:@selector(saveSpot:) forControlEvents:UIControlEventTouchUpInside];
+            
+            UIButton* categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
+            [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            categoryButton.backgroundColor = [UIColor redColor];
+            categoryButton.userInteractionEnabled = YES;
+            categoryButton.frame = CGRectMake(0, 0, 200, 20);
+            spotAnnotationView.detailCalloutAccessoryView = categoryButton;
         } else { // reuse existing pin
             spotAnnotationView.annotation = annotation;
         }
@@ -119,7 +128,15 @@
 }
 
 - (void) mapView:(MKMapView*)mapView annotationView:(MKAnnotationView*)view calloutAccessoryControlTapped:(UIControl*)control {
-    [self saveSpot:(Spot*)view.annotation];
+    if ([control isKindOfClass:[UIButton class]]) {
+        UIButton* buttonControl = (UIButton*)control;
+        if (buttonControl.buttonType == UIButtonTypeContactAdd) {
+            [self saveSpot:(Spot*)view.annotation];
+        } else if (buttonControl.buttonType == UIButtonTypeCustom) {
+            // bring up select category dialog
+        }
+    }
+    
 }
 
 - (void) saveSpot:(Spot*)spot {
@@ -129,6 +146,7 @@
     [[DataSource sharedInstance] archiveSavedSpots];
 }
 
+// all moved to DataSource
 //- (void) archiveSavedSpots {
 //    // based off blocstagram
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

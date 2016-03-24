@@ -66,7 +66,7 @@
                 NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
                 self.savedSpots = mutableSavedSpots;
                 
-                // delete when KVO in
+                // delete when KVO in for savedSpots
                 [self.mapVC addSpots:self.savedSpots]; // table ought to load same time here ...
                 [self.listVC reloadTableView];
             }
@@ -125,7 +125,7 @@
              [[Categorie alloc] initWithColor:[UIColor lightGrayColor]],
              [[Categorie alloc] initWithColor:[UIColor brownColor]],
              [[Categorie alloc] initWithColor:[UIColor purpleColor]],
-             [[Categorie alloc] initWithColor:[UIColor blackColor]],
+             [[Categorie alloc] initWithColor:[UIColor grayColor]],
              [[Categorie alloc] initWithColor:[UIColor yellowColor]]];
 }
 

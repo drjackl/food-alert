@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CategoryEditViewController : UIViewController // changed from TableVC
+@interface CategoryEditViewController : UIViewController // changed from TableVC (lucky wasn't named CETableVC)
 
 @end

@@ -8,18 +8,25 @@
 
 #import "Spot.h"
 #import <MapKit/MapKit.h>
+#import "Categorie.h"
 
 @implementation Spot
 
-- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title {
+- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title subtitle:(NSString*)subtitle {
     self = [super init];
     if (self) {
         _coordinate = coordinate;
         _title = title;
+        _subtitle = subtitle;
         
         self.saved = NO;
     }
     return self;
+}
+
+- (void)setCategory:(Categorie*)category {
+    _category = category;
+    [category addSavedSpot:self];
 }
 
 
@@ -37,6 +44,7 @@
         _coordinate = coordinateToDecode;
         
         _title = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(title))];
+        _subtitle = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(subtitle))];
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
     }
@@ -50,6 +58,7 @@
     [aCoder encodeDouble:self.coordinate.longitude forKey:@"longitude"];
     
     [aCoder encodeObject:self.title forKey:NSStringFromSelector(@selector(title))];
+    [aCoder encodeObject:self.subtitle forKey:NSStringFromSelector(@selector(subtitle))];
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
 }

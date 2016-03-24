@@ -53,9 +53,9 @@
         NSMutableString* results = [NSMutableString new];
         NSMutableArray* spotsArray = [NSMutableArray new];
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
-            //NSLog(@"Item %ld: %@", i, item);
+            NSLog(@"Item %ld: %@", i, item);
             [results appendFormat:@"Item %ld: %@\n", i, item];
-            Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name];
+            Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name subtitle:item.phoneNumber];
             [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);
