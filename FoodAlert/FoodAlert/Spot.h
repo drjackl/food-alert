@@ -16,12 +16,15 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate; // MKAnnotation required, KVC
 @property (nonatomic, readonly, copy) NSString* title; // MKAnnotation
-@property (nonatomic, readonly, copy) NSString* subtitle; // MKAnnotation
+//@property (nonatomic, readonly, copy) NSString* subtitle; // MKAnnotation
+@property (nonatomic, readonly, copy) NSDictionary* addressDictionary;
+@property (nonatomic, readonly, copy) NSString* phone;
+@property (nonatomic, readonly, copy) NSURL* url;
 
 @property (nonatomic) BOOL saved;
 
 @property (nonatomic) Categorie* category; // Spot -strong-> Cat -weak-> SpotArray -strong-> Spot
 
-- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title subtitle:(NSString*)subtitle;
+- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title addressDictionary:(NSDictionary*)addressDictionary phone:(NSString*)phone url:(NSURL*)url;
 
 @end

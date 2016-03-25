@@ -8,8 +8,10 @@
 
 #import "SearchViewController.h"
 #import <MapKit/MapKit.h>
+//#import <AddressBookUI/AddressBookUI.h>
 #import "Spot.h"
 #import "DataSource.h"
+
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -55,7 +57,7 @@
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
             NSLog(@"Item %ld: %@", i, item);
             [results appendFormat:@"Item %ld: %@\n", i, item];
-            Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name subtitle:item.phoneNumber];
+            Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name addressDictionary:item.placemark.addressDictionary phone:item.phoneNumber url:item.url];
             [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);

@@ -12,12 +12,15 @@
 
 @implementation Spot
 
-- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title subtitle:(NSString*)subtitle {
+- (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title addressDictionary:(NSDictionary*)addressDictionary phone:(NSString*)phone url:(NSURL*)url {
     self = [super init];
     if (self) {
         _coordinate = coordinate;
         _title = title;
-        _subtitle = subtitle;
+        
+        _addressDictionary = addressDictionary;
+        _phone = phone;
+        _url = url;
         
         self.saved = NO;
     }
@@ -44,7 +47,10 @@
         _coordinate = coordinateToDecode;
         
         _title = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(title))];
-        _subtitle = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(subtitle))];
+        
+        _addressDictionary = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(addressDictionary))];
+        _phone = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(phone))];
+        _url = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(url))];
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
     }
@@ -58,7 +64,10 @@
     [aCoder encodeDouble:self.coordinate.longitude forKey:@"longitude"];
     
     [aCoder encodeObject:self.title forKey:NSStringFromSelector(@selector(title))];
-    [aCoder encodeObject:self.subtitle forKey:NSStringFromSelector(@selector(subtitle))];
+    
+    [aCoder encodeObject:self.addressDictionary forKey:NSStringFromSelector(@selector(addressDictionary))];
+    [aCoder encodeObject:self.phone forKey:NSStringFromSelector(@selector(phone))];
+    [aCoder encodeObject:self.url forKey:NSStringFromSelector(@selector(url))];
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
 }

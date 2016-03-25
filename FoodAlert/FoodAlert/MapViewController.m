@@ -105,7 +105,7 @@
             categoryButton.backgroundColor = [UIColor redColor];
             categoryButton.userInteractionEnabled = YES;
             categoryButton.frame = CGRectMake(0, 0, 200, 20);
-            spotAnnotationView.detailCalloutAccessoryView = categoryButton;
+            spotAnnotationView.rightCalloutAccessoryView = categoryButton;
         } else { // reuse existing pin
             spotAnnotationView.annotation = annotation;
         }

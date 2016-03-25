@@ -7,8 +7,10 @@
 //
 
 #import "ListTableViewController.h"
+#import <AddressBookUI/AddressBookUI.h>
 #import "DataSource.h"
 #import "Spot.h"
+
 
 static const NSInteger SearchSection = 0;
 static const NSInteger SavedSection = 1;
@@ -104,10 +106,17 @@ static const NSInteger SavedSection = 1;
     //cell.textLabel.text = spot.title;
     //cell.detailTextLabel.text = [NSString stringWithFormat:@"coord: %f, %f", spot.coordinate.latitude, spot.coordinate.longitude];
     
-    UILabel* listTitleLabel = (UILabel*)[cell viewWithTag:112];
-    listTitleLabel.text = spot.title;
     UIImageView* listIconView = (UIImageView*)[cell viewWithTag:111];
     listIconView.image = [UIImage imageNamed:spotIconIdentifier];
+
+    UILabel* listTitleLabel = (UILabel*)[cell viewWithTag:112];
+    listTitleLabel.text = spot.title;
+    UILabel* listSubtitleLabel = (UILabel*)[cell viewWithTag:113];
+    NSArray* addressLines = spot.addressDictionary[@"FormattedAddressLines"];
+    NSString* addressString = [addressLines componentsJoinedByString:@", "];
+    listSubtitleLabel.text = addressString;
+    //ABCreateStringWithAddressDictionary(spot.addressDictionary, YES);
+    
     
     return cell;
 }

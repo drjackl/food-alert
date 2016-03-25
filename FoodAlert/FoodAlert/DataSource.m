@@ -134,6 +134,7 @@
 }
 
 - (NSString*) pathForFilename:(NSString*)filename {
+    // use TemporaryDirectory instead?
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* directory = [paths firstObject];
     NSString* dataPath = [directory stringByAppendingPathComponent:filename];
