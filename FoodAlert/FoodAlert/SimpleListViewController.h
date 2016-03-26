@@ -6,9 +6,10 @@
 //  Copyright © 2016 Jack Li. All rights reserved.
 //
 
-#import "CoinSideViewController.h"
+#import <UIKit/UIKit.h> // don't need to import Foundation with UIKit, didn't need UIKit with below
+//#import "CoinSideViewController.h"
 
-@interface SimpleListViewController : CoinSideViewController
+@interface SimpleListViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 

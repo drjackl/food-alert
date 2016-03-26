@@ -115,7 +115,7 @@ static const NSInteger SavedSection = 1;
     NSArray* addressLines = spot.addressDictionary[@"FormattedAddressLines"];
     NSString* addressString = [addressLines componentsJoinedByString:@", "];
     listSubtitleLabel.text = addressString;
-    //ABCreateStringWithAddressDictionary(spot.addressDictionary, YES);
+    //ABCreateStringWithAddressDictionary(spot.addressDictionary, YES); // deprecated, warning says to use CNPostAddressFormatter, but this solution seems easier than doing that conversion
     
     
     return cell;

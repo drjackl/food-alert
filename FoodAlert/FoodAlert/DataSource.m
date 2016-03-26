@@ -27,7 +27,7 @@
         self.categories = [NSArray array];
         
         self.currentSearchedSpots = [NSArray array];
-        
+                
         [self unarchiveSavedSpots];
         [self unarchiveCategories];
         
