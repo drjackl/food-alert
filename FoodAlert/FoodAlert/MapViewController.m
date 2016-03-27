@@ -10,10 +10,13 @@
 #import <MapKit/MapKit.h>
 #import "Spot.h"
 #import "DataSource.h"
+#import "CategorySelectViewController.h"
 
-@interface MapViewController () <MKMapViewDelegate>
+@interface MapViewController () <MKMapViewDelegate, CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
-//@property (nonatomic) NSMutableArray* savedSpots; // put in model later
+@property (nonatomic) CategorySelectViewController* categorySelectModal;
+
+@property (nonatomic) Spot* currentSelectedSpot;
 @end
 
 @implementation MapViewController
@@ -64,7 +67,7 @@
     return [UIImage imageNamed:@"map"];
 }
 
-#pragma mark - mapView methods
+#pragma mark - Map View methods
 
 - (MKCoordinateRegion) currentRegion {
     return self.mapView.region;
@@ -74,7 +77,7 @@
     [self.mapView addAnnotations:spotsArray];
 }
 
-#pragma mark - mapView delegate methods
+#pragma mark - Map View delegate methods
 
 // map delegate for adding annotations
 - (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -102,13 +105,16 @@
             UIButton* categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
             [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            categoryButton.backgroundColor = [UIColor redColor];
+            //categoryButton.backgroundColor = [UIColor redColor];
             categoryButton.userInteractionEnabled = YES;
             categoryButton.frame = CGRectMake(0, 0, 200, 20);
             spotAnnotationView.rightCalloutAccessoryView = categoryButton;
         } else { // reuse existing pin
             spotAnnotationView.annotation = annotation;
         }
+        
+        Categorie* category = ((Spot*)spotAnnotationView.annotation).category;
+        spotAnnotationView.rightCalloutAccessoryView.backgroundColor = category ? category.color : [UIColor redColor];
         
         if ([annotation isKindOfClass:[Spot class]]) {
             Spot* recastedSpotAnnotation = (Spot*)annotation;
@@ -133,10 +139,12 @@
         if (buttonControl.buttonType == UIButtonTypeContactAdd) {
             [self saveSpot:(Spot*)view.annotation];
         } else if (buttonControl.buttonType == UIButtonTypeCustom) {
+            // is there a better way than storing this as a property?
+            self.currentSelectedSpot = (Spot*)view.annotation;
             // bring up select category dialog
+            [self performSegueWithIdentifier:@"categorySelect" sender:self];
         }
     }
-    
 }
 
 - (void) saveSpot:(Spot*)spot {
@@ -146,57 +154,28 @@
     [[DataSource sharedInstance] archiveSavedSpots];
 }
 
-// all moved to DataSource
-//- (void) archiveSavedSpots {
-//    // based off blocstagram
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSString* fullPath = [self pathForSavedSpots];
-//        NSData* savedSpotsToStore = [NSKeyedArchiver archivedDataWithRootObject:self.savedSpots];
-//        NSError* dataError;
-//        
-//        BOOL wroteSuccessfully = [savedSpotsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
-//        
-//        if (!wroteSuccessfully) {
-//            NSLog(@"Couldn't write file: %@", dataError);
-//        }
-//    });
-//}
+#pragma mark - Category Select Modal delegate
 
-//- (void) unarchiveSavedSpots {
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSString* fullPath = [self pathForSavedSpots];
-//        
-//        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
-//        
-//        // maybe i don't need this since i'm not downloading blocstagram images?
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
-//            self.savedSpots = mutableSavedSpots;
-//            
-//            [self addSpots:self.savedSpots];
-//        });
-//    });
-//}
+- (void) didSelectCategory:(Categorie *)category {
+    self.currentSelectedSpot.category = category;
+    
+    [[DataSource sharedInstance] archiveCategories];
+    [[DataSource sharedInstance] archiveSavedSpots];
+}
 
-//- (NSString*) pathForSavedSpots {
-//    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-//    NSString* directory = [paths firstObject];
-//    NSString* dataPath = [directory stringByAppendingString:NSStringFromSelector(@selector(savedSpots))];
-//    return dataPath;
-//}
 
-//- (void) saveSpot:(UIButton*)sender {
-//    
-//}
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"categorySelect"]) {
+        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
+        self.categorySelectModal.delegate = self;
+    }
 }
-*/
+
 
 @end

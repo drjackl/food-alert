@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *suggestionsTableView;
 //
-@property (nonatomic) NSMutableArray* savedSuggestionsArray;
+@property (nonatomic) NSArray* savedSuggestionsArray;
 // xml parsing for google suggest
 @property (nonatomic) NSString* currentElement;
 @property (nonatomic) NSMutableString* foundValue;
@@ -35,7 +35,7 @@ static const NSInteger GoogleSuggestionSection = 1;
     
     self.searchBar.delegate = self;
     
-    self.savedSuggestionsArray = [NSMutableArray new];
+    //self.savedSuggestionsArray = [NSMutableArray new];
     
     self.foundValue = [NSMutableString string];
     self.googleSuggestionsArray = [NSMutableArray array];
@@ -112,16 +112,19 @@ static const NSInteger GoogleSuggestionSection = 1;
 
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"searchSuggestCell" forIndexPath:indexPath];
+    UITableViewCell* cell;
     
     // Configure the cell...
     switch (indexPath.section) {
         case SavedSuggestionSection: { // need braces do declare variables like Spot?
+            cell = [tableView dequeueReusableCellWithIdentifier:@"savedSuggestCell" forIndexPath:indexPath];
             Spot* spot = self.savedSuggestionsArray[indexPath.row];
-            cell.textLabel.text = spot.title;
+            //cell.textLabel.text = spot.title; // changed to custom to have icon
+            ((UILabel*)[cell viewWithTag:111]).text = spot.title;
             break;
         }
         case GoogleSuggestionSection:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"googleSuggestCell" forIndexPath:indexPath];
             cell.textLabel.text = self.googleSuggestionsArray[indexPath.row];
             break;
     }
@@ -206,6 +209,10 @@ static const NSInteger GoogleSuggestionSection = 1;
 - (void) searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
     //NSLog(@"Text did change: %@", searchText);
     
+    // saved spots suggest
+    self.savedSuggestionsArray = [[DataSource sharedInstance].savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"title contains[cd] %@", searchText]];
+    
+    // google suggest
     NSString* noSpaceSearchText = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     NSString* urlString = [NSString stringWithFormat:@"http://suggestqueries.google.com/complete/search?output=toolbar&hl=en&q=%@", noSpaceSearchText];
     NSURL* url = [NSURL URLWithString:urlString];

@@ -38,6 +38,8 @@
     return self;
 }
 
+#pragma mark - Persisting data
+
 - (void) archiveSavedSpots {
     // based off blocstagram
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

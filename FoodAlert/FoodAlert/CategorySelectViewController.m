@@ -11,7 +11,7 @@
 #import "Categorie.h"
 #import "CategoryPresentationController.h"
 
-@interface CategorySelectViewController () <UIViewControllerTransitioningDelegate>
+@interface CategorySelectViewController () <UIViewControllerTransitioningDelegate, UITableViewDelegate>
 
 @end
 
@@ -26,14 +26,14 @@
     return self;
 }
 
-// this never gets called
-- (instancetype) initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self commonInit];
-    }
-    return self;
-}
+//// this never gets called
+//- (instancetype) initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        [self commonInit];
+//    }
+//    return self;
+//}
 
 - (void)commonInit {
     self.transitioningDelegate = self;
@@ -65,7 +65,16 @@
     return nil;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View delegate
+
+- (void) tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    // notify sender of selected category
+    [self.delegate didSelectCategory:[DataSource sharedInstance].categories[indexPath.row]];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Table View data source
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //#warning Incomplete implementation, return the number of sections

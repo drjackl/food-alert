@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Categorie.h"
+
+@protocol CategorySelectViewControllerDelegate <NSObject>
+- (void) didSelectCategory:(Categorie*)category;
+@end
 
 @interface CategorySelectViewController : UIViewController
+
+@property (nonatomic, weak) id<CategorySelectViewControllerDelegate> delegate;
 
 @end

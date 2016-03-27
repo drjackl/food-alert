@@ -53,6 +53,8 @@
         _url = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(url))];
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
+        
+        self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
     }
     return self;
 }
@@ -70,6 +72,8 @@
     [aCoder encodeObject:self.url forKey:NSStringFromSelector(@selector(url))];
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
+    
+    [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
 }
 
 @end
