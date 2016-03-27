@@ -80,6 +80,7 @@ static const NSInteger GoogleSuggestionSection = 1;
         [DataSource sharedInstance].currentSearchedSpots = spotsArray;
     }];
     
+    [self.delegate searchDidFinish];
     [self.searchBar resignFirstResponder];
     //[delegate searchBarDidHide:searchBar];
 }
@@ -192,9 +193,9 @@ static const NSInteger GoogleSuggestionSection = 1;
 }
 
 // needs a delegate or some communication to tell parent to toggle container view in CoinVC, not just dismiss this VC
-//- (void) searchBarCancelButtonClicked:(UISearchBar*)searchBar {
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
+- (void) searchBarCancelButtonClicked:(UISearchBar*)searchBar {
+    [self.delegate searchDidFinish];
+}
 
 //// this doesn't start a search
 //- (void) searchBarTextDidEndEditing:(UISearchBar*)searchBar {

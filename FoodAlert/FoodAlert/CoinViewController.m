@@ -15,7 +15,7 @@
 #import "DataSource.h" // remove when KVO in
 #import "CoinSide.h"
 
-@interface CoinViewController ()
+@interface CoinViewController () <SearchViewControllerDelegate>
 @property (nonatomic) UIView* currentView;
 @property (nonatomic) MapViewController<CoinSide>* mapViewController; // if generic, just be CoinSide
 //@property (nonatomic) SimpleListViewController* listViewController;
@@ -37,6 +37,8 @@
     self.currentView = self.view1;
     self.searchViewController.mapViewController = self.mapViewController;
     self.searchViewController.listViewController = self.listViewController;
+    
+    self.searchViewController.delegate = self;
 }
 
 - (void) didReceiveMemoryWarning {
@@ -68,6 +70,8 @@
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
     }
 }
+
+#pragma mark - Show/Hide
 
 - (IBAction) switchViewControllers {
     // fade transition
@@ -101,12 +105,22 @@
 
 - (IBAction) showSearch {
     [UIView animateWithDuration:0.5 animations:^{
-        self.searchView.alpha = ((int)self.searchView.alpha + 1) % 2;
+        self.searchView.alpha = 1;//((int)self.searchView.alpha + 1) % 2; // toggling here
+    }];
+}
+
+#pragma mark - Search VC delegate
+
+- (void) searchDidFinish {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.searchView.alpha = 0;
     }];
 }
 
 - (IBAction) showCategories {
 }
+
+#pragma mark - Accessors
 
 // part of setting the current view is also ensuring the Other View button gets set to the otherView
 - (void) setCurrentView:(UIView*)currentView {

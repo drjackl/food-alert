@@ -295,7 +295,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
-                                <rect key="frame" x="0.0" y="84" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="40" width="600" height="600"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="600" id="aeQ-GN-NKm"/>
                                 </constraints>
@@ -320,7 +320,7 @@
                             <constraint firstItem="Bbl-iz-fLU" firstAttribute="top" secondItem="sEt-Vz-QaU" secondAttribute="bottom" id="TEF-O5-OtV"/>
                             <constraint firstItem="sEt-Vz-QaU" firstAttribute="top" secondItem="X2g-wD-tB6" secondAttribute="bottom" id="XQs-ev-f8F"/>
                             <constraint firstItem="X2g-wD-tB6" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" id="gmR-PB-OPz"/>
-                            <constraint firstItem="rxE-pV-B18" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" constant="64" id="pr8-ps-CAg"/>
+                            <constraint firstItem="rxE-pV-B18" firstAttribute="top" secondItem="eTR-KW-Bs7" secondAttribute="bottom" constant="20" id="pr8-ps-CAg"/>
                             <constraint firstItem="uOW-Vo-nfe" firstAttribute="top" secondItem="X2g-wD-tB6" secondAttribute="bottom" constant="80" id="qD3-BI-hZ9"/>
                             <constraint firstItem="rxE-pV-B18" firstAttribute="centerX" secondItem="W6S-Uo-msh" secondAttribute="centerX" id="x2R-oF-2VL"/>
                         </constraints>
@@ -481,14 +481,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rtR-Tf-9SK">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="enR-Js-nCh"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wqx-Bn-hnw">
+                            <tableView clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wqx-Bn-hnw">
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
