@@ -14,8 +14,9 @@
 #import "SearchViewController.h"
 #import "DataSource.h" // remove when KVO in
 #import "CoinSide.h"
+//#import "CategorySelectViewController.h"
 
-@interface CoinViewController () <SearchViewControllerDelegate>
+@interface CoinViewController () <SearchViewControllerDelegate/*, CategorySelectViewControllerDelegate*/>
 @property (nonatomic) UIView* currentView;
 @property (nonatomic) MapViewController<CoinSide>* mapViewController; // if generic, just be CoinSide
 //@property (nonatomic) SimpleListViewController* listViewController;
@@ -108,6 +109,12 @@
         self.searchView.alpha = 1;//((int)self.searchView.alpha + 1) % 2; // toggling here
     }];
 }
+
+//#pragma mark - CatSelect VC delegate
+//
+//- (void) didSelectCategory:(Categorie*)category {
+//    
+//}
 
 #pragma mark - Search VC delegate
 

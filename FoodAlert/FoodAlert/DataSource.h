@@ -17,12 +17,13 @@
 @property (nonatomic) NSMutableArray* savedSpots;
 @property (nonatomic) NSArray* categories;
 
+//@property (nonatomic) NSArray* savedSpotsBeingShown;
 @property (nonatomic) NSArray* currentSearchedSpots;
 
 @property (nonatomic) MapViewController* mapVC; // until get KVO in
 @property (nonatomic) ListTableViewController* listVC;
 
-// both should be taken out after KVO
+// both should be taken out after KVO? (save on any change to savedSpots?)
 - (void) archiveSavedSpots;
 - (void) unarchiveSavedSpots;
 

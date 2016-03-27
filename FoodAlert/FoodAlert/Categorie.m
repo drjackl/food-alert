@@ -18,7 +18,7 @@
         self.title = title;
         self.color = color;
         
-        self.spotsInCategory = [NSMutableArray array];
+        self.spotsInCategory = [NSMutableArray array]; // not needed if weak pointer?
     }
     return self;
 }
@@ -29,6 +29,9 @@
 
 // should only be called by setCategory (or addCategory later maybe)
 - (void) addSavedSpot:(Spot*)savedSpot {
+    if (!self.spotsInCategory) { // because weak pointer
+        self.spotsInCategory = [NSMutableArray array];
+    }
     [self.spotsInCategory addObject:savedSpot];
     //[savedSpot setSaved:NO]; // testing import, i need import to use methods
 }

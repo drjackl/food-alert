@@ -17,8 +17,8 @@
 
 @implementation CategorySelectViewController
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
+// thought the swift method was regular init, argh!
+- (instancetype) initWithCoder:(NSCoder*)coder {
     self = [super initWithCoder:coder];
     if (self) {
         [self commonInit];
@@ -43,14 +43,18 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     
+    // Table View data source/delegate
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;'
     
-    self.modalPresentationStyle = UIModalPresentationCustom;
-    self.transitioningDelegate = self;
+    // moved to init (commonInit), as these are added after the view is loaded, which is wrong
+//    self.modalPresentationStyle = UIModalPresentationCustom;
+//    self.transitioningDelegate = self;
+    
+    self.view.layer.cornerRadius = 10.0;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,7 +63,7 @@
 }
 
 - (UIPresentationController*) presentationControllerForPresentedViewController:(UIViewController*)presented presentingViewController:(UIViewController*)presenting sourceViewController:(UIViewController*)source {
-    if (presenting == self) {
+    if (presented == self) {
         return [[CategoryPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
     }
     return nil;

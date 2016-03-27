@@ -29,12 +29,20 @@
     [self.containerView addSubview:self.dimmingView];
     [self.dimmingView addSubview:self.presentedViewController.view];
     
+    self.dimmingView.frame = self.containerView.frame; // argh, forgot frame
+    
     id<UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentedViewController.transitionCoordinator;
     
-    [self.dimmingView setAlpha:0.0];
+    self.dimmingView.alpha = 0.0;
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        [self.dimmingView setAlpha:1.0];
+        self.dimmingView.alpha = 1.0;
     } completion:nil];
+}
+
+- (CGRect) frameOfPresentedViewInContainerView {
+    CGRect containerFrame = self.containerView.frame;
+    CGRect frame = CGRectInset(containerFrame, 50.0, 50.0);
+    return frame;
 }
 
 - (void) presentationTransitionDidEnd:(BOOL)completed {

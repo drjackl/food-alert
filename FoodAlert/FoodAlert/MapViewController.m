@@ -17,6 +17,7 @@
 @property (nonatomic) CategorySelectViewController* categorySelectModal;
 
 @property (nonatomic) Spot* currentSelectedSpot;
+@property (nonatomic) MKAnnotationView* currentAnnotationView;
 @end
 
 @implementation MapViewController
@@ -103,7 +104,7 @@
             //[saveButton addTarget:self action:@selector(saveSpot:) forControlEvents:UIControlEventTouchUpInside];
             
             UIButton* categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
+            //[categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
             [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             //categoryButton.backgroundColor = [UIColor redColor];
             categoryButton.userInteractionEnabled = YES;
@@ -113,8 +114,7 @@
             spotAnnotationView.annotation = annotation;
         }
         
-        Categorie* category = ((Spot*)spotAnnotationView.annotation).category;
-        spotAnnotationView.rightCalloutAccessoryView.backgroundColor = category ? category.color : [UIColor redColor];
+        [self updateCategoryButtonOfAnnotationView:spotAnnotationView];
         
         if ([annotation isKindOfClass:[Spot class]]) {
             Spot* recastedSpotAnnotation = (Spot*)annotation;
@@ -141,6 +141,7 @@
         } else if (buttonControl.buttonType == UIButtonTypeCustom) {
             // is there a better way than storing this as a property?
             self.currentSelectedSpot = (Spot*)view.annotation;
+            self.currentAnnotationView = view;
             // bring up select category dialog
             [self performSegueWithIdentifier:@"categorySelect" sender:self];
         }
@@ -154,11 +155,24 @@
     [[DataSource sharedInstance] archiveSavedSpots];
 }
 
+- (void) updateCategoryButtonOfAnnotationView:(MKAnnotationView*)annotationView {
+    Categorie* category = ((Spot*)annotationView.annotation).category;
+    if (category) {
+        annotationView.rightCalloutAccessoryView.backgroundColor = category.color;
+        [((UIButton*)annotationView.rightCalloutAccessoryView) setTitle:category.title forState:UIControlStateNormal];
+    } else {
+        annotationView.rightCalloutAccessoryView.backgroundColor = [UIColor redColor];
+        [((UIButton*)annotationView.rightCalloutAccessoryView) setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - Category Select Modal delegate
 
 - (void) didSelectCategory:(Categorie *)category {
     self.currentSelectedSpot.category = category;
+    [self updateCategoryButtonOfAnnotationView:self.currentAnnotationView];
     
+    // somehow, these aren't saving ...
     [[DataSource sharedInstance] archiveCategories];
     [[DataSource sharedInstance] archiveSavedSpots];
 }
