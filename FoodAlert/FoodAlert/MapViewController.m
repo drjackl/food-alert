@@ -8,13 +8,16 @@
 
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "Spot.h"
 #import "DataSource.h"
 #import "CategorySelectViewController.h"
 
-@interface MapViewController () <MKMapViewDelegate, CategorySelectViewControllerDelegate>
+@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 @property (nonatomic) CategorySelectViewController* categorySelectModal;
+
+@property (nonatomic) CLLocationManager* locationManager;
 
 @property (nonatomic) Spot* currentSelectedSpot;
 @property (nonatomic) MKAnnotationView* currentAnnotationView;
@@ -26,13 +29,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //self.savedSpots = [NSMutableArray new];
-    
     self.mapView.delegate = self;
     
-    // load savedSpots from archive
-    //[[DataSource sharedInstance] unarchiveSavedSpots]; // i think this should happen in DataSource init; yes, instead i should be registering for observation here
-    //[self addSpots:self.savedSpots]; this is still empty by the time called (since unarchive doesn't guarantee immediate unpackaging)
+//    switch (CLLocationManager.authorizationStatus) {
+//        case kCLAuthorizationStatusRestricted:
+//        case kCLAuthorizationStatusDenied:
+//            break;
+//        default:
+            self.locationManager = [CLLocationManager new];
+            self.locationManager.delegate = self;
+//        case kCLAuthorizationStatusNotDetermined:
+            [self.locationManager requestWhenInUseAuthorization]; // needed post iOS 8
+//        case kCLAuthorizationStatusAuthorizedWhenInUse:
+            //[self.locationManager startUpdatingLocation];
+//    }
+    
+    
+    
+    self.mapView.showsUserLocation = YES; // done in storyboard now
+    
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
@@ -190,7 +205,7 @@
     self.currentSelectedSpot.category = category;
     [self updateCategoryButtonOfAnnotationView:self.currentAnnotationView];
     
-    // somehow, these aren't saving ...
+    // somehow, these aren't saving ... or are they now ...
     [[DataSource sharedInstance] archiveCategories];
     [[DataSource sharedInstance] archiveSavedSpots];
 }

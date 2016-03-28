@@ -99,18 +99,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LVO-Hm-GOq">
-                                <rect key="frame" x="20" y="41" width="560" height="559"/>
+                                <rect key="frame" x="0.0" y="41" width="600" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="categorySelectCell" textLabel="sMA-zW-CTe" style="IBUITableViewCellStyleDefault" id="sdr-pE-CNu">
-                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sdr-pE-CNu" id="Nfe-uT-S9R">
-                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sMA-zW-CTe">
-                                                    <rect key="frame" x="15" y="0.0" width="530" height="43"/>
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -145,10 +145,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="KtL-hG-QlX" firstAttribute="top" secondItem="LVO-Hm-GOq" secondAttribute="bottom" id="77W-NR-ES8"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="LVO-Hm-GOq" secondAttribute="trailing" id="Gbj-LW-2Cg"/>
+                            <constraint firstAttribute="trailing" secondItem="LVO-Hm-GOq" secondAttribute="trailing" id="Gbj-LW-2Cg"/>
                             <constraint firstItem="jEF-C3-ZUu" firstAttribute="leading" secondItem="IOp-cw-oZa" secondAttribute="leadingMargin" id="Jl3-7Y-wdm"/>
                             <constraint firstItem="jEF-C3-ZUu" firstAttribute="top" secondItem="IOp-cw-oZa" secondAttribute="topMargin" id="a2z-G2-zaN"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="LVO-Hm-GOq" secondAttribute="leading" id="ja2-bO-0cZ"/>
+                            <constraint firstAttribute="leading" secondItem="LVO-Hm-GOq" secondAttribute="leading" id="ja2-bO-0cZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jEF-C3-ZUu" secondAttribute="trailing" id="lkg-Kn-XbB"/>
                             <constraint firstItem="LVO-Hm-GOq" firstAttribute="top" secondItem="jEF-C3-ZUu" secondAttribute="bottom" id="tfm-jz-TUw"/>
                         </constraints>
@@ -246,14 +246,14 @@
                                         <state key="normal" image="categories"/>
                                         <connections>
                                             <action selector="showCategories" destination="8jP-sb-qXU" eventType="touchUpInside" id="OOP-c4-2q7"/>
-                                            <segue destination="2nG-Lm-RYG" kind="presentation" modalPresentationStyle="overCurrentContext" id="34O-hN-qoB"/>
+                                            <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categoryFilter" id="NyF-4r-sxb"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjd-gb-hW1">
                                         <rect key="frame" x="511" y="17" width="30" height="30"/>
                                         <state key="normal" title="Cat"/>
                                         <connections>
-                                            <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categoryFilter" id="qrv-vj-OeQ"/>
+                                            <segue destination="2nG-Lm-RYG" kind="presentation" id="Rkr-Wu-n2m"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -300,8 +300,8 @@
                                     <constraint firstItem="sFn-mh-Oiq" firstAttribute="height" secondItem="sEt-Vz-QaU" secondAttribute="height" id="wNs-z9-9NQ"/>
                                 </constraints>
                             </view>
-                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
-                                <rect key="frame" x="0.0" y="40" width="600" height="600"/>
+                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
+                                <rect key="frame" x="0.0" y="80" width="600" height="600"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="600" id="aeQ-GN-NKm"/>
                                 </constraints>
@@ -546,6 +546,6 @@
         <image name="spotSaved" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qrv-vj-OeQ"/>
+        <segue reference="NyF-4r-sxb"/>
     </inferredMetricsTieBreakers>
 </document>

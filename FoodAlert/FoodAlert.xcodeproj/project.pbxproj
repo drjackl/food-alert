@@ -26,6 +26,7 @@
 		04E6FEF11C94869900AB0E61 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E6FEF01C94869900AB0E61 /* MapKit.framework */; };
 		04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEF31C9542DC00AB0E61 /* MapViewController.m */; };
 		04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEF61C9547AE00AB0E61 /* SearchViewController.m */; };
+		04FA74671CA98156007E74EC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FA74661CA98154007E74EC /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		04E6FEF31C9542DC00AB0E61 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		04E6FEF51C9547AE00AB0E61 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		04E6FEF61C9547AE00AB0E61 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		04FA74661CA98154007E74EC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FA74671CA98156007E74EC /* CoreLocation.framework in Frameworks */,
 				04E6FEF11C94869900AB0E61 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +118,7 @@
 		04E6FEAE1C9483E100AB0E61 = {
 			isa = PBXGroup;
 			children = (
+				04FA74661CA98154007E74EC /* CoreLocation.framework */,
 				04E6FEF01C94869900AB0E61 /* MapKit.framework */,
 				04E6FEB91C9483E100AB0E61 /* FoodAlert */,
 				04E6FED61C9483E200AB0E61 /* FoodAlertTests */,
