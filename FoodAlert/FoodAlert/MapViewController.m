@@ -35,6 +35,7 @@
     //[self addSpots:self.savedSpots]; this is still empty by the time called (since unarchive doesn't guarantee immediate unpackaging)
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,17 +45,34 @@
 
 - (void) dealloc {
     [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots))];
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown))];
 }
 
 - (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary<NSString*,id>*)change context:(void*)context {
-    if (object == [DataSource sharedInstance] && [keyPath isEqualToString:NSStringFromSelector(@selector(currentSearchedSpots))]) {
-        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
-        if (kindOfChange == NSKeyValueChangeSetting) {
-            // replace old if there's old
-            [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
-            // set new
-            [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
+    if (object == [DataSource sharedInstance]) {
+        // searched spots
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(currentSearchedSpots))]) {
+            NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+            if (kindOfChange == NSKeyValueChangeSetting) {
+                // replace old if there's old
+                [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
+                // set new
+                [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
+            }
         }
+        
+        else if ([keyPath isEqualToString:NSStringFromSelector(@selector(savedSpotsBeingShown))]) {
+            NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+            if (kindOfChange == NSKeyValueChangeSetting) {
+                // replace old if there's old (need NULL check only if never init to empty array)
+                //if ([change[NSKeyValueChangeOldKey] isKindOfClass:[NSArray class]]) {
+                    [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
+                //}
+                // set new
+                [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
+            }
+        }
+        
     }
 }
 

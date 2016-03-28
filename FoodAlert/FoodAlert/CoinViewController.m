@@ -14,14 +14,15 @@
 #import "SearchViewController.h"
 #import "DataSource.h" // remove when KVO in
 #import "CoinSide.h"
-//#import "CategorySelectViewController.h"
+#import "CategorySelectViewController.h"
 
-@interface CoinViewController () <SearchViewControllerDelegate/*, CategorySelectViewControllerDelegate*/>
+@interface CoinViewController () <SearchViewControllerDelegate, CategorySelectViewControllerDelegate>
 @property (nonatomic) UIView* currentView;
 @property (nonatomic) MapViewController<CoinSide>* mapViewController; // if generic, just be CoinSide
 //@property (nonatomic) SimpleListViewController* listViewController;
 @property (nonatomic) ListTableViewController<CoinSide>* listViewController; // just needs be CoinSide
 @property (nonatomic) SearchViewController* searchViewController;
+@property (nonatomic) CategorySelectViewController* categoryFilterModal;
 // Outlets
 @property (weak, nonatomic) IBOutlet UIView* view1; // mapVC container
 @property (weak, nonatomic) IBOutlet UIView* view2; // listVC container
@@ -40,6 +41,7 @@
     self.searchViewController.listViewController = self.listViewController;
     
     self.searchViewController.delegate = self;
+    //self.categoryFilterModal.delegate = self; // too early
 }
 
 - (void) didReceiveMemoryWarning {
@@ -69,6 +71,9 @@
         [DataSource sharedInstance].listVC = self.listViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
+    } else if ([segue.identifier isEqualToString:@"categoryFilter"]) {
+        self.categoryFilterModal = (CategorySelectViewController*) segue.destinationViewController;
+        self.categoryFilterModal.delegate = self;
     }
 }
 
@@ -110,11 +115,11 @@
     }];
 }
 
-//#pragma mark - CatSelect VC delegate
-//
-//- (void) didSelectCategory:(Categorie*)category {
-//    
-//}
+#pragma mark - CatSelect VC delegate
+
+- (void) didSelectCategory:(Categorie*)category {
+    [[DataSource sharedInstance] filterSavedSpotsWithCategory:category];
+}
 
 #pragma mark - Search VC delegate
 

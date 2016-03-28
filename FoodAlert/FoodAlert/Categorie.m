@@ -27,6 +27,15 @@
     return [self initWithTitle:@"" color:color];
 }
 
+// for filtering
+- (BOOL) isEqual:(id)object {
+    if ([object isKindOfClass:[Categorie class]]) {
+        Categorie* category = (Categorie*)object;
+        return [self.title isEqualToString:category.title] && [self.color isEqual:category.color];
+    }
+    return NO;
+}
+
 // should only be called by setCategory (or addCategory later maybe)
 - (void) addSavedSpot:(Spot*)savedSpot {
     if (!self.spotsInCategory) { // because weak pointer

@@ -253,7 +253,7 @@
                                         <rect key="frame" x="511" y="17" width="30" height="30"/>
                                         <state key="normal" title="Cat"/>
                                         <connections>
-                                            <segue destination="Plh-i8-Oe6" kind="presentation" id="qrv-vj-OeQ"/>
+                                            <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categoryFilter" id="qrv-vj-OeQ"/>
                                         </connections>
                                     </button>
                                 </subviews>

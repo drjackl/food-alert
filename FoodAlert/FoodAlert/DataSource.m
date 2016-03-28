@@ -7,7 +7,6 @@
 //
 
 #import "DataSource.h"
-#include "Categorie.h"
 
 @implementation DataSource
 
@@ -27,15 +26,19 @@
         self.categories = [NSArray array];
         
         self.currentSearchedSpots = [NSArray array];
+        self.savedSpotsBeingShown = [NSArray array];
                 
         [self unarchiveSavedSpots];
         [self unarchiveCategories];
-        
-        // self cleanup, should not need later
-//        self.categories = [self defaultCategories];
-//        [self archiveCategories];
     }
     return self;
+}
+
+- (void) filterSavedSpotsWithCategory:(Categorie*)category {
+    NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+    self.savedSpotsBeingShown = filteredArray;
+    
+    //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new];
 }
 
 #pragma mark - Persisting data
@@ -68,9 +71,12 @@
                 NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
                 self.savedSpots = mutableSavedSpots;
                 
+                // set visible spots after unarchiving
+                self.savedSpotsBeingShown = self.savedSpots;
+                
                 // delete when KVO in for savedSpots
-                [self.mapVC addSpots:self.savedSpots]; // table ought to load same time here ...
-                [self.listVC reloadTableView];
+                //[self.mapVC addSpots:self.savedSpotsBeingShown]; // table ought to load same time here ...
+                //[self.listVC reloadTableView];
             }
 
         });
@@ -108,7 +114,7 @@
             if (categoriesToLoad.count > 0) {
                 NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
                 self.categories = mutableCategories;
-            } else { // first time
+            } else { // first time running app
                 self.categories = [self defaultCategories];
                 [self archiveCategories];
             }

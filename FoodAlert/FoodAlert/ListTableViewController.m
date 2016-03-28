@@ -19,18 +19,33 @@ static const NSInteger SavedSection = 1;
 
 - (void) viewDidLoad {
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown)) options:0 context:nil];
 }
 
 - (void) dealloc {
     [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots))];
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown))];
 }
 
 - (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary<NSString*,id> *)change context:(void*)context {
-    if (object == [DataSource sharedInstance] && [keyPath isEqualToString:NSStringFromSelector(@selector(currentSearchedSpots))]) {
-        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
-        if (kindOfChange == NSKeyValueChangeSetting) {
-            // lazy for now (should just reload table rows relating to the search)
-            [self.tableView reloadData];
+    if (object == [DataSource sharedInstance]) {
+        
+        // search spots
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(currentSearchedSpots))]) {
+            NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+            if (kindOfChange == NSKeyValueChangeSetting) {
+                // lazy for now (should just reload table rows relating to the search)
+                [self.tableView reloadData];
+            }
+        }
+        
+        // saved spots
+        else if ([keyPath isEqualToString:NSStringFromSelector(@selector(savedSpotsBeingShown))]) {
+            NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+            if (kindOfChange == NSKeyValueChangeSetting) {
+                // lazy for now (should just reload rows related to saved spots)
+                [self.tableView reloadData];
+            }
         }
     }
 }
@@ -73,7 +88,7 @@ static const NSInteger SavedSection = 1;
         case SearchSection:
             return [DataSource sharedInstance].currentSearchedSpots.count;
         case SavedSection:
-            return [DataSource sharedInstance].savedSpots.count;
+            return [DataSource sharedInstance].savedSpotsBeingShown.count;
     }
     return 0; // should never get here
     //return [DataSource sharedInstance].savedSpots.count + [DataSource sharedInstance].currentSearchedSpots.count;
@@ -98,7 +113,7 @@ static const NSInteger SavedSection = 1;
         spot = [DataSource sharedInstance].currentSearchedSpots[indexPath.row];
         spotIconIdentifier = @"spotSearched";
     } else if (indexPath.section == SavedSection) {
-        spot = [DataSource sharedInstance].savedSpots[indexPath.row];
+        spot = [DataSource sharedInstance].savedSpotsBeingShown[indexPath.row];
         spotIconIdentifier = @"spotSaved";
     }
     

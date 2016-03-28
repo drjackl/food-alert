@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MapViewController.h"
 #import "ListTableViewController.h"
+#import "Categorie.h"
 
 @interface DataSource : NSObject
 
@@ -17,11 +18,13 @@
 @property (nonatomic) NSMutableArray* savedSpots;
 @property (nonatomic) NSArray* categories;
 
-//@property (nonatomic) NSArray* savedSpotsBeingShown;
+@property (nonatomic) NSArray* savedSpotsBeingShown;
 @property (nonatomic) NSArray* currentSearchedSpots;
 
 @property (nonatomic) MapViewController* mapVC; // until get KVO in
 @property (nonatomic) ListTableViewController* listVC;
+
+- (void) filterSavedSpotsWithCategory:(Categorie*)category;
 
 // both should be taken out after KVO? (save on any change to savedSpots?)
 - (void) archiveSavedSpots;

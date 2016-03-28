@@ -17,6 +17,8 @@
 
 @implementation CategorySelectViewController
 
+// initWithCoder, commonInit, presentationControllerFor... are all based off the iOS8 UIPresCtl proj
+
 // thought the swift method was regular init, argh!
 - (instancetype) initWithCoder:(NSCoder*)coder {
     self = [super initWithCoder:coder];
@@ -25,15 +27,6 @@
     }
     return self;
 }
-
-//// this never gets called
-//- (instancetype) initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil {
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        [self commonInit];
-//    }
-//    return self;
-//}
 
 - (void)commonInit {
     self.transitioningDelegate = self;
@@ -49,10 +42,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;'
-    
-    // moved to init (commonInit), as these are added after the view is loaded, which is wrong
-//    self.modalPresentationStyle = UIModalPresentationCustom;
-//    self.transitioningDelegate = self;
     
     self.view.layer.cornerRadius = 10.0;
 }
