@@ -12,6 +12,8 @@
 #import "Spot.h"
 #import "DataSource.h"
 #import "CategorySelectViewController.h"
+#import "CalloutViewController.h"
+#import "CategoryPresentationController.h"
 
 @interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
@@ -123,23 +125,19 @@
     // handle Spot annotations
     if ([annotation isKindOfClass:[Spot class]]) {
         // try to dequeue an existing pin first (maybe don't need check if new one created)
-        //MKPinAnnotationView* spotAnnotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"spotPinAnnotationView"];
         MKAnnotationView* spotAnnotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"spotSimpleShapeAnnotationView"];
         
         if (!spotAnnotationView) { // if existing pin not available, create one (maybe don't need to create new one)
             spotAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotSimpleShapeAnnotationView"];
-            //spotAnnotationView.animatesDrop = YES; // specific to MKPinAV
-            spotAnnotationView.canShowCallout = YES;
+            //spotAnnotationView.canShowCallout = YES; // for custom image MKAV
+            spotAnnotationView.canShowCallout = NO; // for own callout
             
             spotAnnotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
-            //spotAnnotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoDark];
-            //spotAnnotationView.detailCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-            //[saveButton addTarget:self action:@selector(saveSpot:) forControlEvents:UIControlEventTouchUpInside];
             
             UIButton* categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            //[categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
+            //[categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal]; // refactored out to updateCatButton
             [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            //categoryButton.backgroundColor = [UIColor redColor];
+            //categoryButton.backgroundColor = [UIColor redColor]; // refactored out to updateCatButton
             categoryButton.userInteractionEnabled = YES;
             categoryButton.frame = CGRectMake(0, 0, 200, 20);
             spotAnnotationView.rightCalloutAccessoryView = categoryButton;
@@ -149,15 +147,14 @@
         
         [self updateCategoryButtonOfAnnotationView:spotAnnotationView];
         
-        if ([annotation isKindOfClass:[Spot class]]) {
-            Spot* recastedSpotAnnotation = (Spot*)annotation;
-            if (recastedSpotAnnotation.saved) {
-                //spotAnnotationView.pinTintColor = [UIColor yellowColor]; // specific to MKPinAV
-                spotAnnotationView.image = [UIImage imageNamed:@"spotSaved"];
-            } else {
-                //spotAnnotationView.pinTintColor = [UIColor blueColor]; // specific to MKPinAV
-                spotAnnotationView.image = [UIImage imageNamed:@"spotSearched"];
-            }
+        
+        Spot* recastedSpotAnnotation = (Spot*)annotation;
+        if (recastedSpotAnnotation.saved) {
+            //spotAnnotationView.pinTintColor = [UIColor yellowColor]; // specific to MKPinAV
+            spotAnnotationView.image = [UIImage imageNamed:@"spotSaved"];
+        } else {
+            //spotAnnotationView.pinTintColor = [UIColor blueColor]; // specific to MKPinAV
+            spotAnnotationView.image = [UIImage imageNamed:@"spotSearched"];
         }
         
         return spotAnnotationView;
@@ -166,6 +163,7 @@
     return nil;
 }
 
+// custom image MKAV: save spot if + button tapped, select category if right button selected
 - (void) mapView:(MKMapView*)mapView annotationView:(MKAnnotationView*)view calloutAccessoryControlTapped:(UIControl*)control {
     if ([control isKindOfClass:[UIButton class]]) {
         UIButton* buttonControl = (UIButton*)control;
@@ -179,6 +177,33 @@
             [self performSegueWithIdentifier:@"categorySelect" sender:self];
         }
     }
+}
+
+- (void) mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView*)view {
+    self.currentAnnotationView = view;
+    self.currentSelectedSpot = (Spot*)view.annotation;
+    
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    
+    CalloutViewController* calloutViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"callout2"];
+    calloutViewController.spot = (Spot*)view.annotation;
+    
+    //CategoryPresentationController* categoryPC = [[CategoryPresentationController alloc] initWithPresentedViewController:self presentingViewController:calloutViewController];
+    
+    //UIPopoverController* popoverController = [[UIPopoverController alloc] initWithContentViewController:calloutViewController];
+    //[popoverController presentPopoverFromRect:view.frame inView:view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [mapView addSubview:calloutViewController.view];
+    calloutViewController.view.frame = CGRectMake(100, 300, 300, 300);
+    
+    //[categoryPC present];
+}
+
+- (void) mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView*)view {
+    self.currentAnnotationView = nil;
+    self.currentSelectedSpot = nil;
+    
+    // remove calloutVC
 }
 
 - (void) saveSpot:(Spot*)spot {
@@ -201,6 +226,7 @@
 
 #pragma mark - Category Select Modal delegate
 
+// was implemented for custom MKAV and standard callout (category was right accessory view)
 - (void) didSelectCategory:(Categorie *)category {
     self.currentSelectedSpot.category = category;
     [self updateCategoryButtonOfAnnotationView:self.currentAnnotationView];

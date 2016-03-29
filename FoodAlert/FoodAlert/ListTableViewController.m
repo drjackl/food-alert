@@ -127,9 +127,9 @@ static const NSInteger SavedSection = 1;
     UILabel* listTitleLabel = (UILabel*)[cell viewWithTag:112];
     listTitleLabel.text = spot.title;
     UILabel* listSubtitleLabel = (UILabel*)[cell viewWithTag:113];
-    NSArray* addressLines = spot.addressDictionary[@"FormattedAddressLines"];
-    NSString* addressString = [addressLines componentsJoinedByString:@", "];
-    listSubtitleLabel.text = addressString;
+    //NSArray* addressLines = spot.addressDictionary[@"FormattedAddressLines"];
+    //NSString* addressString = [addressLines componentsJoinedByString:@", "];
+    listSubtitleLabel.text = [spot formattedAddressWithSeparator:@", "];//addressString;
     //ABCreateStringWithAddressDictionary(spot.addressDictionary, YES); // deprecated, warning says to use CNPostAddressFormatter, but this solution seems easier than doing that conversion
     
     

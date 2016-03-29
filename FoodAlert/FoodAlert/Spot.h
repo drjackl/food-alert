@@ -27,4 +27,6 @@
 
 - (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title addressDictionary:(NSDictionary*)addressDictionary phone:(NSString*)phone url:(NSURL*)url;
 
+- (NSString*) formattedAddressWithSeparator:(NSString*)separator;
+
 @end

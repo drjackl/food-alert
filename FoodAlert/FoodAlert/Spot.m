@@ -32,6 +32,14 @@
     [category addSavedSpot:self];
 }
 
+- (NSString*) formattedAddressWithSeparator:(NSString*)separator {
+    NSMutableString* formattedString = [NSMutableString string];
+    NSArray* addressLines = self.addressDictionary[@"FormattedAddressLines"];
+    NSString* addressString = [addressLines componentsJoinedByString:separator];
+    [formattedString appendString:addressString];
+    return formattedString;
+}
+
 
 #pragma mark - NSCoding
 
