@@ -458,7 +458,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQa-NR-pt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1376" y="-991"/>
+            <point key="canvasLocation" x="1625" y="-854"/>
         </scene>
         <!--Callout View Controller-->
         <scene sceneID="qA2-7V-inM">
@@ -468,7 +468,7 @@
                         <viewControllerLayoutGuide type="top" id="VQ6-Ug-XAt"/>
                         <viewControllerLayoutGuide type="bottom" id="b86-VO-0zS"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="G58-Ot-lKA">
+                    <view key="view" alpha="0.75" contentMode="scaleToFill" id="G58-Ot-lKA">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -487,6 +487,10 @@
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cmh-D4-UpI">
                                         <rect key="frame" x="0.0" y="0.0" width="63" height="30"/>
                                         <state key="normal" title="Category"/>
+                                        <connections>
+                                            <action selector="popupCategorySelect" destination="52y-4S-Pin" eventType="touchUpInside" id="n4t-UY-HX2"/>
+                                            <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categorySelect" id="Rde-eD-Sf3"/>
+                                        </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="fbE-bq-c1J">
                                         <rect key="frame" x="178" y="0.0" width="90" height="30"/>
@@ -519,6 +523,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h6l-V0-2zB">
                                         <rect key="frame" x="234" y="-4" width="34" height="30"/>
                                         <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="saveSpot" destination="52y-4S-Pin" eventType="touchUpInside" id="bQH-du-hrJ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -546,7 +553,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hge-U8-su1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1365" y="-685"/>
+            <point key="canvasLocation" x="1304" y="-1253"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="54u-Gr-n0Q">
@@ -583,13 +590,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alignment="lastBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="oWI-To-67r">
                                 <rect key="frame" x="20" y="78" width="560" height="80"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he9-vH-pcl">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he9-vH-pcl">
                                         <rect key="frame" x="0.0" y="29" width="347" height="51"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVe-9N-2oa">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVe-9N-2oa">
                                         <rect key="frame" x="347" y="0.0" width="171" height="86"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="72"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -786,6 +793,6 @@
         <image name="spotSaved" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="NyF-4r-sxb"/>
+        <segue reference="Rde-eD-Sf3"/>
     </inferredMetricsTieBreakers>
 </document>

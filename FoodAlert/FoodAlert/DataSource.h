@@ -26,6 +26,9 @@
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category;
 
+
+- (void) saveSpot:(Spot*)spot;
+
 // both should be taken out after KVO? (save on any change to savedSpots?)
 - (void) archiveSavedSpots;
 - (void) unarchiveSavedSpots;

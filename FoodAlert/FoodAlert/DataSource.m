@@ -7,6 +7,7 @@
 //
 
 #import "DataSource.h"
+#import "Spot.h"
 
 @implementation DataSource
 
@@ -42,6 +43,13 @@
 }
 
 #pragma mark - Persisting data
+
+- (void) saveSpot:(Spot*)spot {
+    spot.saved = YES;
+    [self.savedSpots addObject:spot];
+    
+    [self archiveSavedSpots];
+}
 
 - (void) archiveSavedSpots {
     // based off blocstagram

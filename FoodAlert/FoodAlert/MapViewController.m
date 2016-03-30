@@ -23,6 +23,8 @@
 
 @property (nonatomic) Spot* currentSelectedSpot;
 @property (nonatomic) MKAnnotationView* currentAnnotationView;
+
+@property (nonatomic) CalloutViewController* calloutViewController;
 @end
 
 @implementation MapViewController
@@ -164,6 +166,7 @@
 }
 
 // custom image MKAV: save spot if + button tapped, select category if right button selected
+// probably not needed once custom callout in place
 - (void) mapView:(MKMapView*)mapView annotationView:(MKAnnotationView*)view calloutAccessoryControlTapped:(UIControl*)control {
     if ([control isKindOfClass:[UIButton class]]) {
         UIButton* buttonControl = (UIButton*)control;
@@ -183,18 +186,24 @@
     self.currentAnnotationView = view;
     self.currentSelectedSpot = (Spot*)view.annotation;
     
-    [mapView deselectAnnotation:view.annotation animated:YES];
+    //[mapView deselectAnnotation:view.annotation animated:YES];
     
-    CalloutViewController* calloutViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"callout2"];
-    calloutViewController.spot = (Spot*)view.annotation;
+    if (!self.calloutViewController) { // 1. init VC
+        self.calloutViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"callout2"];
+    }
+    self.calloutViewController.spot = (Spot*)view.annotation; // 2. attributes
+    [self addChildViewController:self.calloutViewController]; // 3. addChildVC
+    [mapView addSubview:self.calloutViewController.view]; // 4. addSubview
+    self.calloutViewController.view.frame = CGRectMake(100, 300, 300, 300); // 5. position
+
     
     //CategoryPresentationController* categoryPC = [[CategoryPresentationController alloc] initWithPresentedViewController:self presentingViewController:calloutViewController];
     
     //UIPopoverController* popoverController = [[UIPopoverController alloc] initWithContentViewController:calloutViewController];
     //[popoverController presentPopoverFromRect:view.frame inView:view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
-    [mapView addSubview:calloutViewController.view];
-    calloutViewController.view.frame = CGRectMake(100, 300, 300, 300);
+//    [mapView addSubview:calloutViewController.view];
+//    calloutViewController.view.frame = CGRectMake(100, 300, 300, 300);
     
     //[categoryPC present];
 }
@@ -204,13 +213,13 @@
     self.currentSelectedSpot = nil;
     
     // remove calloutVC
+    [self.calloutViewController.view removeFromSuperview];
+    [self.calloutViewController removeFromParentViewController];
 }
 
+// refactored to DataSource, probably not needed anymore
 - (void) saveSpot:(Spot*)spot {
-    spot.saved = YES;
-    [[DataSource sharedInstance].savedSpots addObject:spot];
-    
-    [[DataSource sharedInstance] archiveSavedSpots];
+    [[DataSource sharedInstance] saveSpot:spot];
 }
 
 - (void) updateCategoryButtonOfAnnotationView:(MKAnnotationView*)annotationView {

@@ -8,8 +8,10 @@
 
 #import "CalloutViewController.h"
 #import "Categorie.h"
+#import "DataSource.h"
+#import "CategorySelectViewController.h"
 
-@interface CalloutViewController ()
+@interface CalloutViewController () <CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -26,6 +28,7 @@
     // Do any additional setup after loading the view.
     
     [self updateViewBasedOnSpot];
+    //[self.categoryButton addTarget:self action:@selector(popupCategorySelect) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,11 +36,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (void) setSpot:(Spot*)spot {
-//    _spot = spot;
-//    
-//    // interesting view hasn't been loaded here yet
-//}
+- (void) setSpot:(Spot*)spot {
+    _spot = spot;
+    
+    // interesting view hasn't been loaded here yet (initially it seems)
+    [self updateViewBasedOnSpot]; // needed for subsequent annotation taps
+}
 
 - (void) updateViewBasedOnSpot {
     self.titleLabel.text = self.spot.title;
@@ -51,14 +55,40 @@
                                      self.spot.url.absoluteString];
 }
 
-/*
+- (IBAction) saveSpot {
+    NSLog(@"save pushed");
+    [[DataSource sharedInstance] saveSpot:self.spot];
+}
+
+- (IBAction) popupCategorySelect {
+    NSLog(@"cat pushed");
+    [self performSegueWithIdentifier:@"categorySelect" sender:self];
+}
+
+- (void) didSelectCategory:(Categorie*)category {
+    self.spot.category = category;
+    
+    // update category title and color
+    [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
+    self.categoryButton.backgroundColor = category.color;
+    
+    // somehow, these aren't saving ... or are they now ...
+    [[DataSource sharedInstance] archiveCategories];
+    [[DataSource sharedInstance] archiveSavedSpots];
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void) prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"categorySelect"]) {
+        ((CategorySelectViewController*)segue.destinationViewController).delegate = self;
+    }
 }
-*/
+
 
 @end
