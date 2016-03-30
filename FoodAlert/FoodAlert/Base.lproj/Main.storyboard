@@ -458,7 +458,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQa-NR-pt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1625" y="-854"/>
+            <point key="canvasLocation" x="1595" y="-860"/>
         </scene>
         <!--Callout View Controller-->
         <scene sceneID="qA2-7V-inM">
@@ -480,6 +480,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="D3K-iG-Qa5">
                                 <rect key="frame" x="16" y="170" width="268" height="30"/>
@@ -622,7 +623,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aag-SL-Dof" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1882" y="-654"/>
+            <point key="canvasLocation" x="2134" y="-836"/>
         </scene>
         <!--List Table View Controller-->
         <scene sceneID="c4f-aY-LZn">

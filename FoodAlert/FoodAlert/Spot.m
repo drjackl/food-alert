@@ -23,6 +23,8 @@
         _url = url;
         
         self.saved = NO;
+        
+        self.notes = @"";
     }
     return self;
 }
@@ -63,6 +65,8 @@
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
         
         self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
+        
+        self.notes = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(notes))];
     }
     return self;
 }
@@ -82,6 +86,8 @@
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
     
     [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
+    
+    [aCoder encodeObject:self.notes forKey:NSStringFromSelector(@selector(notes))];
 }
 
 @end

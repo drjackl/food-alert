@@ -13,4 +13,6 @@
 
 @property (nonatomic) Spot* spot;
 
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+
 @end

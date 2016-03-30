@@ -14,7 +14,6 @@
 @interface CalloutViewController () <CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
-@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 @property (weak, nonatomic) IBOutlet UIButton *driveButton;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
@@ -49,10 +48,11 @@
     [self.categoryButton setTitle:titleText forState:UIControlStateNormal];
     self.categoryButton.backgroundColor = self.spot.category.color;
     
-    self.descriptionTextView.text = [NSString stringWithFormat:@"%@\n%@\n%@",
-                                     [self.spot formattedAddressWithSeparator:@"\n"],
-                                     self.spot.phone,
-                                     self.spot.url.absoluteString];
+//    self.descriptionTextView.text = [NSString stringWithFormat:@"%@\n%@\n%@",
+//                                     [self.spot formattedAddressWithSeparator:@"\n"],
+//                                     self.spot.phone,
+//                                     self.spot.url.absoluteString];
+    self.descriptionTextView.text = self.spot.notes;
 }
 
 - (IBAction) saveSpot {

@@ -25,6 +25,8 @@
 
 @property (nonatomic) Categorie* category; // Spot -strong-> Cat -weak-> SpotArray -strong-> Spot
 
+@property (nonatomic) NSString* notes;
+
 - (instancetype) initWithCoordinates:(CLLocationCoordinate2D)coordinate title:(NSString*)title addressDictionary:(NSDictionary*)addressDictionary phone:(NSString*)phone url:(NSURL*)url;
 
 - (NSString*) formattedAddressWithSeparator:(NSString*)separator;
