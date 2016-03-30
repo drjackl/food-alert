@@ -191,7 +191,9 @@
     // if a previous annotation was selected before this, save the notes (and the spot)
     if (self.currentSelectedSpot) {
         self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
-        [[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
+        //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
+        // should not be adding another spot (just do normal save)
+        [[DataSource sharedInstance] archiveSavedSpots];
     }
     
     
@@ -224,7 +226,9 @@
     // if a previous annotation was selected before this, save the notes (and the spot)
     if (self.currentSelectedSpot) {
         self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
-        [[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
+        //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
+        // should not be adding another spot (just do normal save)
+        [[DataSource sharedInstance] archiveSavedSpots];
     }
 
     self.currentAnnotationView = nil;

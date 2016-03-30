@@ -503,6 +503,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdu-JQ-heO">
                                                 <rect key="frame" x="30" y="0.0" width="30" height="30"/>
                                                 <state key="normal" title="Shr"/>
+                                                <connections>
+                                                    <action selector="shareSpot" destination="52y-4S-Pin" eventType="touchUpInside" id="N6j-eJ-Bmi"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcm-im-9JG">
                                                 <rect key="frame" x="60" y="0.0" width="30" height="30"/>

@@ -56,12 +56,16 @@
 }
 
 - (IBAction) saveSpot {
-    NSLog(@"save pushed");
     [[DataSource sharedInstance] saveSpot:self.spot];
 }
 
+- (IBAction) shareSpot {
+    NSArray* itemsToShare = @[self.spot.title, self.spot.addressDictionary, self.spot.notes];
+    UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+    [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
 - (IBAction) popupCategorySelect {
-    NSLog(@"cat pushed");
     [self performSegueWithIdentifier:@"categorySelect" sender:self];
 }
 
