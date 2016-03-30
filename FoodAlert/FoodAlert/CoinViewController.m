@@ -95,18 +95,18 @@
     
     //UIView* otherView = self.currentView==self.view1 ? self.view2 : self.view1; // pre transition customization
     
-    // coin flip back and forth transition
-    //    UIView* otherView;
-    //    UIViewAnimationOptions transition;
-    //    if (self.currentView == self.view1) {
-    //        otherView = self.view2;
-    //        transition = UIViewAnimationOptionTransitionFlipFromLeft;
-    //    } else {
-    //        otherView = self.view1;
-    //        transition = UIViewAnimationOptionTransitionFlipFromRight;
-    //    }
-    //    [UIView transitionFromView:self.currentView toView:otherView duration:0.5 options:transition completion:nil];
-    //    self.currentView = otherView;
+    //coin flip back and forth transition
+//    UIView* otherView;
+//    UIViewAnimationOptions transition;
+//    if (self.currentView == self.view1) {
+//        otherView = self.view2;
+//        transition = UIViewAnimationOptionTransitionFlipFromLeft;
+//    } else {
+//        otherView = self.view1;
+//        transition = UIViewAnimationOptionTransitionFlipFromRight;
+//    }
+//    [UIView transitionFromView:self.currentView toView:otherView duration:0.5 options:transition completion:nil];
+//    self.currentView = otherView;
 }
 
 - (IBAction) showSearch {

@@ -190,7 +190,9 @@
     
     // if a previous annotation was selected before this, save the notes (and the spot)
     if (self.currentSelectedSpot) {
+        // KVO on Spots too?
         self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
+        
         //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
         // should not be adding another spot (just do normal save)
         [[DataSource sharedInstance] archiveSavedSpots];
@@ -208,7 +210,7 @@
     self.calloutViewController.spot = (Spot*)view.annotation; // 2. attributes
     [self addChildViewController:self.calloutViewController]; // 3. addChildVC
     [mapView addSubview:self.calloutViewController.view]; // 4. addSubview
-    self.calloutViewController.view.frame = CGRectMake(100, 150, 300, 300); // 5. position
+    self.calloutViewController.view.frame = CGRectMake(100, 150, 250, 200); // 5. position
 
     
     //CategoryPresentationController* categoryPC = [[CategoryPresentationController alloc] initWithPresentedViewController:self presentingViewController:calloutViewController];
@@ -225,7 +227,9 @@
 - (void) mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView*)view {
     // if a previous annotation was selected before this, save the notes (and the spot)
     if (self.currentSelectedSpot) {
+        // KVO on Spots too?
         self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
+        
         //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
         // should not be adding another spot (just do normal save)
         [[DataSource sharedInstance] archiveSavedSpots];

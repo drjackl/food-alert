@@ -44,6 +44,11 @@
 
 - (void) updateViewBasedOnSpot {
     self.titleLabel.text = self.spot.title;
+    
+    //self.saveButton.userInteractionEnabled = !self.spot.saved; // still blue, misleading
+    self.saveButton.enabled = !self.spot.saved;
+    
+    // category button
     NSString* titleText = self.spot.category ? self.spot.category.title : NSLocalizedString(@"<category>", @"default category label");
     [self.categoryButton setTitle:titleText forState:UIControlStateNormal];
     self.categoryButton.backgroundColor = self.spot.category.color;
@@ -56,6 +61,8 @@
 }
 
 - (IBAction) saveSpot {
+    self.saveButton.enabled = NO; // disable right away (must do this if in list view too)
+    
     [[DataSource sharedInstance] saveSpot:self.spot];
 }
 

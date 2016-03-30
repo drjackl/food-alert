@@ -28,6 +28,7 @@
 		04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E6FEF61C9547AE00AB0E61 /* SearchViewController.m */; };
 		04FA74671CA98156007E74EC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FA74661CA98154007E74EC /* CoreLocation.framework */; };
 		04FA746A1CA9B473007E74EC /* CalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74691CA9B472007E74EC /* CalloutViewController.m */; };
+		04FA746D1CAC1FF2007E74EC /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA746C1CAC1FF2007E74EC /* Category.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,8 @@
 		04FA74661CA98154007E74EC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		04FA74681CA9B472007E74EC /* CalloutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutViewController.h; sourceTree = "<group>"; };
 		04FA74691CA9B472007E74EC /* CalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutViewController.m; sourceTree = "<group>"; };
+		04FA746B1CAC1FF2007E74EC /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
+		04FA746C1CAC1FF2007E74EC /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +173,8 @@
 				04CC5ED81C9C4FE700BF3B62 /* Spot.m */,
 				04CC5F731C9F8C8400BF3B62 /* Categorie.h */,
 				04CC5F741C9F8C8400BF3B62 /* Categorie.m */,
+				04FA746B1CAC1FF2007E74EC /* Category.h */,
+				04FA746C1CAC1FF2007E74EC /* Category.m */,
 				04E6FEC61C9483E100AB0E61 /* Main.storyboard */,
 				04E6FEC91C9483E200AB0E61 /* Assets.xcassets */,
 				04E6FECB1C9483E200AB0E61 /* LaunchScreen.storyboard */,
@@ -347,6 +352,7 @@
 				04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */,
 				04FA746A1CA9B473007E74EC /* CalloutViewController.m in Sources */,
 				04A2B1AB1CA4BFB60062BFD6 /* CategorySelectViewController.m in Sources */,
+				04FA746D1CAC1FF2007E74EC /* Category.m in Sources */,
 				040635A01C9A5A650027FDD9 /* ListTableViewController.m in Sources */,
 				04CC5ED91C9C4FE700BF3B62 /* Spot.m in Sources */,
 				04CC5F751C9F8C8400BF3B62 /* Categorie.m in Sources */,

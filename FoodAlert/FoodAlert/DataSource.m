@@ -9,6 +9,10 @@
 #import "DataSource.h"
 #import "Spot.h"
 
+@interface DataSource ()
+@property (nonatomic) Categorie* filterCategory;
+@end
+
 @implementation DataSource
 
 + (instancetype) sharedInstance {
@@ -36,10 +40,20 @@
 }
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category {
-    NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-    self.savedSpotsBeingShown = filteredArray;
+    self.filterCategory = category;
+    
+    if (category) {
+        NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+        self.savedSpotsBeingShown = filteredArray;
+    } else {
+        self.savedSpotsBeingShown = self.savedSpots;
+    }
     
     //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new];
+}
+
+- (void) refreshSavedSpotsBeingShown {
+    [self filterSavedSpotsWithCategory:self.filterCategory];
 }
 
 #pragma mark - Persisting data
@@ -47,6 +61,9 @@
 - (void) saveSpot:(Spot*)spot {
     spot.saved = YES;
     [self.savedSpots addObject:spot];
+    
+    // refresh savedSpots (could just add or not based on if it's in current category)
+    [self refreshSavedSpotsBeingShown];
     
     [self archiveSavedSpots];
 }
