@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kEt-qa-xIi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-138" y="-1626"/>
+            <point key="canvasLocation" x="-712" y="-1640"/>
         </scene>
         <!--Category Select View Controller-->
         <scene sceneID="dG3-1k-NPy">
@@ -204,6 +204,86 @@
             </objects>
             <point key="canvasLocation" x="-138" y="-2202"/>
         </scene>
+        <!--Category Add View Controller-->
+        <scene sceneID="eyJ-x5-y2U">
+            <objects>
+                <viewController id="cup-hu-qVh" customClass="CategoryAddViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BvT-Nm-jpV"/>
+                        <viewControllerLayoutGuide type="bottom" id="MeL-eD-Dp8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2nJ-ny-gfs">
+                        <rect key="frame" x="0.0" y="0.0" width="250" height="200"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zTy-iS-rUv">
+                                <rect key="frame" x="0.0" y="52" width="200" height="118"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PJo-4w-Zo1">
+                                        <rect key="frame" x="52" y="17" width="97" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swipe For Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MHc-5a-jp6">
+                                        <rect key="frame" x="39" y="88" width="122" height="21"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="glJ-sl-XeL">
+                                <rect key="frame" x="214" y="16" width="30" height="30"/>
+                                <state key="normal" title="Add"/>
+                                <connections>
+                                    <action selector="addCategory" destination="cup-hu-qVh" eventType="touchUpInside" id="KMw-c4-diN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S1x-lh-eBn">
+                                <rect key="frame" x="5" y="16" width="48" height="30"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="dismissViewController" destination="cup-hu-qVh" eventType="touchUpInside" id="2yR-8z-3Fo"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GW-fB-obL">
+                                <rect key="frame" x="79" y="20" width="106" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="9wz-6e-Ei5" appends="YES" id="Bj9-2P-ar4"/>
+                            <outletCollection property="gestureRecognizers" destination="O6W-1v-Znm" appends="YES" id="mE0-dJ-PQD"/>
+                        </connections>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="250" height="200"/>
+                    <connections>
+                        <outlet property="addButton" destination="glJ-sl-XeL" id="Cux-vZ-qJD"/>
+                        <outlet property="colorView" destination="zTy-iS-rUv" id="mHK-6G-Cdh"/>
+                        <outlet property="nameTextField" destination="PJo-4w-Zo1" id="JdB-4w-BuU"/>
+                        <outlet property="swipeForColorLabel" destination="MHc-5a-jp6" id="s7B-b2-hho"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SYM-qa-jrt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="O6W-1v-Znm">
+                    <connections>
+                        <action selector="swipeLeftGestureDidFire:" destination="cup-hu-qVh" id="7Rc-fa-cuY"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="9wz-6e-Ei5">
+                    <connections>
+                        <action selector="swipeRightGestureDidFire:" destination="cup-hu-qVh" id="kNj-Pj-CKF"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-155" y="-1619"/>
+        </scene>
         <!--Coin View Controller-->
         <scene sceneID="y1w-hz-cZW">
             <objects>
@@ -253,7 +333,7 @@
                                         <rect key="frame" x="511" y="17" width="30" height="30"/>
                                         <state key="normal" title="Cat"/>
                                         <connections>
-                                            <segue destination="2nG-Lm-RYG" kind="presentation" id="Rkr-Wu-n2m"/>
+                                            <segue destination="cup-hu-qVh" kind="presentation" id="il1-Ot-oMq"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -300,8 +380,8 @@
                                     <constraint firstItem="sFn-mh-Oiq" firstAttribute="height" secondItem="sEt-Vz-QaU" secondAttribute="height" id="wNs-z9-9NQ"/>
                                 </constraints>
                             </view>
-                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
-                                <rect key="frame" x="0.0" y="40" width="600" height="600"/>
+                            <containerView opaque="NO" alpha="0.0" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rxE-pV-B18">
+                                <rect key="frame" x="0.0" y="95" width="600" height="600"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="600" id="aeQ-GN-NKm"/>
                                 </constraints>
@@ -798,6 +878,6 @@
         <image name="spotSaved" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rde-eD-Sf3"/>
+        <segue reference="NyF-4r-sxb"/>
     </inferredMetricsTieBreakers>
 </document>

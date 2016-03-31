@@ -28,13 +28,15 @@
     self = [super init];
     if (self) {
         self.savedSpots = [NSMutableArray array];
-        self.categories = [NSArray array];
+        self.categories = [NSMutableArray array];
+        self.unusedColors = [NSMutableArray array];
         
         self.currentSearchedSpots = [NSArray array];
         self.savedSpotsBeingShown = [NSArray array];
                 
         [self unarchiveSavedSpots];
         [self unarchiveCategories];
+        [self unarchiveUnusedColors];
     }
     return self;
 }
@@ -68,20 +70,46 @@
     [self archiveSavedSpots];
 }
 
-- (void) archiveSavedSpots {
+- (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i {
+    UIColor* color = self.unusedColors[i];
+    [self.unusedColors removeObjectAtIndex:i];
+    
+    Categorie* category = [[Categorie alloc] initWithTitle:name color:color];
+    //category.title = name;
+    [self.categories addObject:category];
+    
+    [self archiveCategories];
+    [self archiveunusedColors];
+}
+
+- (void) archiveObject:(NSObject*)object withFilename:(NSString*)filename {
     // based off blocstagram
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForSavedSpots];
-        NSData* savedSpotsToStore = [NSKeyedArchiver archivedDataWithRootObject:self.savedSpots];
+        NSString* fullPath = [self pathForFilename:filename];
+        NSData* objectsToStore = [NSKeyedArchiver archivedDataWithRootObject:object];
         NSError* dataError;
         
-        BOOL wroteSuccessfully = [savedSpotsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+        BOOL wroteSuccessfully = [objectsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
         
         if (!wroteSuccessfully) {
             NSLog(@"Couldn't write file: %@", dataError);
         }
     });
 }
+
+- (void) archiveSavedSpots {
+    [self archiveObject:self.savedSpots withFilename:NSStringFromSelector(@selector(savedSpots))];
+}
+
+- (void) archiveCategories {
+    [self archiveObject:self.categories withFilename:NSStringFromSelector(@selector(categories))];
+}
+
+- (void) archiveunusedColors {
+    [self archiveObject:self.unusedColors withFilename:NSStringFromSelector(@selector(unusedColors))];
+}
+
+//- (void) unarchiveMutableObject
 
 - (void) unarchiveSavedSpots {
     // dispatch to background since unarchiving might be slow
@@ -112,21 +140,6 @@
     return [self pathForFilename:NSStringFromSelector(@selector(savedSpots))];
 }
 
-- (void) archiveCategories {
-    // based off blocstagram
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForCategories];
-        NSData* categoriesToStore = [NSKeyedArchiver archivedDataWithRootObject:self.categories];
-        NSError* dataError;
-        
-        BOOL wroteSuccessfully = [categoriesToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
-        
-        if (!wroteSuccessfully) {
-            NSLog(@"Couldn't write file: %@", dataError);
-        }
-    });
-}
-
 - (void) unarchiveCategories {
     // dispatch to background since unarchiving might be slow
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -140,8 +153,30 @@
                 NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
                 self.categories = mutableCategories;
             } else { // first time running app
-                self.categories = [self defaultCategories];
+                self.categories = [[self defaultCategories] mutableCopy];
                 [self archiveCategories];
+            }
+            
+            // update any views that would be done in KVO (don't think I need to)
+        });
+    });
+}
+
+- (void) unarchiveUnusedColors {
+    // dispatch to background since unarchiving might be slow
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* fullPath = [self pathForFilename:NSStringFromSelector(@selector(unusedColors))];
+        
+        NSArray* categoryColorsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        
+        // once unarchived, dispatch back to main to set savedSpots to what we unarchived
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (categoryColorsToLoad.count > 0) {
+                NSMutableArray* mutableCategoryColors = [categoryColorsToLoad mutableCopy];
+                self.unusedColors = mutableCategoryColors;
+            } else { // first time running app
+                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
+                [self archiveunusedColors];
             }
             
             // update any views that would be done in KVO (don't think I need to)
@@ -151,16 +186,24 @@
 
 - (NSArray*) defaultCategories {
     return @[[[Categorie alloc] initWithTitle:@"Check out later" color:[UIColor redColor]],
-             [[Categorie alloc] initWithTitle:@"Restaurants" color:[UIColor greenColor]],
-             [[Categorie alloc] initWithColor:[UIColor orangeColor]],
-             [[Categorie alloc] initWithColor:[UIColor whiteColor]],
-             [[Categorie alloc] initWithColor:[UIColor cyanColor]],
-             [[Categorie alloc] initWithColor:[UIColor lightGrayColor]],
-             [[Categorie alloc] initWithColor:[UIColor brownColor]],
-             [[Categorie alloc] initWithColor:[UIColor purpleColor]],
-             [[Categorie alloc] initWithColor:[UIColor grayColor]],
-             [[Categorie alloc] initWithColor:[UIColor yellowColor]]];
+             [[Categorie alloc] initWithTitle:@"Restaurants" color:[UIColor greenColor]]];
 }
+
+- (NSArray*) defaultUnusedColors {
+    return @[[UIColor orangeColor],
+             [UIColor whiteColor],
+             [UIColor cyanColor],
+             [UIColor lightGrayColor],
+             [UIColor brownColor],
+             [UIColor purpleColor],
+             [UIColor grayColor],
+             [UIColor yellowColor]];
+}
+
+//- (NSArray*) testunusedColors {
+//    return @[[[Categorie alloc] initWithColor:[UIColor blueColor]],
+//             [[Categorie alloc] initWithColor:[UIColor magentaColor]]];
+//}
 
 - (NSString*) pathForCategories {
     return [self pathForFilename:NSStringFromSelector(@selector(categories))];

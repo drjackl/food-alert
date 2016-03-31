@@ -16,7 +16,8 @@
 + (instancetype) sharedInstance;
 
 @property (nonatomic) NSMutableArray* savedSpots;
-@property (nonatomic) NSArray* categories;
+@property (nonatomic) NSMutableArray* categories;
+@property (nonatomic) NSMutableArray* unusedColors;
 
 @property (nonatomic) NSArray* savedSpotsBeingShown;
 @property (nonatomic) NSArray* currentSearchedSpots;
@@ -26,8 +27,8 @@
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category;
 
-
 - (void) saveSpot:(Spot*)spot;
+- (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i;
 
 // both should be taken out after KVO? (save on any change to savedSpots?)
 - (void) archiveSavedSpots;

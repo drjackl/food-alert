@@ -29,6 +29,7 @@
 		04FA74671CA98156007E74EC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FA74661CA98154007E74EC /* CoreLocation.framework */; };
 		04FA746A1CA9B473007E74EC /* CalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74691CA9B472007E74EC /* CalloutViewController.m */; };
 		04FA746D1CAC1FF2007E74EC /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA746C1CAC1FF2007E74EC /* Category.m */; };
+		04FA74701CACB663007E74EC /* CategoryAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA746F1CACB663007E74EC /* CategoryAddViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,8 @@
 		04FA74691CA9B472007E74EC /* CalloutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutViewController.m; sourceTree = "<group>"; };
 		04FA746B1CAC1FF2007E74EC /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
 		04FA746C1CAC1FF2007E74EC /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		04FA746E1CACB663007E74EC /* CategoryAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryAddViewController.h; sourceTree = "<group>"; };
+		04FA746F1CACB663007E74EC /* CategoryAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryAddViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +166,8 @@
 				04CC5EDB1C9E45A200BF3B62 /* CategoryEditViewController.m */,
 				04A2B1A31CA06FC20062BFD6 /* CategoryEditViewCell.h */,
 				04A2B1A41CA06FC20062BFD6 /* CategoryEditViewCell.m */,
+				04FA746E1CACB663007E74EC /* CategoryAddViewController.h */,
+				04FA746F1CACB663007E74EC /* CategoryAddViewController.m */,
 				04A2B1A91CA4BFB60062BFD6 /* CategorySelectViewController.h */,
 				04A2B1AA1CA4BFB60062BFD6 /* CategorySelectViewController.m */,
 				04A2B1AC1CA4E4AB0062BFD6 /* CategoryPresentationController.h */,
@@ -357,6 +362,7 @@
 				04CC5ED91C9C4FE700BF3B62 /* Spot.m in Sources */,
 				04CC5F751C9F8C8400BF3B62 /* Categorie.m in Sources */,
 				04E6FEF41C9542DC00AB0E61 /* MapViewController.m in Sources */,
+				04FA74701CACB663007E74EC /* CategoryAddViewController.m in Sources */,
 				04CC5EDF1C9E6D0800BF3B62 /* DataSource.m in Sources */,
 				04E6FEF71C9547AE00AB0E61 /* SearchViewController.m in Sources */,
 				04E6FEBC1C9483E100AB0E61 /* main.m in Sources */,

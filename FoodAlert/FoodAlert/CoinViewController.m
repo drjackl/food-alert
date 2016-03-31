@@ -80,33 +80,38 @@
 #pragma mark - Show/Hide
 
 - (IBAction) switchViewControllers {
-    // fade transition
-    if (self.currentView == self.view1) { // if currently on view1
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.view2.alpha = 1.0; // show view2 by making opaque
-        } completion:nil];
-        self.currentView = self.view2;
-    } else {
-        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
-            self.view2.alpha = 0.0; // show view1 by making view2 clear
-        } completion:nil];
-        self.currentView = self.view1;
-    }
-    
-    //UIView* otherView = self.currentView==self.view1 ? self.view2 : self.view1; // pre transition customization
-    
-    //coin flip back and forth transition
-//    UIView* otherView;
-//    UIViewAnimationOptions transition;
-//    if (self.currentView == self.view1) {
-//        otherView = self.view2;
-//        transition = UIViewAnimationOptionTransitionFlipFromLeft;
+//    // fade transition
+//    if (self.currentView == self.view1) { // if currently on view1
+//        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
+//            self.view2.alpha = 1.0; // show view2 by making opaque
+//        } completion:nil];
+//        self.currentView = self.view2;
 //    } else {
-//        otherView = self.view1;
-//        transition = UIViewAnimationOptionTransitionFlipFromRight;
+//        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
+//            self.view2.alpha = 0.0; // show view1 by making view2 clear
+//        } completion:nil];
+//        self.currentView = self.view1;
 //    }
-//    [UIView transitionFromView:self.currentView toView:otherView duration:0.5 options:transition completion:nil];
-//    self.currentView = otherView;
+    
+    // fade transition refactored
+    CGFloat opacity;
+    if (self.currentView == self.view1) {
+        self.currentView = self.view2;
+        opacity = 1.0; // show view2 by making opaque
+    } else {
+        self.currentView = self.view1;
+        opacity = 0.0; // show view1 by making view2 clear
+    }
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
+        self.view2.alpha = opacity;
+    } completion:nil];
+    
+//    // fade transition: two if-statements
+//    self.currentView = self.currentView==self.view1 ? self.view2 : self.view1;
+//    CGFloat opacity = self.currentView==self.view1 ? 1.0 : 0.0;
+//    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^{
+//        self.view2.alpha = opacity;
+//    } completion:nil];
 }
 
 - (IBAction) showSearch {
@@ -137,9 +142,8 @@
 // part of setting the current view is also ensuring the Other View button gets set to the otherView
 - (void) setCurrentView:(UIView*)currentView {
     _currentView = currentView;
-    //NSString* otherViewString = currentView==self.view1 ? NSLocalizedString(@"View 2", @"View 2") : NSLocalizedString(@"View 1", @"View 1");
-    //NSString* otherViewString = currentView==self.view1 ? [self.listViewController buttonName] : [self.mapViewController buttonName];
-    //[self.otherViewButton setTitle:otherViewString forState:UIControlStateNormal];
+
+    // used buttonNames before
     UIImage* otherViewImage = currentView==self.view1 ? [self.listViewController buttonImage] : [self.mapViewController buttonImage];
     [self.otherViewButton setImage:otherViewImage forState:UIControlStateNormal];
 }
