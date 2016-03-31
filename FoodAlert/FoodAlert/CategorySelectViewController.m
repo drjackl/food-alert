@@ -51,9 +51,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UIViewControllerTransitioningDelegate
+
 - (UIPresentationController*) presentationControllerForPresentedViewController:(UIViewController*)presented presentingViewController:(UIViewController*)presenting sourceViewController:(UIViewController*)source {
     if (presented == self) {
-        return [[CategoryPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+        return [[CategoryPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting pack:NO];
     }
     return nil;
 }

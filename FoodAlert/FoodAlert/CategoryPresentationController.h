@@ -10,4 +10,6 @@
 
 @interface CategoryPresentationController : UIPresentationController
 
+- (instancetype) initWithPresentedViewController:(UIViewController*)presentedViewController presentingViewController:(UIViewController*)presentingViewController pack:(BOOL)pack;
+
 @end

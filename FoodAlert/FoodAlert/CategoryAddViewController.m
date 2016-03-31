@@ -8,8 +8,9 @@
 
 #import "CategoryAddViewController.h"
 #import "DataSource.h"
+#import "CategoryPresentationController.h"
 
-@interface CategoryAddViewController ()
+@interface CategoryAddViewController () <UIViewControllerTransitioningDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UIView *colorView;
 @property (weak, nonatomic) IBOutlet UILabel *swipeForColorLabel;
@@ -18,6 +19,16 @@
 @end
 
 @implementation CategoryAddViewController
+
+// storyboard uses this method to instantiate UIVCs
+- (instancetype)initWithCoder:(NSCoder*)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.modalPresentationStyle = UIModalPresentationCustom;
+        self.transitioningDelegate = self;
+    }
+    return self;
+}
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -34,12 +45,24 @@
         self.swipeForColorLabel.text = NSLocalizedString(@"No more colors for categories", @"Array of colors to create categories is empty description");
         self.addButton.enabled = NO;
     }
+    
+    self.view.layer.cornerRadius = 10.0;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UIViewControllerTransitioningDelegate
+- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
+    if (presented == self) {
+        return [[CategoryPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting pack:YES];
+    }
+    return nil;
+}
+
+#pragma mark - IBActions
 
 - (IBAction) addCategory {
     [[DataSource sharedInstance] addCategoryWithName:self.nameTextField.text fromColorAtIndex:self.arrayIndex];
@@ -58,6 +81,8 @@
         self.arrayIndex = (self.arrayIndex-1) % [DataSource sharedInstance].unusedColors.count;
         self.colorView.backgroundColor = [DataSource sharedInstance].unusedColors[self.arrayIndex];
     }
+    
+    // when didn't realize a swipeGestureRecognizer has a direction and number of taps associated with it
 //    if (self.arrayIndex != -1) {
 //        if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
 //            self.arrayIndex = (self.arrayIndex+1) % [DataSource sharedInstance].unusedColors.count;

@@ -79,7 +79,7 @@
     [self.categories addObject:category];
     
     [self archiveCategories];
-    [self archiveunusedColors];
+    [self archiveUnusedColors];
 }
 
 - (void) archiveObject:(NSObject*)object withFilename:(NSString*)filename {
@@ -105,7 +105,7 @@
     [self archiveObject:self.categories withFilename:NSStringFromSelector(@selector(categories))];
 }
 
-- (void) archiveunusedColors {
+- (void) archiveUnusedColors {
     [self archiveObject:self.unusedColors withFilename:NSStringFromSelector(@selector(unusedColors))];
 }
 
@@ -176,7 +176,7 @@
                 self.unusedColors = mutableCategoryColors;
             } else { // first time running app
                 self.unusedColors = [[self defaultUnusedColors] mutableCopy];
-                [self archiveunusedColors];
+                [self archiveUnusedColors];
             }
             
             // update any views that would be done in KVO (don't think I need to)
