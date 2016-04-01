@@ -18,9 +18,10 @@
 
 @interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
-@property (nonatomic) CategorySelectViewController* categorySelectModal;
 
 @property (nonatomic) CLLocationManager* locationManager;
+
+@property (nonatomic) CategorySelectViewController* categorySelectModal;
 
 @property (nonatomic) Spot* currentSelectedSpot;
 @property (nonatomic) MKAnnotationView* currentAnnotationView;
@@ -231,6 +232,8 @@
     }
     self.calloutViewController.spot = (Spot*)view.annotation; // 2. attributes
     [self addChildViewController:self.calloutViewController]; // 3. addChildVC
+//    [mapView addSubview:self.calloutViewController.view]; // 4. addSubview
+//    self.calloutViewController.view.frame = CGRectMake(150, 150, 250, 200); // 5. position
     [view addSubview:self.calloutViewController.view]; // 4. addSubview
     self.calloutViewController.view.frame = CGRectMake(0, 0, 250, 200); // 5. position
 

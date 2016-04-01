@@ -48,7 +48,7 @@
         NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
         self.savedSpotsBeingShown = filteredArray;
     } else {
-        self.savedSpotsBeingShown = self.savedSpots;
+        self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
     }
     
     //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new];
@@ -61,8 +61,9 @@
 #pragma mark - Persisting data
 
 - (void) saveSpot:(Spot*)spot {
-    spot.saved = YES;
-    [self.savedSpots addObject:spot];
+    Spot* spotCopy = [[Spot alloc] initWithCoordinates:spot.coordinate title:spot.title addressDictionary:spot.addressDictionary phone:spot.phone url:spot.url];
+    spotCopy.saved = YES;
+    [self.savedSpots addObject:spotCopy];
     
     // refresh savedSpots (could just add or not based on if it's in current category)
     [self refreshSavedSpotsBeingShown];

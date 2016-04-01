@@ -44,6 +44,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;'
     
     self.view.layer.cornerRadius = 10.0;
+    self.view.clipsToBounds = YES;
+
 }
 
 - (void)didReceiveMemoryWarning {

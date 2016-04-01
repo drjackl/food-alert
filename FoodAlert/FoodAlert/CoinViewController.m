@@ -9,7 +9,6 @@
 #import "CoinViewController.h"
 //#import "CoinSideViewController.h" // not generic anymore
 #import "MapViewController.h"
-//#import "SimpleListViewController.h"
 #import "ListTableViewController.h"
 #import "SearchViewController.h"
 #import "DataSource.h" // remove when KVO in
