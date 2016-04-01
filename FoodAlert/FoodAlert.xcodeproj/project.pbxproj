@@ -30,6 +30,7 @@
 		04FA746A1CA9B473007E74EC /* CalloutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74691CA9B472007E74EC /* CalloutViewController.m */; };
 		04FA746D1CAC1FF2007E74EC /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA746C1CAC1FF2007E74EC /* Category.m */; };
 		04FA74701CACB663007E74EC /* CategoryAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA746F1CACB663007E74EC /* CategoryAddViewController.m */; };
+		04FA74731CAE16F0007E74EC /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74721CAE16EF007E74EC /* AnnotationView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		04FA746C1CAC1FF2007E74EC /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		04FA746E1CACB663007E74EC /* CategoryAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryAddViewController.h; sourceTree = "<group>"; };
 		04FA746F1CACB663007E74EC /* CategoryAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryAddViewController.m; sourceTree = "<group>"; };
+		04FA74711CAE16EF007E74EC /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
+		04FA74721CAE16EF007E74EC /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +159,8 @@
 				040635971C9A35DB0027FDD9 /* CoinSide.h */,
 				04E6FEF21C9542DC00AB0E61 /* MapViewController.h */,
 				04E6FEF31C9542DC00AB0E61 /* MapViewController.m */,
+				04FA74711CAE16EF007E74EC /* AnnotationView.h */,
+				04FA74721CAE16EF007E74EC /* AnnotationView.m */,
 				04FA74681CA9B472007E74EC /* CalloutViewController.h */,
 				04FA74691CA9B472007E74EC /* CalloutViewController.m */,
 				04E6FEF51C9547AE00AB0E61 /* SearchViewController.h */,
@@ -354,6 +359,7 @@
 				04E6FEBF1C9483E100AB0E61 /* AppDelegate.m in Sources */,
 				04A2B1AE1CA4E4AB0062BFD6 /* CategoryPresentationController.m in Sources */,
 				04A2B1A51CA06FC20062BFD6 /* CategoryEditViewCell.m in Sources */,
+				04FA74731CAE16F0007E74EC /* AnnotationView.m in Sources */,
 				04CC5EDC1C9E45A200BF3B62 /* CategoryEditViewController.m in Sources */,
 				04FA746A1CA9B473007E74EC /* CalloutViewController.m in Sources */,
 				04A2B1AB1CA4BFB60062BFD6 /* CategorySelectViewController.m in Sources */,
