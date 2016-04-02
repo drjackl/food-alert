@@ -16,9 +16,9 @@
 @interface SearchViewController () <UISearchBarDelegate, NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *suggestionsTableView;
-//
+// data for saved suggestions list
 @property (nonatomic) NSArray* savedSuggestionsArray;
-// xml parsing for google suggest
+// data for google suggest (and xml parsing)
 @property (nonatomic) NSString* currentElement;
 @property (nonatomic) NSMutableString* foundValue;
 @property (nonatomic) NSMutableArray* googleSuggestionsArray;
@@ -183,7 +183,13 @@ static const NSInteger GoogleSuggestionSection = 1;
 #pragma mark - TableView delegate methods
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-    [self conductSearchWithQuery:self.googleSuggestionsArray[indexPath.row]];
+    NSString* queryText;
+    if (indexPath.section == SavedSuggestionSection) {
+        queryText = ((Spot*)self.savedSuggestionsArray[indexPath.row]).title;
+    } else { // GoogleSuggestionSection
+        queryText = self.googleSuggestionsArray[indexPath.row];
+    }
+    [self conductSearchWithQuery:queryText];
 }
 
 #pragma mark - Search Bar delegate methods

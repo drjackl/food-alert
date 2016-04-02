@@ -51,10 +51,10 @@ static const NSInteger SavedSection = 1;
 }
 
 
-// take out when KVO in
-- (void) reloadTableView {
-    [self.tableView reloadData];
-}
+//// take out when KVO in
+//- (void) reloadTableView {
+//    [self.tableView reloadData];
+//}
 
 
 

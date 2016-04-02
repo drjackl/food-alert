@@ -144,66 +144,7 @@
     }
     
     return annotationView;
-    
-//    // handle Spot annotations (default callouts and custom callouts)
-//    if ([annotation isKindOfClass:[Spot class]]) {
-//        // try to dequeue an existing pin first (maybe don't need check if new one created)
-//        MKAnnotationView* spotAnnotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"spotSimpleShapeAnnotationView"];
-//        
-//        if (!spotAnnotationView) { // if existing pin not available, create one (maybe don't need to create new one)
-//            spotAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"spotSimpleShapeAnnotationView"];
-//            //spotAnnotationView.canShowCallout = YES; // for custom image MKAV
-//            spotAnnotationView.canShowCallout = NO; // for own callout
-//            
-//            spotAnnotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//            
-//            UIButton* categoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//            //[categoryButton setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal]; // refactored out to updateCatButton
-//            [categoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            //categoryButton.backgroundColor = [UIColor redColor]; // refactored out to updateCatButton
-//            categoryButton.userInteractionEnabled = YES;
-//            categoryButton.frame = CGRectMake(0, 0, 200, 20);
-//            spotAnnotationView.rightCalloutAccessoryView = categoryButton;
-//        } else { // reuse existing pin
-//            spotAnnotationView.annotation = annotation;
-//        }
-//        
-//        //only used with default callouts
-//        //[self updateCategoryButtonOfAnnotationView:spotAnnotationView];
-//        
-//        
-//        Spot* recastedSpotAnnotation = (Spot*)annotation;
-//        if (recastedSpotAnnotation.saved) {
-//            //spotAnnotationView.pinTintColor = [UIColor yellowColor]; // specific to MKPinAV
-//            spotAnnotationView.image = [UIImage imageNamed:@"spotSaved"];
-//        } else {
-//            //spotAnnotationView.pinTintColor = [UIColor blueColor]; // specific to MKPinAV
-//            spotAnnotationView.image = [UIImage imageNamed:@"spotSearched"];
-//        }
-//        
-//        return spotAnnotationView;
-//    }
-//    
-//    return nil;
 }
-
-//// custom image MKAV: save spot if + button tapped, select category if right button selected
-//// probably not needed once custom callout in place
-//- (void) mapView:(MKMapView*)mapView annotationView:(MKAnnotationView*)view calloutAccessoryControlTapped:(UIControl*)control {
-//    if ([control isKindOfClass:[UIButton class]]) {
-//        UIButton* buttonControl = (UIButton*)control;
-//        if (buttonControl.buttonType == UIButtonTypeContactAdd) {
-//            //[self saveSpot:(Spot*)view.annotation]; // not needed anymore
-//            [[DataSource sharedInstance] saveSpot:(Spot*)view.annotation];
-//        } else if (buttonControl.buttonType == UIButtonTypeCustom) {
-//            // is there a better way than storing this as a property?
-//            self.currentSelectedSpot = (Spot*)view.annotation;
-//            self.currentAnnotationView = view;
-//            // bring up select category dialog
-//            [self performSegueWithIdentifier:@"categorySelect" sender:self];
-//        }
-//    }
-//}
 
 - (void) mapView:(MKMapView*)mapView didSelectAnnotationView:(MKAnnotationView*)view {
     // runtime error occurs if tap on user location
@@ -225,6 +166,7 @@
     self.currentAnnotationView = view;
     self.currentSelectedSpot = (Spot*)view.annotation;
     
+    // i wonder what this does exactly ...
     //[mapView deselectAnnotation:view.annotation animated:YES];
     
     if (!self.calloutViewController) { // 1. init VC
@@ -232,22 +174,21 @@
     }
     self.calloutViewController.spot = (Spot*)view.annotation; // 2. attributes
     [self addChildViewController:self.calloutViewController]; // 3. addChildVC
-//    [mapView addSubview:self.calloutViewController.view]; // 4. addSubview
-//    self.calloutViewController.view.frame = CGRectMake(150, 150, 250, 200); // 5. position
-    [view addSubview:self.calloutViewController.view]; // 4. addSubview
-    self.calloutViewController.view.frame = CGRectMake(0, 0, 250, 200); // 5. position
+    
+    // safe alternative: add to map view
+    [mapView addSubview:self.calloutViewController.view]; // 4. addSubview
+    CGFloat width = 250, height = 200;
+    CGFloat x = (CGRectGetWidth(self.mapView.bounds) - width) / 2;
+    CGFloat y = 20;
+    self.calloutViewController.view.frame = CGRectMake(x, y, width, height); // 5. position
+    
+    // better alternative: add to AV
+//    [view addSubview:self.calloutViewController.view]; // 4. addSubview
+//    self.calloutViewController.view.frame = CGRectMake(0, 0, 250, 200); // 5. position
 
-    // this didn't work probably because needed to follow the delegate protocol
-    //CategoryPresentationController* categoryPC = [[CategoryPresentationController alloc] initWithPresentedViewController:self presentingViewController:calloutViewController];
+    // using PresentationController didn't work probably because should follow the delegate protocol
     
-    // popovers don't seem like the right solution
-    //UIPopoverController* popoverController = [[UIPopoverController alloc] initWithContentViewController:calloutViewController];
-    //[popoverController presentPopoverFromRect:view.frame inView:view.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    
-//    [mapView addSubview:calloutViewController.view];
-//    calloutViewController.view.frame = CGRectMake(100, 300, 300, 300);
-    
-    //[categoryPC present];
+    // popovers might still work, but don't technically work on mobile (just tablet)
 }
 
 - (void) mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView*)view {
@@ -269,22 +210,6 @@
     [self.calloutViewController removeFromParentViewController];
 }
 
-// refactored to DataSource, probably not needed anymore
-//- (void) saveSpot:(Spot*)spot {
-//    [[DataSource sharedInstance] saveSpot:spot];
-//}
-
-//// only used with default callouts (not necessary anymore)
-//- (void) updateCategoryButtonOfAnnotationView:(MKAnnotationView*)annotationView {
-//    Categorie* category = ((Spot*)annotationView.annotation).category;
-//    if (category) {
-//        annotationView.rightCalloutAccessoryView.backgroundColor = category.color;
-//        [((UIButton*)annotationView.rightCalloutAccessoryView) setTitle:category.title forState:UIControlStateNormal];
-//    } else {
-//        annotationView.rightCalloutAccessoryView.backgroundColor = [UIColor redColor];
-//        [((UIButton*)annotationView.rightCalloutAccessoryView) setTitle:NSLocalizedString(@"<category>", @"default category") forState:UIControlStateNormal];
-//    }
-//}
 
 #pragma mark - Category Select Modal delegate
 

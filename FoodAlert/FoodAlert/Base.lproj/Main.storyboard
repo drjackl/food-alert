@@ -156,6 +156,9 @@
                             <constraint firstItem="LVO-Hm-GOq" firstAttribute="top" secondItem="jEF-C3-ZUu" secondAttribute="bottom" id="tfm-jz-TUw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="categoriesTableView" destination="LVO-Hm-GOq" id="QyF-Uk-4kR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="46g-VL-tjt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -349,29 +352,19 @@
                                         <rect key="frame" x="548" y="21" width="17" height="22"/>
                                         <state key="normal" image="categories"/>
                                         <connections>
-                                            <action selector="showCategories" destination="8jP-sb-qXU" eventType="touchUpInside" id="OOP-c4-2q7"/>
                                             <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categoryFilter" id="NyF-4r-sxb"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gjd-gb-hW1">
-                                        <rect key="frame" x="511" y="17" width="30" height="30"/>
-                                        <state key="normal" title="Cat"/>
-                                        <connections>
-                                            <segue destination="cup-hu-qVh" kind="presentation" id="il1-Ot-oMq"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="F9t-xm-4p9" firstAttribute="centerX" secondItem="X2g-wD-tB6" secondAttribute="centerX" id="FkJ-au-B09"/>
-                                    <constraint firstItem="Naa-gx-Hp0" firstAttribute="leading" secondItem="gjd-gb-hW1" secondAttribute="trailing" constant="7" id="HRh-Tq-F5m"/>
                                     <constraint firstItem="puV-Or-xLG" firstAttribute="centerY" secondItem="X2g-wD-tB6" secondAttribute="centerY" id="Igj-45-IdV"/>
                                     <constraint firstItem="uXl-e3-oiR" firstAttribute="leading" secondItem="Naa-gx-Hp0" secondAttribute="trailing" constant="11" id="JJY-fI-fHq"/>
                                     <constraint firstItem="puV-Or-xLG" firstAttribute="leading" secondItem="X2g-wD-tB6" secondAttribute="leading" constant="7" id="Je5-1s-fYG"/>
                                     <constraint firstAttribute="height" constant="64" id="NCa-Pm-BPA"/>
                                     <constraint firstItem="F9t-xm-4p9" firstAttribute="centerY" secondItem="X2g-wD-tB6" secondAttribute="centerY" id="Qeg-hQ-FXu"/>
                                     <constraint firstItem="uXl-e3-oiR" firstAttribute="centerY" secondItem="X2g-wD-tB6" secondAttribute="centerY" id="li5-dR-SqZ"/>
-                                    <constraint firstItem="gjd-gb-hW1" firstAttribute="centerY" secondItem="Naa-gx-Hp0" secondAttribute="centerY" id="n6c-k8-1Sq"/>
                                     <constraint firstAttribute="trailing" secondItem="uXl-e3-oiR" secondAttribute="trailing" constant="7" id="neO-VY-om1"/>
                                     <constraint firstItem="Naa-gx-Hp0" firstAttribute="centerY" secondItem="uXl-e3-oiR" secondAttribute="centerY" id="xCe-XY-1n6"/>
                                 </constraints>
@@ -597,7 +590,7 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" indicatorStyle="black" text="Description (address or notes)" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mN-Qm-w5V">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" indicatorStyle="black" text="Description (address or notes)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4mN-Qm-w5V">
                                         <rect key="frame" x="0.0" y="28" width="248" height="100"/>
                                         <color key="backgroundColor" red="1" green="1" blue="0.74335675935570478" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -607,8 +600,9 @@
                                         <rect key="frame" x="0.0" y="130" width="248" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cmh-D4-UpI">
-                                                <rect key="frame" x="0.0" y="0.0" width="63" height="30"/>
-                                                <state key="normal" title="Category"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="101" height="30"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="&lt;no category&gt;"/>
                                                 <connections>
                                                     <action selector="popupCategorySelect" destination="52y-4S-Pin" eventType="touchUpInside" id="n4t-UY-HX2"/>
                                                     <segue destination="Plh-i8-Oe6" kind="presentation" identifier="categorySelect" id="Rde-eD-Sf3"/>
@@ -901,7 +895,6 @@
         <image name="spotSaved" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="il1-Ot-oMq"/>
-        <segue reference="Rde-eD-Sf3"/>
+        <segue reference="NyF-4r-sxb"/>
     </inferredMetricsTieBreakers>
 </document>

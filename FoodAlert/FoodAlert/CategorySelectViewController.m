@@ -12,7 +12,7 @@
 #import "CategoryPresentationController.h"
 
 @interface CategorySelectViewController () <UIViewControllerTransitioningDelegate, UITableViewDelegate>
-
+@property (weak, nonatomic) IBOutlet UITableView *categoriesTableView;
 @end
 
 @implementation CategorySelectViewController
@@ -23,14 +23,16 @@
 - (instancetype) initWithCoder:(NSCoder*)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self commonInit];
+        self.transitioningDelegate = self;
+        self.modalPresentationStyle = UIModalPresentationCustom;
+        
+        [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(categories)) options:0 context:nil];
     }
     return self;
 }
 
-- (void)commonInit {
-    self.transitioningDelegate = self;
-    self.modalPresentationStyle = UIModalPresentationCustom;
+- (void) dealloc {
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(categories))];
 }
 
 - (void) viewDidLoad {
@@ -45,12 +47,22 @@
     
     self.view.layer.cornerRadius = 10.0;
     self.view.clipsToBounds = YES;
-
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void*)context {
+    if (object == [DataSource sharedInstance] && [keyPath isEqualToString:NSStringFromSelector(@selector(categories))]) {
+        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+        if (kindOfChange == NSKeyValueChangeInsertion ||
+            kindOfChange == NSKeyValueChangeRemoval ||
+            kindOfChange == NSKeyValueChangeSetting) {
+            [self.categoriesTableView reloadData];
+        }
+    }
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate
@@ -66,7 +78,16 @@
 
 - (void) tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     // notify sender of selected category
-    [self.delegate didSelectCategory:[DataSource sharedInstance].categories[indexPath.row]];
+    NSInteger i = indexPath.row;
+    if ((self.isFirstItemNone && i==0) ||
+        (!self.isFirstItemNone && i==[DataSource sharedInstance].categories.count)) {
+        [self.delegate didSelectCategory:nil];
+    } else {
+        if (self.isFirstItemNone) {
+            i--;
+        }
+        [self.delegate didSelectCategory:[DataSource sharedInstance].categories[i]];
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -80,7 +101,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete implementation, return the number of rows
-    return [DataSource sharedInstance].categories.count;
+    return [DataSource sharedInstance].categories.count + 1; // add one for none item
 }
 
 
@@ -88,7 +109,22 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"categorySelectCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    Categorie* category = [DataSource sharedInstance].categories[indexPath.row];
+    NSInteger i = indexPath.row;
+    
+    // if none item (first or last depending on isFirstItemNone), return cell for none item
+    if ((self.isFirstItemNone && i==0) ||
+        (!self.isFirstItemNone && i==[DataSource sharedInstance].categories.count)) {
+        cell.textLabel.text = NSLocalizedString(@"<no category>", @"option for selecting nothing (no categories)");
+        cell.backgroundColor = [UIColor lightGrayColor];
+        return cell;
+    }
+    
+    // if firstItemNone, decrement index to get right index for the categories model
+    if (self.isFirstItemNone) {
+        i--;
+    }
+    
+    Categorie* category = [DataSource sharedInstance].categories[i];
     cell.textLabel.text = category.title;
     cell.backgroundColor = category.color;
     

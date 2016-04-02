@@ -35,6 +35,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void) prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"categorySelect"]) {
+        CategorySelectViewController* categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
+        categorySelectModal.delegate = self;
+        categorySelectModal.isFirstItemNone = NO;
+    }
+}
+
+#pragma mark - Accessors & View updates
+
 - (void) setSpot:(Spot*)spot {
     _spot = spot;
     
@@ -60,6 +77,9 @@
     self.descriptionTextView.text = self.spot.notes;
 }
 
+
+#pragma mark - IBActions
+
 - (IBAction) saveSpot {
     self.saveButton.enabled = NO; // disable right away (must do this if in list view too)
     
@@ -76,29 +96,23 @@
     [self performSegueWithIdentifier:@"categorySelect" sender:self];
 }
 
+
+#pragma mark - CatSelect VC delegate methods
+
 - (void) didSelectCategory:(Categorie*)category {
     self.spot.category = category;
     
     // update category title and color
     [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
     self.categoryButton.backgroundColor = category.color;
+    if (!category) {
+        [self.categoryButton setTitle:NSLocalizedString(@"<no category>", @"nil category") forState:UIControlStateNormal];
+        self.categoryButton.backgroundColor = [UIColor lightGrayColor];
+    }
     
     // somehow, these aren't saving ... or are they now ...
     [[DataSource sharedInstance] archiveCategories];
     [[DataSource sharedInstance] archiveSavedSpots];
-}
-
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void) prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    if ([segue.identifier isEqualToString:@"categorySelect"]) {
-        ((CategorySelectViewController*)segue.destinationViewController).delegate = self;
-    }
 }
 
 

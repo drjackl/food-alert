@@ -15,6 +15,8 @@
 
 @interface CategorySelectViewController : UIViewController
 
-@property (nonatomic, weak) id<CategorySelectViewControllerDelegate> delegate;
+@property (weak, nonatomic) id<CategorySelectViewControllerDelegate> delegate;
+
+@property (nonatomic) BOOL isFirstItemNone;
 
 @end

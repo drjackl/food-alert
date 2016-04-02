@@ -11,6 +11,6 @@
 
 @interface ListTableViewController : UITableViewController <CoinSide>
 
-- (void) reloadTableView; // take out when savedItems is KVO
+//- (void) reloadTableView; // take out when savedItems is KVO
 
 @end

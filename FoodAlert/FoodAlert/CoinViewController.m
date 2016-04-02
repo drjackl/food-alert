@@ -7,19 +7,19 @@
 //
 
 #import "CoinViewController.h"
-//#import "CoinSideViewController.h" // not generic anymore
 #import "MapViewController.h"
 #import "ListTableViewController.h"
 #import "SearchViewController.h"
-#import "DataSource.h" // remove when KVO in
+#import "DataSource.h" // necessary for filtering
 #import "CoinSide.h"
 #import "CategorySelectViewController.h"
 
 @interface CoinViewController () <SearchViewControllerDelegate, CategorySelectViewControllerDelegate>
 @property (nonatomic) UIView* currentView;
-@property (nonatomic) MapViewController<CoinSide>* mapViewController; // if generic, just be CoinSide
-//@property (nonatomic) SimpleListViewController* listViewController;
+@property (nonatomic) MapViewController<CoinSide>* mapViewController; // needed for search
 @property (nonatomic) ListTableViewController<CoinSide>* listViewController; // just needs be CoinSide
+//@property (nonatomic) UIViewController<CoinSide>* viewController1;
+//@property (nonatomic) UIViewController<CoinSide>* viewController2;
 @property (nonatomic) SearchViewController* searchViewController;
 @property (nonatomic) CategorySelectViewController* categoryFilterModal;
 // Outlets
@@ -37,9 +37,8 @@
     
     self.currentView = self.view1;
     self.searchViewController.mapViewController = self.mapViewController;
-    self.searchViewController.listViewController = self.listViewController;
+    //self.searchViewController.listViewController = self.listViewController; // shouldn't need
     
-    self.searchViewController.delegate = self;
     //self.categoryFilterModal.delegate = self; // too early
 }
 
@@ -65,15 +64,17 @@
     //NSLog(@"segue ID: %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"mapViewController"]) {
         self.mapViewController = (MapViewController*) segue.destinationViewController;
-        [DataSource sharedInstance].mapVC = self.mapViewController; // remove when KVO in
+        //[DataSource sharedInstance].mapVC = self.mapViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"listEmbedSegue"]) {
         self.listViewController = (ListTableViewController*) segue.destinationViewController;
-        [DataSource sharedInstance].listVC = self.listViewController; // remove when KVO in
+        //[DataSource sharedInstance].listVC = self.listViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
+        self.searchViewController.delegate = self;
     } else if ([segue.identifier isEqualToString:@"categoryFilter"]) {
         self.categoryFilterModal = (CategorySelectViewController*) segue.destinationViewController;
         self.categoryFilterModal.delegate = self;
+        self.categoryFilterModal.isFirstItemNone = YES;
     }
 }
 
@@ -132,9 +133,6 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.searchView.alpha = 0;
     }];
-}
-
-- (IBAction) showCategories {
 }
 
 #pragma mark - Accessors

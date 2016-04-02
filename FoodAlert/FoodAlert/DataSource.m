@@ -58,7 +58,7 @@
     [self filterSavedSpotsWithCategory:self.filterCategory];
 }
 
-#pragma mark - Persisting data
+#pragma mark - Persisting data (Public)
 
 - (void) saveSpot:(Spot*)spot {
     Spot* spotCopy = [[Spot alloc] initWithCoordinates:spot.coordinate title:spot.title addressDictionary:spot.addressDictionary phone:spot.phone url:spot.url];
@@ -77,25 +77,12 @@
     
     Categorie* category = [[Categorie alloc] initWithTitle:name color:color];
     //category.title = name;
-    [self.categories addObject:category];
+    NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
+    [mutableArrayWithKVO addObject:category];
+    //[self.categories addObject:category];
     
     [self archiveCategories];
     [self archiveUnusedColors];
-}
-
-- (void) archiveObject:(NSObject*)object withFilename:(NSString*)filename {
-    // based off blocstagram
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForFilename:filename];
-        NSData* objectsToStore = [NSKeyedArchiver archivedDataWithRootObject:object];
-        NSError* dataError;
-        
-        BOOL wroteSuccessfully = [objectsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
-        
-        if (!wroteSuccessfully) {
-            NSLog(@"Couldn't write file: %@", dataError);
-        }
-    });
 }
 
 - (void) archiveSavedSpots {
@@ -105,12 +92,6 @@
 - (void) archiveCategories {
     [self archiveObject:self.categories withFilename:NSStringFromSelector(@selector(categories))];
 }
-
-- (void) archiveUnusedColors {
-    [self archiveObject:self.unusedColors withFilename:NSStringFromSelector(@selector(unusedColors))];
-}
-
-//- (void) unarchiveMutableObject
 
 - (void) unarchiveSavedSpots {
     // dispatch to background since unarchiving might be slow
@@ -132,10 +113,37 @@
                 //[self.mapVC addSpots:self.savedSpotsBeingShown]; // table ought to load same time here ...
                 //[self.listVC reloadTableView];
             }
-
+            
         });
     });
 }
+
+
+#pragma mark - Persisting data (Private)
+
+- (void) archiveUnusedColors {
+    [self archiveObject:self.unusedColors withFilename:NSStringFromSelector(@selector(unusedColors))];
+}
+
+- (void) archiveObject:(NSObject*)object withFilename:(NSString*)filename {
+    // based off blocstagram
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* fullPath = [self pathForFilename:filename];
+        NSData* objectsToStore = [NSKeyedArchiver archivedDataWithRootObject:object];
+        NSError* dataError;
+        
+        BOOL wroteSuccessfully = [objectsToStore writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+        
+        if (!wroteSuccessfully) {
+            NSLog(@"Couldn't write file: %@", dataError);
+        }
+    });
+}
+
+
+//- (void) unarchiveMutableObject
+
+
 
 - (NSString*) pathForSavedSpots {
     return [self pathForFilename:NSStringFromSelector(@selector(savedSpots))];
@@ -153,9 +161,11 @@
             if (categoriesToLoad.count > 0) {
                 NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
                 self.categories = mutableCategories;
-            } else { // first time running app
+            } else { // first time running app, load default categories and unused colors
                 self.categories = [[self defaultCategories] mutableCopy];
                 [self archiveCategories];
+                self.unusedColors = [[self defaultCategories] mutableCopy];
+                [self archiveUnusedColors];
             }
             
             // update any views that would be done in KVO (don't think I need to)
@@ -175,10 +185,11 @@
             if (categoryColorsToLoad.count > 0) {
                 NSMutableArray* mutableCategoryColors = [categoryColorsToLoad mutableCopy];
                 self.unusedColors = mutableCategoryColors;
-            } else { // first time running app
-                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
-                [self archiveUnusedColors];
-            }
+            } // else stays empty array
+//            else { // first time running app, oops or there could just be no more
+//                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
+//                [self archiveUnusedColors];
+//            }
             
             // update any views that would be done in KVO (don't think I need to)
         });
@@ -186,7 +197,7 @@
 }
 
 - (NSArray*) defaultCategories {
-    return @[[[Categorie alloc] initWithTitle:@"Check out later" color:[UIColor redColor]],
+    return @[[[Categorie alloc] initWithTitle:@"Check out later" color:[UIColor magentaColor]],
              [[Categorie alloc] initWithTitle:@"Restaurants" color:[UIColor greenColor]]];
 }
 
@@ -194,17 +205,12 @@
     return @[[UIColor orangeColor],
              [UIColor whiteColor],
              [UIColor cyanColor],
-             [UIColor lightGrayColor],
+             [UIColor redColor],
              [UIColor brownColor],
              [UIColor purpleColor],
              [UIColor grayColor],
              [UIColor yellowColor]];
 }
-
-//- (NSArray*) testunusedColors {
-//    return @[[[Categorie alloc] initWithColor:[UIColor blueColor]],
-//             [[Categorie alloc] initWithColor:[UIColor magentaColor]]];
-//}
 
 - (NSString*) pathForCategories {
     return [self pathForFilename:NSStringFromSelector(@selector(categories))];
