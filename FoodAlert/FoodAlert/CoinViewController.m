@@ -39,19 +39,15 @@
     self.searchViewController.mapViewController = self.mapViewController;
     //self.searchViewController.listViewController = self.listViewController; // shouldn't need
     
-    //self.categoryFilterModal.delegate = self; // too early
+    
+    
+    //self.categoryFilterModal.delegate = self; // too early, should be done on init (segue)
 }
 
 - (void) didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-// not sure why this was ever introduced
-//- (void) viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    
-//}
 
 
 #pragma mark - Navigation

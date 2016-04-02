@@ -53,6 +53,7 @@
 #pragma mark - Accessors & View updates
 
 - (void) setSpot:(Spot*)spot {
+    // currently, only time spot set is when a spot gets selected on map (can't select same spot)
     _spot = spot;
     
     // interesting view hasn't been loaded here yet (initially it seems)
@@ -100,19 +101,22 @@
 #pragma mark - CatSelect VC delegate methods
 
 - (void) didSelectCategory:(Categorie*)category {
-    self.spot.category = category;
-    
-    // update category title and color
-    [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
-    self.categoryButton.backgroundColor = category.color;
-    if (!category) {
-        [self.categoryButton setTitle:NSLocalizedString(@"<no category>", @"nil category") forState:UIControlStateNormal];
-        self.categoryButton.backgroundColor = [UIColor lightGrayColor];
+    // only set category if different from current category
+    if (self.spot.category != category) {
+        self.spot.category = category;
+        
+        // update category title and color
+        [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
+        self.categoryButton.backgroundColor = category.color;
+        if (!category) {
+            [self.categoryButton setTitle:NSLocalizedString(@"<no category>", @"nil category") forState:UIControlStateNormal];
+            self.categoryButton.backgroundColor = [UIColor lightGrayColor];
+        }
+        
+        // somehow, these aren't saving ... or are they now ...
+        [[DataSource sharedInstance] archiveCategories];
+        [[DataSource sharedInstance] archiveSavedSpots];
     }
-    
-    // somehow, these aren't saving ... or are they now ...
-    [[DataSource sharedInstance] archiveCategories];
-    [[DataSource sharedInstance] archiveSavedSpots];
 }
 
 

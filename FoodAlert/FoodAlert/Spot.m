@@ -31,6 +31,7 @@
 
 - (void)setCategory:(Categorie*)category {
     _category = category;
+    // hmm, not removing old category
     [category addSavedSpot:self];
 }
 

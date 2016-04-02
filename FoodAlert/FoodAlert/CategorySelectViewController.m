@@ -115,7 +115,7 @@
     if ((self.isFirstItemNone && i==0) ||
         (!self.isFirstItemNone && i==[DataSource sharedInstance].categories.count)) {
         cell.textLabel.text = NSLocalizedString(@"<no category>", @"option for selecting nothing (no categories)");
-        cell.backgroundColor = [UIColor lightGrayColor];
+        cell.backgroundColor = [UIColor whiteColor];
         return cell;
     }
     

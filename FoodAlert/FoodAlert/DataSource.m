@@ -42,13 +42,16 @@
 }
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category {
-    self.filterCategory = category;
-    
-    if (category) {
-        NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-        self.savedSpotsBeingShown = filteredArray;
-    } else {
-        self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
+    // only filter if different from previously set filter category
+    if (self.filterCategory != category) {
+        self.filterCategory = category;
+        
+        if (category) {
+            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+            self.savedSpotsBeingShown = filteredArray;
+        } else {
+            self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
+        }
     }
     
     //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new];
@@ -76,10 +79,9 @@
     [self.unusedColors removeObjectAtIndex:i];
     
     Categorie* category = [[Categorie alloc] initWithTitle:name color:color];
-    //category.title = name;
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
     [mutableArrayWithKVO addObject:category];
-    //[self.categories addObject:category];
+    //[self.categories addObject:category]; // need to trigger KVO since not a wholesale replacement
     
     [self archiveCategories];
     [self archiveUnusedColors];
@@ -203,7 +205,6 @@
 
 - (NSArray*) defaultUnusedColors {
     return @[[UIColor orangeColor],
-             [UIColor whiteColor],
              [UIColor cyanColor],
              [UIColor redColor],
              [UIColor brownColor],

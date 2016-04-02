@@ -35,7 +35,7 @@ static const NSInteger GoogleSuggestionSection = 1;
     
     self.searchBar.delegate = self;
     
-    //self.savedSuggestionsArray = [NSMutableArray new];
+    //self.savedSuggestionsArray = [NSMutableArray new]; // now in DataSource
     
     self.foundValue = [NSMutableString string];
     self.googleSuggestionsArray = [NSMutableArray array];
@@ -143,9 +143,6 @@ static const NSInteger GoogleSuggestionSection = 1;
     return nil;
 }
 
-
- 
-
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -196,8 +193,6 @@ static const NSInteger GoogleSuggestionSection = 1;
 
 // search bar delegate to execute search once entered
 - (void) searchBarSearchButtonClicked:(UISearchBar*)searchBar {
-    NSLog(@"Search button clicked with text: %@", searchBar.text);
-    
     [self conductSearchWithQuery:searchBar.text];
 }
 
@@ -232,22 +227,14 @@ static const NSInteger GoogleSuggestionSection = 1;
         NSData* responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&webError]; // deprecated, use NSURLSession dataTask
         
         if (responseData) {
-            //NSError* jsonError; // not JSON, so can't use
-            //NSDictionary* suggestsDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&jsonError];
-            //NSXMLParser* xmlParser = [NSXMLParser alloc] initWithContentsOfURL:url;
-            
+            // in blocstagram, would parse responseData to dictionary with JSONSerialization
             NSXMLParser* xmlParser = [[NSXMLParser alloc] initWithData:responseData];
             xmlParser.delegate = self;
             [xmlParser parse];
             
             [self.suggestionsTableView reloadData];
-        }
-        
-//        NSXMLParser* xmlParser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-//        xmlParser.delegate = self;
-//        [xmlParser parse];
-        
-    }
+        } // end if responseData
+    } // end if url
 }
 
 #pragma mark - XML Parser delegate methods
