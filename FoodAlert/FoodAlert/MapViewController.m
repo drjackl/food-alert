@@ -16,7 +16,7 @@
 #import "CalloutViewController.h"
 #import "CategoryPresentationController.h"
 
-@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CategorySelectViewControllerDelegate>
+@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CalloutViewControllerDelegate, CategorySelectViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 
 @property (nonatomic) CLLocationManager* locationManager;
@@ -171,6 +171,7 @@
     
     if (!self.calloutViewController) { // 1. init VC
         self.calloutViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"callout2"];
+        self.calloutViewController.delegate = self;
     }
     self.calloutViewController.spot = (Spot*)view.annotation; // 2. attributes
     [self addChildViewController:self.calloutViewController]; // 3. addChildVC
@@ -210,6 +211,14 @@
     [self.calloutViewController removeFromParentViewController];
 }
 
+
+#pragma mark - Callout VC delegate
+- (void) didPressDirectionsButton {
+    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
+    MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
+    MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
+    [MKMapItem openMapsWithItems:@[/*currentLocationItem, */spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
+}
 
 #pragma mark - Category Select Modal delegate
 

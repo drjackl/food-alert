@@ -87,16 +87,20 @@
     [[DataSource sharedInstance] saveSpot:self.spot];
 }
 
+- (IBAction) popupCategorySelect {
+    [self performSegueWithIdentifier:@"categorySelect" sender:self];
+}
+
+- (IBAction) directionsToSpot {
+    // need to get current location and this spot's map item
+    [self.delegate didPressDirectionsButton];
+}
+
 - (IBAction) shareSpot {
     NSArray* itemsToShare = @[self.spot.title, self.spot.addressDictionary, self.spot.notes];
     UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
-
-- (IBAction) popupCategorySelect {
-    [self performSegueWithIdentifier:@"categorySelect" sender:self];
-}
-
 
 #pragma mark - CatSelect VC delegate methods
 

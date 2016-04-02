@@ -22,8 +22,8 @@
 @property (nonatomic) NSArray* savedSpotsBeingShown;
 @property (nonatomic) NSArray* currentSearchedSpots;
 
-@property (nonatomic) MapViewController* mapVC; // until get KVO in
-@property (nonatomic) ListTableViewController* listVC;
+//@property (nonatomic) MapViewController* mapVC; // until get KVO in
+//@property (nonatomic) ListTableViewController* listVC;
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category;
 

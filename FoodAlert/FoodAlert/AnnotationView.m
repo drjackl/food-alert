@@ -37,7 +37,7 @@
     
     // if self or subview (callout) was hit, bring view to front (override mapView)
     if (hitView) {
-        [self.superview bringSubviewToFront:self];
+        [self.superview bringSubviewToFront:self]; // is this really right?
     }
     return hitView;
 }
