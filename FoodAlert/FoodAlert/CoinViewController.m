@@ -37,11 +37,6 @@
     
     self.currentView = self.view1;
     self.searchViewController.mapViewController = self.mapViewController;
-    //self.searchViewController.listViewController = self.listViewController; // shouldn't need
-    
-    
-    
-    //self.categoryFilterModal.delegate = self; // too early, should be done on init (segue)
 }
 
 - (void) didReceiveMemoryWarning {
@@ -60,10 +55,8 @@
     //NSLog(@"segue ID: %@", segue.identifier);
     if ([segue.identifier isEqualToString:@"mapViewController"]) {
         self.mapViewController = (MapViewController*) segue.destinationViewController;
-        //[DataSource sharedInstance].mapVC = self.mapViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"listEmbedSegue"]) {
         self.listViewController = (ListTableViewController*) segue.destinationViewController;
-        //[DataSource sharedInstance].listVC = self.listViewController; // remove when KVO in
     } else if ([segue.identifier isEqualToString:@"searchEmbedSegue"]) {
         self.searchViewController = (SearchViewController*) segue.destinationViewController;
         self.searchViewController.delegate = self;
@@ -120,7 +113,7 @@
 #pragma mark - CatSelect VC delegate
 
 - (void) didSelectCategory:(Categorie*)category {
-    [[DataSource sharedInstance] filterSavedSpotsWithCategory:category];
+    [[DataSource sharedInstance] filterSavedSpotsWithCategory:category alwaysRefresh:NO];
 }
 
 #pragma mark - Search VC delegate

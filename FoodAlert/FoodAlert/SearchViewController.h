@@ -19,10 +19,7 @@
 @interface SearchViewController : UIViewController
 
 @property (nonatomic) MapViewController* mapViewController;
-//@property (nonatomic) ListTableViewController* listViewController;
 
 @property (weak, nonatomic) id<SearchViewControllerDelegate> delegate;
-
-//@property (nonatomic, weak) SearchViewControllerDelegate* id;
 
 @end

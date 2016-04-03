@@ -75,9 +75,8 @@ static const NSInteger GoogleSuggestionSection = 1;
             [spotsArray addObject:spot];
         }];
         //NSLog(@"Results String:\n%@", results);
-        //[self.listViewController.textView setText:results];
-        //[self.mapViewController addSpots:spotsArray];
-        [DataSource sharedInstance].currentSearchedSpots = spotsArray;
+
+        [DataSource sharedInstance].currentSearchedSpots = spotsArray; // KVO
     }];
     
     [self.delegate searchDidFinish];

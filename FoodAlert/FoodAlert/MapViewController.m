@@ -23,8 +23,8 @@
 
 @property (nonatomic) CategorySelectViewController* categorySelectModal;
 
-@property (nonatomic) Spot* currentSelectedSpot;
-@property (nonatomic) MKAnnotationView* currentAnnotationView;
+@property (nonatomic) Spot* currentSelectedSpot; // for setting category and getting directions
+//@property (nonatomic) MKAnnotationView* currentAnnotationView;
 
 @property (nonatomic) CalloutViewController* calloutViewController;
 @end
@@ -45,14 +45,15 @@
             self.locationManager = [CLLocationManager new];
             self.locationManager.delegate = self;
 //        case kCLAuthorizationStatusNotDetermined:
-            [self.locationManager requestWhenInUseAuthorization]; // needed post iOS 8
+            [self.locationManager requestAlwaysAuthorization]; // needed post iOS 8
 //        case kCLAuthorizationStatusAuthorizedWhenInUse:
             //[self.locationManager startUpdatingLocation];
 //    }
     
     
-    
     self.mapView.showsUserLocation = YES; // done in storyboard now
+    
+    //[self addSpotsForRegionMonitoring]; // should've know too early
     
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
@@ -69,6 +70,23 @@
     [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown))];
 }
 
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"categorySelect"]) {
+        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
+        self.categorySelectModal.delegate = self;
+    }
+}
+
+
+#pragma mark - KVO (searchSpots and savedSpotsBeingShown)
+
 - (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary<NSString*,id>*)change context:(void*)context {
     if (object == [DataSource sharedInstance]) {
         // searched spots
@@ -82,6 +100,7 @@
             }
         }
         
+        // saved spots being shown
         else if ([keyPath isEqualToString:NSStringFromSelector(@selector(savedSpotsBeingShown))]) {
             NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
             if (kindOfChange == NSKeyValueChangeSetting) {
@@ -92,10 +111,37 @@
                 // set new
                 [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
             }
-        }
-        
-    }
+        } // end else if keyPath is @"savedSpotsBeingShown"
+    } // end if object is [DataSource sharedInstance]
 }
+
+
+#pragma mark - Category Select VC (modal) delegate
+
+// was implemented for custom MKAV and standard callout (category was right accessory view)
+- (void) didSelectCategory:(Categorie*)category {
+    self.currentSelectedSpot.category = category;
+    //[self updateCategoryButtonOfAnnotationView:self.currentAnnotationView]; // default callouts, now done in Callout VC delegate
+    
+    // somehow, these aren't saving ... or are they now ...
+    [[DataSource sharedInstance] archiveCategories];
+    [[DataSource sharedInstance] archiveSavedSpots];
+}
+
+
+#pragma mark - Callout VC delegate
+
+- (void) didPressDirectionsButton {
+//    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
+//    MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
+//    MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
+//    [MKMapItem openMapsWithItems:@[/*currentLocationItem,*/spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
+    
+    // overtaking this method to test region monitoring methods
+    [self removeAllSpotsForRegionMonitoring];
+    [self addSpotsForRegionMonitoring];
+}
+
 
 #pragma mark - CoinSide protocol methods
 
@@ -157,13 +203,12 @@
         // KVO on Spots too?
         self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
         
-        //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
-        // should not be adding another spot (just do normal save)
+        // save the update to notes
         [[DataSource sharedInstance] archiveSavedSpots];
     }
     
     
-    self.currentAnnotationView = view;
+    //self.currentAnnotationView = view;
     self.currentSelectedSpot = (Spot*)view.annotation;
     
     // i wonder what this does exactly ...
@@ -203,7 +248,7 @@
         [[DataSource sharedInstance] archiveSavedSpots];
     }
 
-    self.currentAnnotationView = nil;
+    //self.currentAnnotationView = nil;
     self.currentSelectedSpot = nil;
     
     // remove calloutVC
@@ -212,39 +257,46 @@
 }
 
 
-#pragma mark - Callout VC delegate
-- (void) didPressDirectionsButton {
-    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
-    MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
-    MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
-    [MKMapItem openMapsWithItems:@[/*currentLocationItem, */spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
-}
+#pragma mark - Nearby Notifications
 
-#pragma mark - Category Select Modal delegate
-
-// was implemented for custom MKAV and standard callout (category was right accessory view)
-- (void) didSelectCategory:(Categorie *)category {
-    self.currentSelectedSpot.category = category;
-    //[self updateCategoryButtonOfAnnotationView:self.currentAnnotationView]; // default callouts
+- (void) addSpotsForRegionMonitoring {
+    // sort savedSpots by distance away
+    NSArray* savedSpotsSorted = [[DataSource sharedInstance] sortSavedSpots:self.locationManager.location];
     
-    // somehow, these aren't saving ... or are they now ...
-    [[DataSource sharedInstance] archiveCategories];
-    [[DataSource sharedInstance] archiveSavedSpots];
-}
-
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // (might the location at this point be different than the location(s) used in the loop below?)
     
-    if ([segue.identifier isEqualToString:@"categorySelect"]) {
-        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
-        self.categorySelectModal.delegate = self;
+    // only add top 20 (at most 20) that are less than 30 miles
+    for (int i = 0; i < MIN(20, savedSpotsSorted.count); i++) {
+        // if spot is less than 30 miles away, add region
+        Spot* spot = savedSpotsSorted[i];
+        CLLocation* location = [[CLLocation alloc] initWithLatitude:spot.coordinate.latitude longitude:spot.coordinate.longitude];
+        CLLocationDistance metersDistance = [self.locationManager.location distanceFromLocation:location];
+        CLLocationDistance milesDistance = metersDistance / 1609.344;
+        
+        if (milesDistance > 30) {
+            break;
+        }
+        
+        // region is a 30-mile radius around spot (48280.32 m = 30 mi * 1609.344 m/mi)
+        // testing using 4000 (~3 mi)
+        CLCircularRegion* region = [[CLCircularRegion alloc] initWithCenter:spot.coordinate radius:4000 identifier:spot.title];
+        
+        // technically, should set the radius of the region to MIN(radius, self.locMgr.maxRegMonDist)
+        [self.locationManager startMonitoringForRegion:region];
     }
 }
 
+- (void) removeAllSpotsForRegionMonitoring {
+    // go through each region key and remove from monitoring (may cause concurrent error)
+    [self.locationManager.monitoredRegions enumerateObjectsUsingBlock:^(__kindof CLRegion*_Nonnull obj, BOOL*_Nonnull stop) {
+        [self.locationManager stopMonitoringForRegion:obj];
+    }];
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void) locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region {
+    NSLog(@"Entering regions: %@", region);
+}
 
 @end

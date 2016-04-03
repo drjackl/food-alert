@@ -20,20 +20,17 @@
 @property (nonatomic) NSMutableArray* unusedColors;
 
 @property (nonatomic) NSArray* savedSpotsBeingShown;
+@property (nonatomic) NSArray* savedSpotsByDistance;
 @property (nonatomic) NSArray* currentSearchedSpots;
 
-//@property (nonatomic) MapViewController* mapVC; // until get KVO in
-//@property (nonatomic) ListTableViewController* listVC;
+- (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh;
 
-- (void) filterSavedSpotsWithCategory:(Categorie*)category;
+- (NSArray*) sortSavedSpots:(CLLocation*)currentLocation;
 
+// Persisting Data
 - (void) saveSpot:(Spot*)spot;
-- (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i;
-
-// both should be taken out after KVO? (save on any change to savedSpots?)
+- (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i; // calls archiveUnusedCategories
 - (void) archiveSavedSpots;
-- (void) unarchiveSavedSpots;
-
 - (void) archiveCategories;
 
 @end

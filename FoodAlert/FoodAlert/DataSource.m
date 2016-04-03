@@ -9,9 +9,14 @@
 #import "DataSource.h"
 #import "Spot.h"
 
+
 @interface DataSource ()
 @property (nonatomic) Categorie* filterCategory;
 @end
+
+//NSInteger distanceSort (id spot1, id spot2, void* context) {
+//    return 0;
+//}
 
 @implementation DataSource
 
@@ -33,6 +38,7 @@
         
         self.currentSearchedSpots = [NSArray array];
         self.savedSpotsBeingShown = [NSArray array];
+        self.savedSpotsByDistance = [NSArray array];
                 
         [self unarchiveSavedSpots];
         [self unarchiveCategories];
@@ -41,9 +47,13 @@
     return self;
 }
 
-- (void) filterSavedSpotsWithCategory:(Categorie*)category {
-    // only filter if different from previously set filter category
-    if (self.filterCategory != category) {
+#pragma mark - Category Filtering
+
+- (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh {
+    // if alwaysRefresh, always filter; else only filter if different from current filter category
+    if (alwaysRefresh ||
+        self.filterCategory != category) {
+        
         self.filterCategory = category;
         
         if (category) {
@@ -54,12 +64,43 @@
         }
     }
     
-    //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new];
+    //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new]; // using Cat property of spots (vs. filtering each time)
 }
 
 - (void) refreshSavedSpotsBeingShown {
-    [self filterSavedSpotsWithCategory:self.filterCategory];
+    [self filterSavedSpotsWithCategory:self.filterCategory alwaysRefresh:YES];
 }
+
+#pragma mark - Nearby Notifications
+
+//- (NSInteger) distanceSort (id spot1, id spot2, void* context) {
+//    return 0;
+//}
+
+NSInteger distanceSort (id spot1, id spot2, void* context) {
+    CLLocation* currentLocation = (__bridge CLLocation*)context;
+
+    CLLocationCoordinate2D coordinate1 = ((Spot*)spot1).coordinate;
+    CLLocationCoordinate2D coordinate2 = ((Spot*)spot2).coordinate;
+    CLLocation* location1 = [[CLLocation alloc] initWithLatitude:coordinate1.latitude longitude:coordinate1.longitude];
+    CLLocation* location2 = [[CLLocation alloc] initWithLatitude:coordinate2.latitude longitude:coordinate2.longitude];
+    CLLocationDistance distance1 = [location1 distanceFromLocation:currentLocation];
+    CLLocationDistance distance2 = [location2 distanceFromLocation:currentLocation];
+    
+    if (distance1 < distance2) {
+        return NSOrderedAscending;
+    } else if (distance1 > distance2) {
+        return NSOrderedDescending;
+    } else { // d1 == d2
+        return NSOrderedSame;
+    }
+}
+
+- (NSArray*) sortSavedSpots:(CLLocation*)currentLocation {
+    self.savedSpotsByDistance = [self.savedSpots sortedArrayUsingFunction:distanceSort context:(__bridge void*_Nullable)(currentLocation)];
+    return self.savedSpotsByDistance;
+}
+
 
 #pragma mark - Persisting data (Public)
 
@@ -95,31 +136,6 @@
     [self archiveObject:self.categories withFilename:NSStringFromSelector(@selector(categories))];
 }
 
-- (void) unarchiveSavedSpots {
-    // dispatch to background since unarchiving might be slow
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForSavedSpots];
-        
-        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
-        
-        // once unarchived, dispatch back to main to set savedSpots to what we unarchived
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (savedSpotsToLoad.count > 0) { // if don't check, savedSpots set back to nil
-                NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
-                self.savedSpots = mutableSavedSpots;
-                
-                // set visible spots after unarchiving
-                self.savedSpotsBeingShown = self.savedSpots;
-                
-                // delete when KVO in for savedSpots
-                //[self.mapVC addSpots:self.savedSpotsBeingShown]; // table ought to load same time here ...
-                //[self.listVC reloadTableView];
-            }
-            
-        });
-    });
-}
-
 
 #pragma mark - Persisting data (Private)
 
@@ -142,14 +158,44 @@
     });
 }
 
-
-//- (void) unarchiveMutableObject
-
-
-
 - (NSString*) pathForSavedSpots {
     return [self pathForFilename:NSStringFromSelector(@selector(savedSpots))];
 }
+
+- (NSString*) pathForCategories {
+    return [self pathForFilename:NSStringFromSelector(@selector(categories))];
+}
+
+- (NSString*) pathForFilename:(NSString*)filename {
+    // use TemporaryDirectory instead?
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* directory = [paths firstObject];
+    NSString* dataPath = [directory stringByAppendingPathComponent:filename];
+    return dataPath;
+}
+
+- (void) unarchiveSavedSpots {
+    // dispatch to background since unarchiving might be slow
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString* fullPath = [self pathForSavedSpots];
+        
+        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        
+        // once unarchived, dispatch back to main to set savedSpots to what we unarchived
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (savedSpotsToLoad.count > 0) { // if don't check, savedSpots set back to nil
+                NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+                self.savedSpots = mutableSavedSpots;
+                
+                // set visible spots after unarchiving
+                self.savedSpotsBeingShown = self.savedSpots;
+                
+                // was adding spots directly to map and list VC before KVO
+            }
+        });
+    });
+}
+
 
 - (void) unarchiveCategories {
     // dispatch to background since unarchiving might be slow
@@ -187,13 +233,9 @@
             if (categoryColorsToLoad.count > 0) {
                 NSMutableArray* mutableCategoryColors = [categoryColorsToLoad mutableCopy];
                 self.unusedColors = mutableCategoryColors;
-            } // else stays empty array
-//            else { // first time running app, oops or there could just be no more
-//                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
-//                [self archiveUnusedColors];
-//            }
+            }
             
-            // update any views that would be done in KVO (don't think I need to)
+            // if no colors, it could be first time, or all colors could've been used up
         });
     });
 }
@@ -211,18 +253,6 @@
              [UIColor purpleColor],
              [UIColor grayColor],
              [UIColor yellowColor]];
-}
-
-- (NSString*) pathForCategories {
-    return [self pathForFilename:NSStringFromSelector(@selector(categories))];
-}
-
-- (NSString*) pathForFilename:(NSString*)filename {
-    // use TemporaryDirectory instead?
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString* directory = [paths firstObject];
-    NSString* dataPath = [directory stringByAppendingPathComponent:filename];
-    return dataPath;
 }
 
 @end
