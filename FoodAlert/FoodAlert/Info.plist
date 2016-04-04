@@ -27,10 +27,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We&apos;d like to show you how close you are to places!! You can always disable this later in your General Settings.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please let us show you how close you are to places!! You can always disable this later in your General Settings.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Our app shows you how close you are to places! You can always disable this later in your General Settings.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>In order to view location, need access to location</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

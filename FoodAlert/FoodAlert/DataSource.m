@@ -11,6 +11,15 @@
 
 
 @interface DataSource ()
+@property (nonatomic) NSMutableArray* savedSpots;
+@property (nonatomic) NSMutableArray* categories;
+@property (nonatomic) NSMutableArray* unusedColors;
+
+@property (nonatomic) NSArray* savedSpotsBeingShown;
+@property (nonatomic) NSArray* savedSpotsByDistance;
+
+//@property (nonatomic) NSArray* currentSearchedSpots;
+
 @property (nonatomic) Categorie* filterCategory;
 @end
 
@@ -107,7 +116,10 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
 - (void) saveSpot:(Spot*)spot {
     Spot* spotCopy = [[Spot alloc] initWithCoordinates:spot.coordinate title:spot.title addressDictionary:spot.addressDictionary phone:spot.phone url:spot.url];
     spotCopy.saved = YES;
-    [self.savedSpots addObject:spotCopy];
+    
+    // necessary for KVO (doesn't get triggered if [self.savedSpots addObject])
+    NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(savedSpots))];
+    [mutableArrayWithKVO addObject:spotCopy];
     
     // refresh savedSpots (could just add or not based on if it's in current category)
     [self refreshSavedSpotsBeingShown];
@@ -212,7 +224,7 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
             } else { // first time running app, load default categories and unused colors
                 self.categories = [[self defaultCategories] mutableCopy];
                 [self archiveCategories];
-                self.unusedColors = [[self defaultCategories] mutableCopy];
+                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
                 [self archiveUnusedColors];
             }
             

@@ -8,7 +8,7 @@
 
 #import "SearchViewController.h"
 #import <MapKit/MapKit.h>
-//#import <AddressBookUI/AddressBookUI.h>
+//#import <AddressBookUI/AddressBookUI.h> // not needed, get @"FormattedAddressLines" in addyDict
 #import "Spot.h"
 #import "DataSource.h"
 

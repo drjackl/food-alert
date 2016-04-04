@@ -7,7 +7,7 @@
 //
 
 #import "ListTableViewController.h"
-#import <AddressBookUI/AddressBookUI.h>
+//#import <AddressBookUI/AddressBookUI.h>  // not needed, get @"FormattedAddressLines" in addyDict
 #import "DataSource.h"
 #import "Spot.h"
 
@@ -49,13 +49,6 @@ static const NSInteger SavedSection = 1;
         }
     }
 }
-
-
-//// take out when KVO in
-//- (void) reloadTableView {
-//    [self.tableView reloadData];
-//}
-
 
 
 #pragma mark - TableView Data Source delegate methods

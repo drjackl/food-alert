@@ -15,12 +15,13 @@
 
 + (instancetype) sharedInstance;
 
-@property (nonatomic) NSMutableArray* savedSpots;
-@property (nonatomic) NSMutableArray* categories;
-@property (nonatomic) NSMutableArray* unusedColors;
+@property (readonly, nonatomic) NSMutableArray* savedSpots;
+@property (readonly, nonatomic) NSMutableArray* categories;
+@property (readonly, nonatomic) NSMutableArray* unusedColors;
 
-@property (nonatomic) NSArray* savedSpotsBeingShown;
-@property (nonatomic) NSArray* savedSpotsByDistance;
+@property (readonly, nonatomic) NSArray* savedSpotsBeingShown;
+@property (readonly, nonatomic) NSArray* savedSpotsByDistance;
+
 @property (nonatomic) NSArray* currentSearchedSpots;
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh;

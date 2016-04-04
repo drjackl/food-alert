@@ -42,22 +42,33 @@
 //        case kCLAuthorizationStatusDenied:
 //            break;
 //        default:
-            self.locationManager = [CLLocationManager new];
-            self.locationManager.delegate = self;
+//            self.locationManager = [CLLocationManager new];
+//            self.locationManager.delegate = self;
 //        case kCLAuthorizationStatusNotDetermined:
-            [self.locationManager requestAlwaysAuthorization]; // needed post iOS 8
+//            [self.locationManager requestAlwaysAuthorization]; // needed post iOS 8
 //        case kCLAuthorizationStatusAuthorizedWhenInUse:
             //[self.locationManager startUpdatingLocation];
+            //[self.locationManager startMonitoringSignificantLocationChanges];
 //    }
     
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
     
-    self.mapView.showsUserLocation = YES; // done in storyboard now
+    [self.locationManager requestAlwaysAuthorization];
+    
+    // maybe this isn't necessary if have delegate
+//    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways ||
+//        [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+//        self.mapView.showsUserLocation = YES; // checkmark exists in storyboard as another option
+//        [self.locationManager startUpdatingLocation];
+//    }
     
     //[self addSpotsForRegionMonitoring]; // should've know too early
     
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpots)) options:0 context:nil]; // for region monitoring
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,6 +79,7 @@
 - (void) dealloc {
     [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots))];
     [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpotsBeingShown))];
+    [[DataSource sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(savedSpots))];
 }
 
 
@@ -112,6 +124,16 @@
                 [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
             }
         } // end else if keyPath is @"savedSpotsBeingShown"
+        
+        // saved spots (region monitoring)
+        else if ([keyPath isEqualToString:NSStringFromSelector(@selector(savedSpots))]) {
+            NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+            if (kindOfChange == NSKeyValueChangeSetting || // may separate out later for efficiency
+                kindOfChange == NSKeyValueChangeInsertion) { // also later just add region for insert
+                // if no user location, wait til user location available
+                [self refreshSpotsForRegionMonitoring]; // for now, if no location, will be ignored
+            }
+        } // end else if keyPath is @"savedSpots"
     } // end if object is [DataSource sharedInstance]
 }
 
@@ -138,8 +160,8 @@
 //    [MKMapItem openMapsWithItems:@[/*currentLocationItem,*/spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
     
     // overtaking this method to test region monitoring methods
-    [self removeAllSpotsForRegionMonitoring];
-    [self addSpotsForRegionMonitoring];
+//    [self removeAllSpotsForRegionMonitoring];
+//    [self addSpotsForRegionMonitoring];
 }
 
 
@@ -163,7 +185,7 @@
     [self.mapView addAnnotations:spotsArray];
 }
 
-#pragma mark - Map View delegate methods
+#pragma mark - Map View delegate
 
 // map delegate for adding annotations
 - (MKAnnotationView*) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -259,6 +281,13 @@
 
 #pragma mark - Nearby Notifications
 
+- (void) refreshSpotsForRegionMonitoring {
+    if (self.locationManager.location) {
+        [self removeAllSpotsForRegionMonitoring];
+        [self addSpotsForRegionMonitoring];
+    }
+}
+
 - (void) addSpotsForRegionMonitoring {
     // sort savedSpots by distance away
     NSArray* savedSpotsSorted = [[DataSource sharedInstance] sortSavedSpots:self.locationManager.location];
@@ -273,13 +302,15 @@
         CLLocationDistance metersDistance = [self.locationManager.location distanceFromLocation:location];
         CLLocationDistance milesDistance = metersDistance / 1609.344;
         
-        if (milesDistance > 30) {
-            break;
-        }
+        // be selective once debugged
+//        if (milesDistance > 30) {
+//            break;
+//        }
         
         // region is a 30-mile radius around spot (48280.32 m = 30 mi * 1609.344 m/mi)
         // testing using 4000 (~3 mi)
-        CLCircularRegion* region = [[CLCircularRegion alloc] initWithCenter:spot.coordinate radius:4000 identifier:spot.title];
+        CLCircularRegion* region = [[CLCircularRegion alloc] initWithCenter:spot.coordinate radius:700 identifier:[spot.title stringByAppendingFormat:@"%f%f", spot.coordinate.latitude, spot.coordinate.longitude]];
+        //region.notifyOnExit = NO; // don't care about exiting
         
         // technically, should set the radius of the region to MIN(radius, self.locMgr.maxRegMonDist)
         [self.locationManager startMonitoringForRegion:region];
@@ -293,10 +324,46 @@
     }];
 }
 
-#pragma mark - CLLocationManagerDelegate
+#pragma mark - CLLocationManager delegate
+
+// seems to get called on startup each time
+- (void) locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusAuthorizedAlways ||
+        status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        self.mapView.showsUserLocation = YES;
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void) locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray<CLLocation*> *)locations {
+    NSLog(@"Did update location with %ld size array last item: %@", locations.count, [locations lastObject]);
+    
+    // only load regions once
+    //NSLog(@"pre stop locMgr.location: %@", manager.location);
+    [self refreshSpotsForRegionMonitoring];
+    [manager stopUpdatingLocation];
+    //[manager stopMonitoringSignificantLocationChanges];
+    //NSLog(@"post stop locMgr.location: %@", manager.location);
+}
 
 - (void) locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region {
     NSLog(@"Entering regions: %@", region);
+}
+
+//- (void) locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
+//    NSLog(@"Exiting regions: %@", region);
+//}
+
+//- (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
+//    NSLog(@"Did determine state for region: %@", region);
+//}
+
+- (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+    NSLog(@"Monitoring failed for region: %@ with error: %@", region, error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+    NSLog(@"Did start monitoring for region: %@", region);
 }
 
 @end
