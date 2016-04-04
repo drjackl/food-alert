@@ -328,10 +328,16 @@
 
 // seems to get called on startup each time
 - (void) locationManager:(CLLocationManager*)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    NSLog(@"Did change authorization status");
     if (status == kCLAuthorizationStatusAuthorizedAlways ||
         status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
         [self.locationManager startUpdatingLocation];
+        
+        // this prompts user for notifications permissions
+        UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     }
 }
 
@@ -347,11 +353,22 @@
 }
 
 - (void) locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region {
-    NSLog(@"Entering regions: %@", region);
+    NSLog(@"Entering region: %@", region.identifier);
+    
+    // maybe these get sent automatically? probably not
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.regionTriggersOnce = YES;
+    localNotification.region = region;
+    localNotification.alertAction = @"Go! Go! Go!";
+    localNotification.alertTitle = NSLocalizedString(@"Nearing Spot!", @"alert notification title");
+    NSString* alertDetails = [NSString stringWithFormat:@"You are about a half mile away from %@", region.identifier];
+    localNotification.alertBody = NSLocalizedString(alertDetails, @"alert notification details");
+    localNotification.alertLaunchImage = @"second";
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
 //- (void) locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-//    NSLog(@"Exiting regions: %@", region);
+//    NSLog(@"Exiting region: %@", region);
 //}
 
 //- (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
@@ -362,8 +379,8 @@
     NSLog(@"Monitoring failed for region: %@ with error: %@", region, error);
 }
 
-- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
-    NSLog(@"Did start monitoring for region: %@", region);
-}
+//- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+//    NSLog(@"Did start monitoring for region: %@", region);
+//}
 
 @end
