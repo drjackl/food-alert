@@ -31,6 +31,7 @@
 
 // Persisting Data
 - (void) saveSpot:(Spot*)spot;
+- (void) deleteSpot:(Spot*)spot;
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i; // calls archiveUnusedCategories
 - (void) deleteCategoryAtIndex:(int)i;
 

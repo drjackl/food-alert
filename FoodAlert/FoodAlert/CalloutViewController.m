@@ -102,6 +102,11 @@
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
+- (IBAction) deleteSpot {
+    [[DataSource sharedInstance] deleteSpot:self.spot];
+}
+
+
 #pragma mark - CatSelect VC delegate methods
 
 - (void) didSelectCategory:(Categorie*)category {

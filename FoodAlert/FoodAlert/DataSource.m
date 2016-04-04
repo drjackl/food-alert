@@ -129,6 +129,16 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [self archiveSavedSpots];
 }
 
+- (void) deleteSpot:(Spot*)spot {
+    NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(savedSpots))];
+    [mutableArrayWithKVO removeObject:spot];
+    
+    // use this to make disappear
+    [self refreshSavedSpotsBeingShown];
+    
+    [self archiveSavedSpots];
+}
+
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i {
     UIColor* color = self.unusedColors[i];
     [self.unusedColors removeObjectAtIndex:i];

@@ -495,6 +495,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcm-im-9JG">
                                                         <rect key="frame" x="60" y="0.0" width="30" height="30"/>
                                                         <state key="normal" title="Del"/>
+                                                        <connections>
+                                                            <action selector="deleteSpot" destination="52y-4S-Pin" eventType="touchUpInside" id="FP9-C9-Mlz"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
