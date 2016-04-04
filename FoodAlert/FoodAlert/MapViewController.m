@@ -281,6 +281,7 @@
 
 #pragma mark - Nearby Notifications
 
+// best to use just this method (don't call AddSpotsFRM or removeSpotsFRM elsewhere)
 - (void) refreshSpotsForRegionMonitoring {
     if (self.locationManager.location) {
         [self removeAllSpotsForRegionMonitoring];
@@ -309,7 +310,8 @@
         
         // region is a 30-mile radius around spot (48280.32 m = 30 mi * 1609.344 m/mi)
         // testing using 4000 (~3 mi)
-        CLCircularRegion* region = [[CLCircularRegion alloc] initWithCenter:spot.coordinate radius:700 identifier:[spot.title stringByAppendingFormat:@"%f%f", spot.coordinate.latitude, spot.coordinate.longitude]];
+        NSString* identifier = [self encodeRegionIDWithTitle:spot.title coordinate:spot.coordinate];
+        CLCircularRegion* region = [[CLCircularRegion alloc] initWithCenter:spot.coordinate radius:700 identifier:identifier];//[spot.title stringByAppendingFormat:@"%f%f", spot.coordinate.latitude, spot.coordinate.longitude]];
         //region.notifyOnExit = NO; // don't care about exiting
         
         // technically, should set the radius of the region to MIN(radius, self.locMgr.maxRegMonDist)
@@ -322,6 +324,18 @@
     [self.locationManager.monitoredRegions enumerateObjectsUsingBlock:^(__kindof CLRegion*_Nonnull obj, BOOL*_Nonnull stop) {
         [self.locationManager stopMonitoringForRegion:obj];
     }];
+}
+
+// encode region ID
+- (NSString*) encodeRegionIDWithTitle:(NSString*)title coordinate:(CLLocationCoordinate2D)coordinate {
+    return [title stringByAppendingFormat:@" %f %f", coordinate.latitude, coordinate.longitude];
+}
+
+- (NSString*) decodeTitleFromRegionID:(NSString*)regionID {
+    NSRange rangeOfLastDelimiter = [regionID rangeOfString:@" " options:NSBackwardsSearch];
+    NSRange rangeOfRegionIDBeforeLastDelimiter = NSMakeRange(0, rangeOfLastDelimiter.location);
+    NSRange rangeOfSecondToLastDelimiter = [regionID rangeOfString:@" " options:NSBackwardsSearch range:rangeOfRegionIDBeforeLastDelimiter]; // base case checks "s 2 4" " 1 3"
+    return [regionID substringToIndex:rangeOfSecondToLastDelimiter.location];
 }
 
 #pragma mark - CLLocationManager delegate
@@ -358,12 +372,12 @@
     // maybe these get sent automatically? probably not
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.regionTriggersOnce = YES;
-    localNotification.region = region;
-    localNotification.alertAction = @"Go! Go! Go!";
-    localNotification.alertTitle = NSLocalizedString(@"Nearing Spot!", @"alert notification title");
-    NSString* alertDetails = [NSString stringWithFormat:@"You are about a half mile away from %@", region.identifier];
+    //localNotification.region = region;
+    //localNotification.alertAction = @"Go! Go! Go!";
+    //localNotification.alertTitle = NSLocalizedString(@"Nearing Spot!", @"alert notification title");
+    NSString* alertDetails = [NSString stringWithFormat:@"You are about a half mile away from %@", [ self decodeTitleFromRegionID:region.identifier]];
     localNotification.alertBody = NSLocalizedString(alertDetails, @"alert notification details");
-    localNotification.alertLaunchImage = @"second";
+    //localNotification.alertLaunchImage = @"second";
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 

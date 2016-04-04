@@ -20,8 +20,9 @@
     return YES;
 }
 
+// only gets called if app is in the forefront (not background)
 - (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    NSLog(@"\n\nLocal Notification received: title <%@> body <%@>", notification.alertTitle, notification.alertBody);
+    NSLog(@"\n\nLocal Notification received: body <%@>", notification.alertBody);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
