@@ -97,7 +97,7 @@
 }
 
 - (IBAction) shareSpot {
-    NSArray* itemsToShare = @[self.spot.title, self.spot.addressDictionary, self.spot.notes];
+    NSArray* itemsToShare = @[self.spot.title, self.spot.addressDictionary, self.spot.notes, /*self.spot.phone, self.spot.url*/];
     UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }

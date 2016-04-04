@@ -154,10 +154,10 @@
 #pragma mark - Callout VC delegate
 
 - (void) didPressDirectionsButton {
-//    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
-//    MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
-//    MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
-//    [MKMapItem openMapsWithItems:@[/*currentLocationItem,*/spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
+    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
+    MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
+    MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
+    [MKMapItem openMapsWithItems:@[/*currentLocationItem,*/spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
     
     // overtaking this method to test region monitoring methods
 //    [self removeAllSpotsForRegionMonitoring];

@@ -13,16 +13,18 @@
 @interface DataSource ()
 @property (nonatomic) NSMutableArray* savedSpots;
 @property (nonatomic) NSMutableArray* categories;
+
 @property (nonatomic) NSMutableArray* unusedColors;
 
 @property (nonatomic) NSArray* savedSpotsBeingShown;
 @property (nonatomic) NSArray* savedSpotsByDistance;
 
-//@property (nonatomic) NSArray* currentSearchedSpots;
+//@property (nonatomic) NSArray* currentSearchedSpots; // putting as readwrite in .h so searchVC can access
 
 @property (nonatomic) Categorie* filterCategory;
 @end
 
+//// could declare function here too
 //NSInteger distanceSort (id spot1, id spot2, void* context) {
 //    return 0;
 //}
@@ -135,6 +137,20 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
     [mutableArrayWithKVO addObject:category];
     //[self.categories addObject:category]; // need to trigger KVO since not a wholesale replacement
+    
+    [self archiveCategories];
+    [self archiveUnusedColors];
+}
+
+- (void) deleteCategoryAtIndex:(int)i {
+    Categorie* category = self.categories[i];
+    UIColor* colorToRecycle = category.color;
+    
+    NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
+    [mutableArrayWithKVO removeObjectAtIndex:i];
+    
+    // recycle the color back to unusedColors array
+    [self.unusedColors addObject:colorToRecycle];
     
     [self archiveCategories];
     [self archiveUnusedColors];

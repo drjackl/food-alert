@@ -72,6 +72,7 @@
 
 - (IBAction) swipeLeftGestureDidFire:(UISwipeGestureRecognizer*)sender {
     if (self.arrayIndex != -1) {
+        //NSLog(@"Index %d out of total %ld", self.arrayIndex, [DataSource sharedInstance].unusedColors.count);
         self.arrayIndex = (self.arrayIndex+1) % [DataSource sharedInstance].unusedColors.count;
         self.colorView.backgroundColor = [DataSource sharedInstance].unusedColors[self.arrayIndex];
     }
@@ -79,21 +80,11 @@
 
 - (IBAction) swipeRightGestureDidFire:(UISwipeGestureRecognizer*)sender {
     if (self.arrayIndex != -1) {
-        self.arrayIndex = (self.arrayIndex-1) % [DataSource sharedInstance].unusedColors.count;
+        //NSLog(@"Index %d out of total %ld", self.arrayIndex, [DataSource sharedInstance].unusedColors.count);
+        int count = (int)[DataSource sharedInstance].unusedColors.count;
+        self.arrayIndex = (self.arrayIndex-1+count) % count; // add count to get wraparound
         self.colorView.backgroundColor = [DataSource sharedInstance].unusedColors[self.arrayIndex];
     }
-    
-    // when didn't realize a swipeGestureRecognizer has a direction and number of taps associated with it
-//    if (self.arrayIndex != -1) {
-//        if (sender.direction == UISwipeGestureRecognizerDirectionLeft) {
-//            self.arrayIndex = (self.arrayIndex+1) % [DataSource sharedInstance].unusedColors.count;
-//        } else if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
-//            self.arrayIndex = (self.arrayIndex-1) % [DataSource sharedInstance].unusedColors.count;
-//        } else {
-//            return;
-//        }
-//        self.colorView.backgroundColor = [DataSource sharedInstance].unusedColors[self.arrayIndex];
-//    }
 }
 
 - (IBAction) dismissViewController {

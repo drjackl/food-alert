@@ -94,6 +94,7 @@
 
 #pragma mark - Table View data source
 
+// numberOfSections defaults to 1
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //#warning Incomplete implementation, return the number of sections
 //    return 0;
@@ -132,25 +133,39 @@
 }
 
 
-/*
+
 // Override to support conditional editing of the table view.
+// (next method tableView:commitEditingStyle: must also be uncommented for Delete to appear)
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
+    NSInteger i = indexPath.row;
+    if ((self.isFirstItemNone && i==0) ||
+        (!self.isFirstItemNone && i==[DataSource sharedInstance].categories.count)) {
+        return NO;
+    }
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        NSInteger i = indexPath.row;
+        if (self.isFirstItemNone) {
+            i--;
+        }
+        
+        [[DataSource sharedInstance] deleteCategoryAtIndex:i];
+    }
+//    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//    }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

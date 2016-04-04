@@ -17,6 +17,7 @@
 
 @property (readonly, nonatomic) NSMutableArray* savedSpots;
 @property (readonly, nonatomic) NSMutableArray* categories;
+
 @property (readonly, nonatomic) NSMutableArray* unusedColors;
 
 @property (readonly, nonatomic) NSArray* savedSpotsBeingShown;
@@ -31,6 +32,8 @@
 // Persisting Data
 - (void) saveSpot:(Spot*)spot;
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i; // calls archiveUnusedCategories
+- (void) deleteCategoryAtIndex:(int)i;
+
 - (void) archiveSavedSpots;
 - (void) archiveCategories;
 
