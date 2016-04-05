@@ -58,6 +58,8 @@
     return self;
 }
 
+
+
 #pragma mark - Category Filtering
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh {
@@ -68,11 +70,15 @@
         self.filterCategory = category;
         
         if (category) {
-            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-            self.savedSpotsBeingShown = filteredArray;
+//            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+//            self.savedSpotsBeingShown = filteredArray;
+            
+            self.savedSpotsBeingShown = [category.spotsArray copy];
         } else {
             self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
         }
+        
+        
     }
     
     //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new]; // using Cat property of spots (vs. filtering each time)
@@ -83,10 +89,6 @@
 }
 
 #pragma mark - Nearby Notifications
-
-//- (NSInteger) distanceSort (id spot1, id spot2, void* context) {
-//    return 0;
-//}
 
 NSInteger distanceSort (id spot1, id spot2, void* context) {
     CLLocation* currentLocation = (__bridge CLLocation*)context;
@@ -112,6 +114,15 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     return self.savedSpotsByDistance;
 }
 
+#pragma mark - Linking a Spot to its Category
+
+// if before or after category nil, won't remove or add, just set spot category to nil
+- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
+    [spot.category.spotsArray removeObject:spot];
+    [category.spotsArray addObject:spot];
+    spot.category = category;
+}
+
 
 #pragma mark - Persisting data (Public)
 
@@ -133,6 +144,10 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(savedSpots))];
     [mutableArrayWithKVO removeObject:spot];
     
+    // if deleting spot, must delete from category list too since strong reference
+    [spot.category removeSpot:spot];
+    //spot.category = nil; // i think i need this to be clear
+    
     // use this to make disappear
     [self refreshSavedSpotsBeingShown];
     
@@ -152,12 +167,15 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [self archiveUnusedColors];
 }
 
-- (void) deleteCategoryAtIndex:(int)i {
+- (void) deleteCategoryAtIndex:(NSInteger)i {
     Categorie* category = self.categories[i];
     UIColor* colorToRecycle = category.color;
     
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
     [mutableArrayWithKVO removeObjectAtIndex:i];
+    
+    // also be sure to remove each spot under category!
+    [category removeAllSpots];
     
     // recycle the color back to unusedColors array
     [self.unusedColors addObject:colorToRecycle];

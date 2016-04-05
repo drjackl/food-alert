@@ -29,11 +29,18 @@
     return self;
 }
 
-- (void)setCategory:(Categorie*)category {
-    _category = category;
-    // hmm, not removing old category
-    [category addSavedSpot:self];
-}
+// set the spot <--> category relationship here
+//- (void) setCategory:(Categorie*)category {
+//    // hmm, not removing old category
+//    // if there was an old category, remove spot from its spotsArray
+//    if (_category) { // don't think i need this check
+//        [_category removeSpot:self];
+//    }
+//    
+//    // spot <--> category
+//    [category addSpot:self];
+//    _category = category;
+//}
 
 - (NSString*) formattedAddressWithSeparator:(NSString*)separator {
     NSMutableString* formattedString = [NSMutableString string];

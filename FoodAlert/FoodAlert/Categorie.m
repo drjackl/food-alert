@@ -8,7 +8,7 @@
 
 #import "Categorie.h"
 // interesting, don't need to import Spot.h, found out this is because I don't use Spot methods
-//#import "Spot.h"
+#import "Spot.h" // but now i need it
 
 @implementation Categorie
 
@@ -18,7 +18,7 @@
         self.title = title;
         self.color = color;
         
-        self.spotsInCategory = [NSMutableArray array]; // not needed if weak pointer?
+        _spotsArray = [NSMutableArray array]; // (not needed if weak pointer?)
     }
     return self;
 }
@@ -36,13 +36,34 @@
     return NO;
 }
 
-// should only be called by setCategory (or addCategory later maybe)
-- (void) addSavedSpot:(Spot*)savedSpot {
-    if (!self.spotsInCategory) { // because weak pointer
-        self.spotsInCategory = [NSMutableArray array];
-    }
-    [self.spotsInCategory addObject:savedSpot];
-    //[savedSpot setSaved:NO]; // testing import, i need import to use methods
+// should only be called by Spot's setCategory (or addCategory later maybe); THIS is the link
+//- (void) addSpot:(Spot*)spot {
+////    if (!self.spotsInCategory) { // because weak pointer
+////        self.spotsInCategory = [NSMutableArray array];
+////    }
+//    
+//    // first remove spot from old category
+//    [spot.category.spotsArray removeObject:spot];
+//    
+//    [self.spotsArray addObject:spot]; // category was already set in Spot (not anymore)
+//    spot.category = self; // set cycle
+//}
+
+// break the spot <--> category relationship
+- (void) removeSpot:(Spot*)spot {
+    [self.spotsArray removeObject:spot];
+    // set spot to nil (i think i meant set the category to nil)
+    spot.category = nil; // this causes infinite loop
+}
+
+// break the spot <--> category relationship for all category's spots
+- (void) removeAllSpots {
+    //[self.spotsArray removeAllObjects];
+    // maybe set each spot's category to nil now?
+    
+    [self.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
+        [self removeSpot:obj];
+    }];
 }
 
 #pragma mark - NSCoding
@@ -54,7 +75,7 @@
         self.title = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(title))];
         self.color = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(color))];
         
-        self.spotsInCategory = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsInCategory))];
+        _spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
     }
     return self;
 }
@@ -63,7 +84,7 @@
     [aCoder encodeObject:self.title forKey:NSStringFromSelector(@selector(title))];
     [aCoder encodeObject:self.color forKey:NSStringFromSelector(@selector(color))];
     
-    [aCoder encodeObject:self.spotsInCategory forKey:NSStringFromSelector(@selector(spotsInCategory))];
+    [aCoder encodeObject:self.spotsArray forKey:NSStringFromSelector(@selector(spotsArray))];
 }
 
 @end

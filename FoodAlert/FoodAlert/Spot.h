@@ -23,7 +23,7 @@
 
 @property (nonatomic) BOOL saved;
 
-@property (nonatomic) Categorie* category; // Spot -strong-> Cat -weak-> SpotArray -strong-> Spot
+@property (weak, nonatomic) Categorie* category; // Spot -weak-> Cat -strong-> SpotArray -strong-> Spot
 
 @property (nonatomic) NSString* notes;
 

@@ -17,11 +17,14 @@
 @property (nonatomic) NSString* title;
 @property (nonatomic) UIColor* color;
 
-@property (nonatomic, weak) NSMutableArray* spotsInCategory; // Cat -weak-> SpotArray -strong-> Spot -strong-> Cat
+@property (readonly, nonatomic) NSMutableArray* spotsArray; // Cat -strong-> SpotArray -strong-> Spot -weak-> Cat
 
 - (instancetype) initWithColor:(UIColor*)color;
 - (instancetype) initWithTitle:(NSString*)title color:(UIColor*)color;
 
-- (void) addSavedSpot:(Spot*)savedSpot;
+// should only be called by Spot's setCategory method to maintain strong/weak cyclical reference
+//- (void) addSpot:(Spot*)spot;
+- (void) removeSpot:(Spot*)sSpot;
+- (void) removeAllSpots; // called when category being removed
 
 @end

@@ -25,6 +25,8 @@
 
 @property (nonatomic) NSArray* currentSearchedSpots;
 
+- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot;
+
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh;
 
 - (NSArray*) sortSavedSpots:(CLLocation*)currentLocation;
@@ -33,7 +35,7 @@
 - (void) saveSpot:(Spot*)spot;
 - (void) deleteSpot:(Spot*)spot;
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i; // calls archiveUnusedCategories
-- (void) deleteCategoryAtIndex:(int)i;
+- (void) deleteCategoryAtIndex:(NSInteger)i;
 
 - (void) archiveSavedSpots;
 - (void) archiveCategories;
