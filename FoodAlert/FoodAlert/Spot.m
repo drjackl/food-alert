@@ -9,6 +9,7 @@
 #import "Spot.h"
 #import <MapKit/MapKit.h>
 #import "Categorie.h"
+#import "DataSource.h"
 
 @implementation Spot
 
@@ -31,15 +32,23 @@
 
 // set the spot <--> category relationship here
 //- (void) setCategory:(Categorie*)category {
-//    // hmm, not removing old category
-//    // if there was an old category, remove spot from its spotsArray
-//    if (_category) { // don't think i need this check
-//        [_category removeSpot:self];
-//    }
+////    // hmm, not removing old category
+////    // if there was an old category, remove spot from its spotsArray
+////    if (_category) { // don't think i need this check
+////        [_category removeSpot:self];
+////    }
+////    
+////    // spot <--> category
+////    [category addSpot:self];
+////    _category = category;
 //    
-//    // spot <--> category
-//    [category addSpot:self];
+//    [_category.spotsArray removeObject:self];
+//    [category.spotsArray addObject:self];
 //    _category = category;
+//    
+//    // each linking needs to persist (but not on startup encoding ...)
+//    [[DataSource sharedInstance] archiveSavedSpots];
+//    [[DataSource sharedInstance] archiveCategories];
 //}
 
 - (NSString*) formattedAddressWithSeparator:(NSString*)separator {
@@ -72,6 +81,7 @@
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
         
+        // needed for strong property
         self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
         
         self.notes = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(notes))];
@@ -93,6 +103,7 @@
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
     
+    // needed if cat a strong property
     [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
     
     [aCoder encodeObject:self.notes forKey:NSStringFromSelector(@selector(notes))];

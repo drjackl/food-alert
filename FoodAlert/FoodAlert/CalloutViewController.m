@@ -12,12 +12,12 @@
 #import "CategorySelectViewController.h"
 
 @interface CalloutViewController () <CategorySelectViewControllerDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *saveButton;
-@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
-@property (weak, nonatomic) IBOutlet UIButton *driveButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton* saveButton;
+@property (weak, nonatomic) IBOutlet UIButton* categoryButton;
+@property (weak, nonatomic) IBOutlet UIButton* driveButton;
+@property (weak, nonatomic) IBOutlet UIButton* shareButton;
+@property (weak, nonatomic) IBOutlet UIButton* deleteButton;
 @end
 
 @implementation CalloutViewController
@@ -52,8 +52,11 @@
 
 #pragma mark - Accessors & View updates
 
+// currently, only time spot set is when a spot gets selected on map (can't select same spot)
 - (void) setSpot:(Spot*)spot {
-    // currently, only time spot set is when a spot gets selected on map (can't select same spot)
+    [_spot removeObserver:self forKeyPath:NSStringFromSelector(@selector(category))];
+    [spot addObserver:self forKeyPath:NSStringFromSelector(@selector(category)) options:0 context:nil];
+    
     _spot = spot;
     
     // interesting view hasn't been loaded here yet (initially it seems)
@@ -67,15 +70,29 @@
     self.saveButton.enabled = !self.spot.saved;
     
     // category button
-    NSString* titleText = self.spot.category ? self.spot.category.title : NSLocalizedString(@"<category>", @"default category label");
-    [self.categoryButton setTitle:titleText forState:UIControlStateNormal];
-    self.categoryButton.backgroundColor = self.spot.category.color;
+    [self updateCategoryButtonBasedOnSpot];
     
 //    self.descriptionTextView.text = [NSString stringWithFormat:@"%@\n%@\n%@",
 //                                     [self.spot formattedAddressWithSeparator:@"\n"],
 //                                     self.spot.phone,
 //                                     self.spot.url.absoluteString];
     self.descriptionTextView.text = self.spot.notes;
+}
+
+- (void) updateCategoryButtonBasedOnSpot {
+    NSString* titleText = self.spot.category ? self.spot.category.title : NSLocalizedString(@"<category>", @"default category label");
+    [self.categoryButton setTitle:titleText forState:UIControlStateNormal];
+    self.categoryButton.backgroundColor = self.spot.category.color;
+}
+
+// just need to listen if this category gets deleted (checks for change setting types)
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if (object == self.spot && [keyPath isEqualToString:NSStringFromSelector(@selector(category))]) {
+        NSKeyValueChange changeKind = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+        if (changeKind == NSKeyValueChangeSetting) {
+            [self updateCategoryButtonBasedOnSpot];
+        }
+    }
 }
 
 
@@ -112,10 +129,10 @@
 - (void) didSelectCategory:(Categorie*)category {
     // only set category if different from current category
     if (self.spot.category != category) {
-        //self.spot.category = category;
+        self.spot.category = category;
         //[category addSpot:self.spot]; // set spot <--> category
         // linking spot <--> cat
-        [[DataSource sharedInstance] setCategory:category forSpot:self.spot];
+        //[[DataSource sharedInstance] setCategory:category forSpot:self.spot];
         
         // update category title and color
         [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
@@ -126,6 +143,7 @@
         }
         
         // somehow, these aren't saving ... or are they now ...
+        // these are called in setCategory above
         [[DataSource sharedInstance] archiveCategories];
         [[DataSource sharedInstance] archiveSavedSpots];
     }

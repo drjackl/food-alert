@@ -18,7 +18,7 @@
         self.title = title;
         self.color = color;
         
-        _spotsArray = [NSMutableArray array]; // (not needed if weak pointer?)
+        //_spotsArray = [NSMutableArray array]; // (not needed if weak pointer?)
     }
     return self;
 }
@@ -50,21 +50,21 @@
 //}
 
 // break the spot <--> category relationship
-- (void) removeSpot:(Spot*)spot {
-    [self.spotsArray removeObject:spot];
-    // set spot to nil (i think i meant set the category to nil)
-    spot.category = nil; // this causes infinite loop
-}
+//- (void) removeSpot:(Spot*)spot {
+//    //[self.spotsArray removeObject:spot];
+//    // set spot to nil (i think i meant set the category to nil)
+//    spot.category = nil; // this causes infinite loop
+//}
 
 // break the spot <--> category relationship for all category's spots
-- (void) removeAllSpots {
-    //[self.spotsArray removeAllObjects];
-    // maybe set each spot's category to nil now?
-    
-    [self.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
-        [self removeSpot:obj];
-    }];
-}
+//- (void) removeAllSpots {
+//    //[self.spotsArray removeAllObjects];
+//    // maybe set each spot's category to nil now?
+//    
+////    [self.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
+////        [self removeSpot:obj];
+////    }];
+//}
 
 #pragma mark - NSCoding
 
@@ -75,7 +75,7 @@
         self.title = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(title))];
         self.color = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(color))];
         
-        _spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
+        //_spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
     }
     return self;
 }
@@ -84,7 +84,7 @@
     [aCoder encodeObject:self.title forKey:NSStringFromSelector(@selector(title))];
     [aCoder encodeObject:self.color forKey:NSStringFromSelector(@selector(color))];
     
-    [aCoder encodeObject:self.spotsArray forKey:NSStringFromSelector(@selector(spotsArray))];
+    //[aCoder encodeObject:self.spotsArray forKey:NSStringFromSelector(@selector(spotsArray))];
 }
 
 @end

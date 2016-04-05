@@ -70,10 +70,10 @@
         self.filterCategory = category;
         
         if (category) {
-//            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-//            self.savedSpotsBeingShown = filteredArray;
+            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+            self.savedSpotsBeingShown = filteredArray;
             
-            self.savedSpotsBeingShown = [category.spotsArray copy];
+            //self.savedSpotsBeingShown = [category.spotsArray copy];
         } else {
             self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
         }
@@ -117,11 +117,14 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
 #pragma mark - Linking a Spot to its Category
 
 // if before or after category nil, won't remove or add, just set spot category to nil
-- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
-    [spot.category.spotsArray removeObject:spot];
-    [category.spotsArray addObject:spot];
-    spot.category = category;
-}
+//- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
+//    [spot.category.spotsArray removeObject:spot];
+//    [category.spotsArray addObject:spot];
+//    spot.category = category;
+//    
+//    [[DataSource sharedInstance] archiveSavedSpots];
+//    [[DataSource sharedInstance] archiveCategories];
+//}
 
 
 #pragma mark - Persisting data (Public)
@@ -145,13 +148,14 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [mutableArrayWithKVO removeObject:spot];
     
     // if deleting spot, must delete from category list too since strong reference
-    [spot.category removeSpot:spot];
-    //spot.category = nil; // i think i need this to be clear
+    //[spot.category removeSpot:spot];
+    spot.category = nil; // needs to be set explicitly sometime
     
     // use this to make disappear
     [self refreshSavedSpotsBeingShown];
     
     [self archiveSavedSpots];
+    [self archiveCategories]; // since spot and cat linked, need to persist both
 }
 
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i {
@@ -169,15 +173,19 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
 
 - (void) deleteCategoryAtIndex:(NSInteger)i {
     Categorie* category = self.categories[i];
-    UIColor* colorToRecycle = category.color;
     
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
     [mutableArrayWithKVO removeObjectAtIndex:i];
     
     // also be sure to remove each spot under category!
-    [category removeAllSpots];
+    //[category removeAllSpots]; // strong/weak
+    NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+    [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
+        ((Spot*)obj).category = nil;
+    }];
     
     // recycle the color back to unusedColors array
+    UIColor* colorToRecycle = category.color;
     [self.unusedColors addObject:colorToRecycle];
     
     [self archiveCategories];
@@ -265,6 +273,13 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
             if (categoriesToLoad.count > 0) {
                 NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
                 self.categories = mutableCategories;
+                // strong/weak
+//                [self.categories enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx, BOOL*_Nonnull stop) {
+//                    Categorie* category = obj1;
+//                    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx, BOOL*_Nonnull stop) {
+//                        ((Spot*)obj2).category = category;
+//                    }];
+//                }];
             } else { // first time running app, load default categories and unused colors
                 self.categories = [[self defaultCategories] mutableCopy];
                 [self archiveCategories];

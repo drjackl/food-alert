@@ -25,7 +25,7 @@
 
 @property (nonatomic) NSArray* currentSearchedSpots;
 
-- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot;
+//- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot;
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh;
 

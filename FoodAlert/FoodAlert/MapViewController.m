@@ -16,7 +16,7 @@
 #import "CalloutViewController.h"
 #import "CategoryPresentationController.h"
 
-@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CalloutViewControllerDelegate, CategorySelectViewControllerDelegate>
+@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CalloutViewControllerDelegate/*, CategorySelectViewControllerDelegate*/>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 
 @property (nonatomic) CLLocationManager* locationManager;
@@ -140,24 +140,25 @@
 
 #pragma mark - Category Select VC (modal) delegate
 
-// was implemented for custom MKAV and standard callout (category was right accessory view)
-- (void) didSelectCategory:(Categorie*)category {
-    self.currentSelectedSpot.category = category;
-    //[self updateCategoryButtonOfAnnotationView:self.currentAnnotationView]; // default callouts, now done in Callout VC delegate
-    
-    // somehow, these aren't saving ... or are they now ...
-    [[DataSource sharedInstance] archiveCategories];
-    [[DataSource sharedInstance] archiveSavedSpots];
-}
+//// was implemented for custom MKAV and standard callout (category was right accessory view)
+//- (void) didSelectCategory:(Categorie*)category {
+//    self.currentSelectedSpot.category = category;
+//    //[self updateCategoryButtonOfAnnotationView:self.currentAnnotationView]; // default callouts, now done in Callout VC delegate
+//    
+//    // somehow, these aren't saving ... or are they now ...
+//    [[DataSource sharedInstance] archiveCategories];
+//    [[DataSource sharedInstance] archiveSavedSpots];
+//}
 
 
 #pragma mark - Callout VC delegate
 
 - (void) didPressDirectionsButton {
-    //MKMapItem* currentLocationItem = [MKMapItem mapItemForCurrentLocation]; // not needed, just pass one item in array
     MKPlacemark* spotPlacemark = [[MKPlacemark alloc] initWithCoordinate:self.currentSelectedSpot.coordinate addressDictionary:self.currentSelectedSpot.addressDictionary];
     MKMapItem* spotItem = [[MKMapItem alloc] initWithPlacemark:spotPlacemark];
-    [MKMapItem openMapsWithItems:@[/*currentLocationItem,*/spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
+    
+    // passing one item gives direction from current location (2 items is directions between them)
+    [MKMapItem openMapsWithItems:@[spotItem] launchOptions:@{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving}];
     
     // overtaking this method to test region monitoring methods
 //    [self removeAllSpotsForRegionMonitoring];
@@ -221,13 +222,7 @@
     }
     
     // if a previous annotation was selected before this, save the notes (and the spot)
-    if (self.currentSelectedSpot) {
-        // KVO on Spots too?
-        self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
-        
-        // save the update to notes
-        [[DataSource sharedInstance] archiveSavedSpots];
-    }
+    [self saveNotes];
     
     
     //self.currentAnnotationView = view;
@@ -261,14 +256,7 @@
 
 - (void) mapView:(MKMapView*)mapView didDeselectAnnotationView:(MKAnnotationView*)view {
     // if a previous annotation was selected before this, save the notes (and the spot)
-    if (self.currentSelectedSpot) {
-        // KVO on Spots too?
-        self.currentSelectedSpot.notes = self.calloutViewController.descriptionTextView.text;
-        
-        //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
-        // should not be adding another spot (just do normal save)
-        [[DataSource sharedInstance] archiveSavedSpots];
-    }
+    [self saveNotes];
 
     //self.currentAnnotationView = nil;
     self.currentSelectedSpot = nil;
@@ -276,6 +264,21 @@
     // remove calloutVC
     [self.calloutViewController.view removeFromSuperview];
     [self.calloutViewController removeFromParentViewController];
+}
+
+// only save if there's a currentSelectedSpot and the textView contains different text
+- (void) saveNotes {
+    if (self.currentSelectedSpot) {
+        NSString* textViewText = self.calloutViewController.descriptionTextView.text;
+        if (![self.currentSelectedSpot.notes isEqualToString: textViewText]) {
+            // KVO on Spots too?
+            self.currentSelectedSpot.notes = textViewText;
+            
+            //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
+            // should not be adding another spot (just do normal save)
+            [[DataSource sharedInstance] archiveSavedSpots];
+        }
+    }
 }
 
 
