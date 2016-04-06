@@ -11,6 +11,7 @@
 #import "ListTableViewController.h"
 #import "Categorie.h"
 
+
 @interface DataSource : NSObject
 
 + (instancetype) sharedInstance;
@@ -23,6 +24,7 @@
 @property (readonly, nonatomic) NSArray* savedSpotsBeingShown;
 @property (readonly, nonatomic) NSArray* savedSpotsByDistance;
 
+// so searchVC can access
 @property (nonatomic) NSArray* currentSearchedSpots;
 
 //- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot;

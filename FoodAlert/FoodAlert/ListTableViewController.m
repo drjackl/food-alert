@@ -7,7 +7,6 @@
 //
 
 #import "ListTableViewController.h"
-//#import <AddressBookUI/AddressBookUI.h>  // not needed, get @"FormattedAddressLines" in addyDict
 #import "DataSource.h"
 #import "Spot.h"
 
@@ -68,7 +67,7 @@ static const NSInteger SavedSection = 1;
     return NSLocalizedString(@"Null section", @"section that shouldn't be gotten to");
 }
 
-//// ok, this is for table navigation (like direct scrolling, right side of table)
+//// for table navigation (like direct scrolling, right side of table)
 //- (NSArray<NSString*> *)sectionIndexTitlesForTableView:(UITableView*)tableView {
 //    return @[NSLocalizedString(@"Search Results", @"search results section"),
 //             NSLocalizedString(@"Saved Spots", @"saved spots section"),
@@ -91,15 +90,6 @@ static const NSInteger SavedSection = 1;
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"listCell" forIndexPath:indexPath];
     // does dequeue automatically create a new cell? it apparently does as long as supply reuse ID
     
-    // when there was only 1 section
-//    Spot* spot;
-//    NSArray* savedSpotsHelper = [DataSource sharedInstance].savedSpots;
-//    if (indexPath.row < savedSpotsHelper.count) {
-//        spot = savedSpotsHelper[indexPath.row];
-//    } else {
-//        spot = [DataSource sharedInstance].currentSearchedSpots[indexPath.row - savedSpotsHelper.count];
-//    }
-    
     Spot* spot;
     NSString* spotIconIdentifier;
     if (indexPath.section == SearchSection) {
@@ -113,19 +103,20 @@ static const NSInteger SavedSection = 1;
     // when used subtitle or title layout
     //cell.textLabel.text = spot.title;
     //cell.detailTextLabel.text = [NSString stringWithFormat:@"coord: %f, %f", spot.coordinate.latitude, spot.coordinate.longitude];
-    
+
+    // now using custom layout to have an icon (along with title and subtitle)
     UIImageView* listIconView = (UIImageView*)[cell viewWithTag:111];
     listIconView.image = [UIImage imageNamed:spotIconIdentifier];
 
     UILabel* listTitleLabel = (UILabel*)[cell viewWithTag:112];
     listTitleLabel.text = spot.title;
     UILabel* listSubtitleLabel = (UILabel*)[cell viewWithTag:113];
+    
+    // subtitle use to be address before notes feature
     //NSArray* addressLines = spot.addressDictionary[@"FormattedAddressLines"];
     //NSString* addressString = [addressLines componentsJoinedByString:@", "];
     //listSubtitleLabel.text = [spot formattedAddressWithSeparator:@", "];//addressString;
     listSubtitleLabel.text = spot.notes;
-    //ABCreateStringWithAddressDictionary(spot.addressDictionary, YES); // deprecated, warning says to use CNPostAddressFormatter, but this solution seems easier than doing that conversion
-    
     
     return cell;
 }

@@ -66,7 +66,7 @@
 - (void) updateViewBasedOnSpot {
     self.titleLabel.text = self.spot.title;
     
-    //self.saveButton.userInteractionEnabled = !self.spot.saved; // still blue, misleading
+    // userInteractionEnabled still leaves button blue, misleading
     self.saveButton.enabled = !self.spot.saved;
     
     // category button
@@ -80,7 +80,7 @@
 }
 
 - (void) updateCategoryButtonBasedOnSpot {
-    NSString* titleText = self.spot.category ? self.spot.category.title : NSLocalizedString(@"<category>", @"default category label");
+    NSString* titleText = self.spot.category ? self.spot.category.title : NSLocalizedString(@"<no category>", @"default category label");
     [self.categoryButton setTitle:titleText forState:UIControlStateNormal];
     self.categoryButton.backgroundColor = self.spot.category.color;
 }

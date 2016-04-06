@@ -65,6 +65,7 @@
     }
 }
 
+
 #pragma mark - UIViewControllerTransitioningDelegate
 
 - (UIPresentationController*) presentationControllerForPresentedViewController:(UIViewController*)presented presentingViewController:(UIViewController*)presenting sourceViewController:(UIViewController*)source {
@@ -73,6 +74,7 @@
     }
     return nil;
 }
+
 
 #pragma mark - Table View delegate
 
@@ -91,6 +93,7 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 
 #pragma mark - Table View data source
 
@@ -152,7 +155,6 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         NSInteger i = indexPath.row;
         if (self.isFirstItemNone) {
@@ -160,6 +162,11 @@
         }
         
         [[DataSource sharedInstance] deleteCategoryAtIndex:i];
+        
+        // this should be moved to KVO observe method above (looking at how blocstagram does it)
+//        [tableView beginUpdates];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//        [tableView endUpdates];
     }
 //    else if (editingStyle == UITableViewCellEditingStyleInsert) {
 //        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

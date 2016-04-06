@@ -23,7 +23,7 @@
 
 @property (nonatomic) BOOL saved;
 
-@property (nonatomic) Categorie* category; // Spot -weak-> Cat -strong-> SpotArray -strong-> Spot
+@property (nonatomic) Categorie* category; // not using cycles currently
 
 @property (nonatomic) NSString* notes;
 

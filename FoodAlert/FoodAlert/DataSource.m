@@ -59,7 +59,6 @@
 }
 
 
-
 #pragma mark - Category Filtering
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh {
@@ -77,8 +76,6 @@
         } else {
             self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
         }
-        
-        
     }
     
     //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new]; // using Cat property of spots (vs. filtering each time)
@@ -114,8 +111,8 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     return self.savedSpotsByDistance;
 }
 
-#pragma mark - Linking a Spot to its Category
-
+//#pragma mark - Linking a Spot to its Category
+//
 // if before or after category nil, won't remove or add, just set spot category to nil
 //- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
 //    [spot.category.spotsArray removeObject:spot];
@@ -141,6 +138,12 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [self refreshSavedSpotsBeingShown];
     
     [self archiveSavedSpots];
+    
+
+    // this prompts user for notifications permissions (first time should be when region added, but that would be put in a loop, so first time when first save)
+    UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+    UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
 }
 
 - (void) deleteSpot:(Spot*)spot {

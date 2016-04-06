@@ -56,14 +56,14 @@
     
     [self.locationManager requestAlwaysAuthorization];
     
-    // maybe this isn't necessary if have delegate
+    // maybe this isn't necessary if have delegate (this code put in delegate authChange method)
 //    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways ||
 //        [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
 //        self.mapView.showsUserLocation = YES; // checkmark exists in storyboard as another option
 //        [self.locationManager startUpdatingLocation];
 //    }
     
-    //[self addSpotsForRegionMonitoring]; // should've know too early
+    //[self addSpotsForRegionMonitoring]; // should've known too early
     
     
     [[DataSource sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(currentSearchedSpots)) options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
@@ -89,11 +89,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
-    if ([segue.identifier isEqualToString:@"categorySelect"]) {
-        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
-        self.categorySelectModal.delegate = self;
-    }
+
+    // no longer using category select here (in callout now)
+//    if ([segue.identifier isEqualToString:@"categorySelect"]) {
+//        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
+//        self.categorySelectModal.delegate = self;
+//    }
 }
 
 
@@ -138,8 +139,8 @@
 }
 
 
-#pragma mark - Category Select VC (modal) delegate
-
+//#pragma mark - Category Select VC (modal) delegate
+//
 //// was implemented for custom MKAV and standard callout (category was right accessory view)
 //- (void) didSelectCategory:(Categorie*)category {
 //    self.currentSelectedSpot.category = category;
@@ -182,9 +183,10 @@
     return self.mapView.region;
 }
 
-- (void) addSpots:(NSArray*)spotsArray {
-    [self.mapView addAnnotations:spotsArray];
-}
+// seems like it was an early helper method
+//- (void) addSpots:(NSArray*)spotsArray {
+//    [self.mapView addAnnotations:spotsArray];
+//}
 
 #pragma mark - Map View delegate
 
@@ -350,11 +352,6 @@
         status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         self.mapView.showsUserLocation = YES;
         [self.locationManager startUpdatingLocation];
-        
-        // this prompts user for notifications permissions
-        UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
-        UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     }
 }
 
@@ -374,8 +371,8 @@
     
     // maybe these get sent automatically? probably not
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.regionTriggersOnce = YES;
-    //localNotification.region = region;
+    //localNotification.regionTriggersOnce = YES; // this is default
+    //localNotification.region = region; // i think adding region might've been delaying this notification from presenting immediately
     //localNotification.alertAction = @"Go! Go! Go!";
     //localNotification.alertTitle = NSLocalizedString(@"Nearing Spot!", @"alert notification title");
     NSString* alertDetails = [NSString stringWithFormat:@"You are about a half mile away from %@", [ self decodeTitleFromRegionID:region.identifier]];
@@ -392,9 +389,10 @@
 //    NSLog(@"Did determine state for region: %@", region);
 //}
 
-- (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
-    NSLog(@"Monitoring failed for region: %@ with error: %@", region, error);
-}
+// this method should be called if too many regions added, or something related to that
+//- (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+//    NSLog(@"Monitoring failed for region: %@ with error: %@", region, error);
+//}
 
 //- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
 //    NSLog(@"Did start monitoring for region: %@", region);

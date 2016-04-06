@@ -8,7 +8,6 @@
 
 #import "SearchViewController.h"
 #import <MapKit/MapKit.h>
-//#import <AddressBookUI/AddressBookUI.h> // not needed, get @"FormattedAddressLines" in addyDict
 #import "Spot.h"
 #import "DataSource.h"
 
@@ -20,7 +19,7 @@
 @property (nonatomic) NSArray* savedSuggestionsArray;
 // data for google suggest (and xml parsing)
 @property (nonatomic) NSString* currentElement;
-@property (nonatomic) NSMutableString* foundValue;
+//@property (nonatomic) NSMutableString* foundValue;
 @property (nonatomic) NSMutableArray* googleSuggestionsArray;
 @end
 
@@ -35,9 +34,7 @@ static const NSInteger GoogleSuggestionSection = 1;
     
     self.searchBar.delegate = self;
     
-    //self.savedSuggestionsArray = [NSMutableArray new]; // now in DataSource
-    
-    self.foundValue = [NSMutableString string];
+    //self.foundValue = [NSMutableString string];
     self.googleSuggestionsArray = [NSMutableArray array];
     
     // Table data/delegate related
@@ -69,7 +66,7 @@ static const NSInteger GoogleSuggestionSection = 1;
         //NSMutableString* results = [NSMutableString new];
         NSMutableArray* spotsArray = [NSMutableArray new];
         [response.mapItems enumerateObjectsUsingBlock:^(MKMapItem*_Nonnull item, NSUInteger i, BOOL*_Nonnull stop) {
-            NSLog(@"Item %ld: %@", i, item);
+            //NSLog(@"Item %ld: %@", i, item);
             //[results appendFormat:@"Item %ld: %@\n", i, item];
             Spot* spot = [[Spot alloc] initWithCoordinates:item.placemark.location.coordinate title:item.name addressDictionary:item.placemark.addressDictionary phone:item.phoneNumber url:item.url];
             [spotsArray addObject:spot];
@@ -210,7 +207,7 @@ static const NSInteger GoogleSuggestionSection = 1;
     //NSLog(@"Text did change: %@", searchText);
     
     // saved spots suggest
-    self.savedSuggestionsArray = [[DataSource sharedInstance].savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"title contains[cd] %@", searchText]];
+    self.savedSuggestionsArray = [[DataSource sharedInstance].savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", searchText]];
     
     // google suggest
     NSString* noSpaceSearchText = [searchText stringByReplacingOccurrencesOfString:@" " withString:@"+"];
@@ -238,15 +235,17 @@ static const NSInteger GoogleSuggestionSection = 1;
 
 #pragma mark - XML Parser delegate methods
 
+// start each parse with a fresh array
 - (void) parserDidStartDocument:(NSXMLParser *)parser {
     [self.googleSuggestionsArray removeAllObjects];
 }
 
+// the format is all in the first tag <suggestion data="thesuggestion">
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary<NSString *,NSString *> *)attributeDict {
     self.currentElement = elementName;
     if ([elementName isEqualToString:@"suggestion"]) {
-        [self.foundValue setString:attributeDict[@"data"]];
-        [self.googleSuggestionsArray addObject:[self.foundValue copy]];
+        //[self.foundValue setString:attributeDict[@"data"]];
+        [self.googleSuggestionsArray addObject:attributeDict[@"data"]];//[self.foundValue copy]];
     }
 }
 
@@ -257,12 +256,12 @@ static const NSInteger GoogleSuggestionSection = 1;
 //    }
 //}
 
-- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([self.currentElement isEqualToString:@"suggestion"]) {
-        //[self.googleSuggestionsArray addObject:[self.foundValue copy]]; // somehow this getting called twice
-        [self.foundValue setString:@""];
-    }
-}
+//- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+//    if ([self.currentElement isEqualToString:@"suggestion"]) {
+//        //[self.googleSuggestionsArray addObject:[self.foundValue copy]]; // somehow this getting called twice
+//        //[self.foundValue setString:@""];
+//    }
+//}
 
 /*
 #pragma mark - Navigation

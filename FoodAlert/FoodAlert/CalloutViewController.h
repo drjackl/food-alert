@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Spot.h"
 
-
 @protocol CalloutViewControllerDelegate <NSObject>
 - (void) didPressDirectionsButton;
 @end
-
 
 @interface CalloutViewController : UIViewController
 

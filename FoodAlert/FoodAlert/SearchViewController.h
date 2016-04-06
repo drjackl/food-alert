@@ -10,11 +10,9 @@
 #import "MapViewController.h"
 #import "ListTableViewController.h"
 
-
 @protocol SearchViewControllerDelegate <NSObject>
 - (void) searchDidFinish;
 @end
-
 
 @interface SearchViewController : UIViewController
 
