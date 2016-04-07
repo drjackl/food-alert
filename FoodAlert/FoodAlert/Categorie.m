@@ -76,8 +76,8 @@
         self.color = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(color))];
         
         // interesting: if spotsArray never encoded, it doesn't exist and no run-time error decoding
-        //_spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
-        _spotsArray = [NSMutableArray new]; // new array for now just to non-archive features (like saveSpot, deleteSpot, setCat, addCat, deleteCat)
+        _spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
+        //_spotsArray = [NSMutableArray new]; // new array for now just to non-archive features (like saveSpot, deleteSpot, setCat, addCat, deleteCat)
     }
     return self;
 }

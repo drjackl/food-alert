@@ -50,10 +50,15 @@
         self.currentSearchedSpots = [NSArray array];
         self.savedSpotsBeingShown = [NSArray array];
         self.savedSpotsByDistance = [NSArray array];
-                
-        [self unarchiveSavedSpots];
-        [self unarchiveCategories];
-        [self unarchiveUnusedColors];
+        
+        // simple solution
+//        [self unarchiveSavedSpots];
+//        [self unarchiveCategories];
+
+        // strong/weak solution
+        [self unarchiveCategoriesAndSavedSpots];
+        
+        [self unarchiveUnusedColors]; // works for both simple and strong/weak
     }
     return self;
 }
@@ -120,6 +125,8 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     spot.category = category;
     
     [[DataSource sharedInstance] archiveSavedSpots];
+    
+    // technically, if both the previous and setting category are nil, no need to archive categories
     [[DataSource sharedInstance] archiveCategories];
 }
 
@@ -199,14 +206,16 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     
     // also be sure to remove each spot under category!
     //[category removeAllSpots]; // strong/weak
+    // in strong/weak, won't have to filter
     NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
     [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
         //((Spot*)obj).category = nil; // simple solution
-        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak
+        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak (maybe should use simple solution so not archiving twice on each set)
     }];
-    if (spotsWithCategory.count > 0) { // if we set any spot's categories to nil, must save
-        [self archiveSavedSpots];
-    }
+    // shouldn't need this (at least in strong/weak) since setCat already archives
+//    if (spotsWithCategory.count > 0) { // if we set any spot's categories to nil, must save
+//        [self archiveSavedSpots];
+//    }
     
     // recycle the color back to unusedColors array
     UIColor* colorToRecycle = category.color;
@@ -285,30 +294,161 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
 }
 
 
-- (void) unarchiveCategories {
+//- (void) unarchiveCategories {
+//    // dispatch to background since unarchiving might be slow
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        NSString* fullPath = [self pathForCategories];
+//        
+//        NSArray* categoriesToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+//        
+//        // once unarchived, dispatch back to main to set savedSpots to what we unarchived
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (categoriesToLoad.count > 0) {
+//                NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
+//                self.categories = mutableCategories;
+//                // strong/weak
+////                [self.categories enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx, BOOL*_Nonnull stop) {
+////                    Categorie* category = obj1;
+////                    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx, BOOL*_Nonnull stop) {
+////                        ((Spot*)obj2).category = category;
+////                    }];
+////                }];
+//            } else { // first time running app, load default categories and unused colors
+//                self.categories = [[self defaultCategories] mutableCopy];
+//                [self archiveCategories];
+//                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
+//                [self archiveUnusedColors];
+//            }
+//            
+//            // update any views that would be done in KVO (don't think I need to)
+//        });
+//    });
+//}
+
+//- (void) unarchiveCategoriesAndSavedSpots {
+//    // dispatch to background since unarchiving might be slow
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        // 1. unarchive categories
+//        NSString* fullCategoryPath = [self pathForCategories];
+//        NSArray* categoriesToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullCategoryPath];
+//        
+//        // 2. for each category, for each spot, unarchive spot and set in right place of savedSpots
+//        NSMutableArray* savedSpotsToLoad = [NSMutableArray new];
+//        [categoriesToLoad enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx1, BOOL*_Nonnull stop1) {
+//            Categorie* category = obj1;
+//            
+//            // for each spot in the category
+//            [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx2, BOOL*_Nonnull stop2) {
+//                Spot* spot = obj2;
+//                
+//                // set weak link
+//                spot.category = category;
+//                
+//                // insert in right place of savedSpots
+//                [savedSpotsToLoad insertObject:spot atIndex:spot.savedSpotIndex];
+//            }];
+//        }];
+//        
+//        // once unarchived, dispatch back to main to set categories and savedSpots to what we unarchived
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (categoriesToLoad.count > 0) {
+//                NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
+//                self.categories = mutableCategories;
+//                // strong/weak
+//                //                [self.categories enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx, BOOL*_Nonnull stop) {
+//                //                    Categorie* category = obj1;
+//                //                    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx, BOOL*_Nonnull stop) {
+//                //                        ((Spot*)obj2).category = category;
+//                //                    }];
+//                //                }];
+//            } else { // first time running app, load default categories and unused colors
+//                self.categories = [[self defaultCategories] mutableCopy];
+//                [self archiveCategories];
+//                self.unusedColors = [[self defaultUnusedColors] mutableCopy];
+//                [self archiveUnusedColors];
+//            }
+//            
+//            // based off above unarchiveSavedSpots
+//            if (savedSpotsToLoad.count > 0) { // if don't check, savedSpots set back to nil
+//                // simple solution: had to make a mutable copy
+////                NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+////                self.savedSpots = mutableSavedSpots;
+//                
+//                // strong/weak: we create savedSpots as unpackaging
+//                self.savedSpots = savedSpotsToLoad;
+//                
+//                // set visible spots after unarchiving
+//                self.savedSpotsBeingShown = self.savedSpots;
+//                
+//                // was adding spots directly to map and list VC before KVO
+//            }
+//            
+//            // update any views that would be done in KVO (don't think I need to)
+//        });
+//    });
+//}
+
+- (void) unarchiveCategoriesAndSavedSpots {
     // dispatch to background since unarchiving might be slow
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString* fullPath = [self pathForCategories];
+        // 1. unarchive spots
+        NSString* fullSavedSpotsPath = [self pathForSavedSpots];
+        NSArray* savedSpotsToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullSavedSpotsPath];
+        NSMutableArray* mutableSavedSpotsToLoad = [savedSpotsToLoad mutableCopy];
         
-        NSArray* categoriesToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
+        // 2. unarchive categories
+        NSString* fullCategoryPath = [self pathForCategories];
+        NSArray* categoriesToLoad = [NSKeyedUnarchiver unarchiveObjectWithFile:fullCategoryPath];
         
-        // once unarchived, dispatch back to main to set savedSpots to what we unarchived
+        // 3. for each category, for each spot, unarchive spot and set in right place of savedSpots
+        [categoriesToLoad enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx1, BOOL*_Nonnull stop1) {
+            Categorie* category = obj1;
+            
+            // for each spot in the category
+            [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx2, BOOL*_Nonnull stop2) {
+                Spot* spot = obj2;
+                
+                // set weak link
+                spot.category = category;
+                
+                // replace in right place of savedSpots (replacing the unarchived spot)
+                //[mutableSavedSpotsToLoad insertObject:spot atIndex:spot.savedSpotIndex];
+                [mutableSavedSpotsToLoad replaceObjectAtIndex:spot.savedSpotIndex withObject:spot];
+            }];
+        }];
+        
+        // once unarchived, dispatch back to main to set categories and savedSpots to what we unarchived
         dispatch_async(dispatch_get_main_queue(), ^{
             if (categoriesToLoad.count > 0) {
                 NSMutableArray* mutableCategories = [categoriesToLoad mutableCopy];
                 self.categories = mutableCategories;
                 // strong/weak
-//                [self.categories enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx, BOOL*_Nonnull stop) {
-//                    Categorie* category = obj1;
-//                    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx, BOOL*_Nonnull stop) {
-//                        ((Spot*)obj2).category = category;
-//                    }];
-//                }];
+                //                [self.categories enumerateObjectsUsingBlock:^(id _Nonnull obj1, NSUInteger idx, BOOL*_Nonnull stop) {
+                //                    Categorie* category = obj1;
+                //                    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj2, NSUInteger idx, BOOL*_Nonnull stop) {
+                //                        ((Spot*)obj2).category = category;
+                //                    }];
+                //                }];
             } else { // first time running app, load default categories and unused colors
                 self.categories = [[self defaultCategories] mutableCopy];
                 [self archiveCategories];
                 self.unusedColors = [[self defaultUnusedColors] mutableCopy];
                 [self archiveUnusedColors];
+            }
+            
+            // based off above unarchiveSavedSpots
+            if (mutableSavedSpotsToLoad.count > 0) { // if don't check, savedSpots set back to nil
+                // simple solution: had to make a mutable copy
+                //                NSMutableArray* mutableSavedSpots = [savedSpotsToLoad mutableCopy];
+                //                self.savedSpots = mutableSavedSpots;
+                
+                // strong/weak: we create savedSpots as unpackaging
+                self.savedSpots = mutableSavedSpotsToLoad; //savedSpotsToLoad; // oops
+                
+                // set visible spots after unarchiving
+                self.savedSpotsBeingShown = self.savedSpots;
+                
+                // was adding spots directly to map and list VC before KVO
             }
             
             // update any views that would be done in KVO (don't think I need to)

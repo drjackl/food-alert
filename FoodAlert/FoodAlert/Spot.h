@@ -24,7 +24,7 @@
 @property (nonatomic) BOOL saved;
 
 @property (weak, nonatomic) Categorie* category; // Category owns array of Spots, so weak link back
-@property (nonatomic) short savedSpotIndex;
+@property (nonatomic) int savedSpotIndex;
 
 @property (nonatomic) NSString* notes;
 

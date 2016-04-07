@@ -83,8 +83,11 @@
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
         
-        // needed for strong property
-        self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
+//        // needed for strong property
+//        self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
+        
+        // strong/weak
+        self.savedSpotIndex = [aDecoder decodeIntForKey:NSStringFromSelector(@selector(savedSpotIndex))];
         
         self.notes = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(notes))];
     }
@@ -105,8 +108,11 @@
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
     
-    // needed if cat a strong property
-    [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
+//    // needed if cat a strong property (simple solution)
+//    [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
+    
+    // strong/weak
+    [aCoder encodeInt:self.savedSpotIndex forKey:NSStringFromSelector(@selector(savedSpotIndex))];
     
     [aCoder encodeObject:self.notes forKey:NSStringFromSelector(@selector(notes))];
 }
