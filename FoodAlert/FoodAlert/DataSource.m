@@ -158,7 +158,7 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [self refreshSavedSpotsBeingShown];
     
     [self archiveSavedSpots];
-    [self archiveCategories]; // since spot and cat linked, need to persist both
+    //[self archiveCategories]; // since spot and cat linked, need to persist both
 }
 
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i {
@@ -186,6 +186,9 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
         ((Spot*)obj).category = nil;
     }];
+    if (spotsWithCategory.count > 0) { // if we set any spot's categories to nil, must save
+        [self archiveSavedSpots];
+    }
     
     // recycle the color back to unusedColors array
     UIColor* colorToRecycle = category.color;

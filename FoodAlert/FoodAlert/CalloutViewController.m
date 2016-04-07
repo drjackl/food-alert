@@ -143,8 +143,8 @@
         }
         
         // somehow, these aren't saving ... or are they now ...
-        // these are called in setCategory above
-        [[DataSource sharedInstance] archiveCategories];
+        // these are called in setCategory above (not with easy solution)
+        //[[DataSource sharedInstance] archiveCategories]; should only need savedSpots for basic
         [[DataSource sharedInstance] archiveSavedSpots];
     }
 }
