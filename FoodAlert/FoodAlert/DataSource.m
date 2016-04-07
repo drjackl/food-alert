@@ -111,17 +111,17 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     return self.savedSpotsByDistance;
 }
 
-//#pragma mark - Linking a Spot to its Category
-//
+#pragma mark - Linking a Spot to its Category
+
 // if before or after category nil, won't remove or add, just set spot category to nil
-//- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
-//    [spot.category.spotsArray removeObject:spot];
-//    [category.spotsArray addObject:spot];
-//    spot.category = category;
-//    
-//    [[DataSource sharedInstance] archiveSavedSpots];
-//    [[DataSource sharedInstance] archiveCategories];
-//}
+- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot {
+    [spot.category.spotsArray removeObject:spot];
+    [category.spotsArray addObject:spot];
+    spot.category = category;
+    
+    [[DataSource sharedInstance] archiveSavedSpots];
+    [[DataSource sharedInstance] archiveCategories];
+}
 
 
 #pragma mark - Persisting data (Public)
@@ -129,6 +129,9 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
 - (void) saveSpot:(Spot*)spot {
     Spot* spotCopy = [[Spot alloc] initWithCoordinates:spot.coordinate title:spot.title addressDictionary:spot.addressDictionary phone:spot.phone url:spot.url];
     spotCopy.saved = YES;
+
+    // for strong/weak
+    spotCopy.savedSpotIndex = self.savedSpots.count; // index is always the end when adding
     
     // necessary for KVO (doesn't get triggered if [self.savedSpots addObject])
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(savedSpots))];
@@ -146,19 +149,33 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
 }
 
+// Deleting AND Unlinking
 - (void) deleteSpot:(Spot*)spot {
+    NSInteger indexOfSpotBeingRemoved = [self.savedSpots indexOfObject:spot];
+    
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(savedSpots))];
-    [mutableArrayWithKVO removeObject:spot];
+    [mutableArrayWithKVO removeObjectAtIndex:indexOfSpotBeingRemoved];
+    
+    // update savedSpotIndex for subsequent spots
+    for (NSInteger i = indexOfSpotBeingRemoved; i < mutableArrayWithKVO.count; i++) {
+        ((Spot*)[mutableArrayWithKVO objectAtIndex:i]).savedSpotIndex = i;
+    }
+    
     
     // if deleting spot, must delete from category list too since strong reference
     //[spot.category removeSpot:spot];
-    spot.category = nil; // needs to be set explicitly sometime
+    //spot.category = nil; // needs to be set explicitly sometime (simple solution)
+    [[DataSource sharedInstance] setCategory:nil forSpot:spot]; // unlinking (set cat to nil)
     
     // use this to make disappear
     [self refreshSavedSpotsBeingShown];
     
-    [self archiveSavedSpots];
+    //[self archiveSavedSpots];
     //[self archiveCategories]; // since spot and cat linked, need to persist both
+    
+    //[self archiveSavedSpots]; // simple solution
+    
+    // for strong/weak saving takes place in setCategory:forSpot:
 }
 
 - (void) addCategoryWithName:(NSString*)name fromColorAtIndex:(int)i {
@@ -184,7 +201,8 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     //[category removeAllSpots]; // strong/weak
     NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
     [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
-        ((Spot*)obj).category = nil;
+        //((Spot*)obj).category = nil; // simple solution
+        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak
     }];
     if (spotsWithCategory.count > 0) { // if we set any spot's categories to nil, must save
         [self archiveSavedSpots];

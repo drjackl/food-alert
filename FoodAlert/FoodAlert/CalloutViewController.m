@@ -129,10 +129,10 @@
 - (void) didSelectCategory:(Categorie*)category {
     // only set category if different from current category
     if (self.spot.category != category) {
-        self.spot.category = category;
+        //self.spot.category = category; // simple solution
         //[category addSpot:self.spot]; // set spot <--> category
         // linking spot <--> cat
-        //[[DataSource sharedInstance] setCategory:category forSpot:self.spot];
+        [[DataSource sharedInstance] setCategory:category forSpot:self.spot];
         
         // update category title and color
         [self.categoryButton setTitle:category.title forState:UIControlStateNormal];
@@ -145,7 +145,11 @@
         // somehow, these aren't saving ... or are they now ...
         // these are called in setCategory above (not with easy solution)
         //[[DataSource sharedInstance] archiveCategories]; should only need savedSpots for basic
-        [[DataSource sharedInstance] archiveSavedSpots];
+        //[[DataSource sharedInstance] archiveSavedSpots];
+        
+        //[[DataSource sharedInstance] archiveSavedSpots]; // simple solution
+        
+        // in strong/weak, already being archived in setCategory:forSpot:
     }
 }
 

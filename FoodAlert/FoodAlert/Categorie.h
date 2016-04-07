@@ -17,7 +17,7 @@
 @property (nonatomic) NSString* title;
 @property (nonatomic) UIColor* color;
 
-//@property (readonly, nonatomic) NSMutableArray* spotsArray; // Cat -strong-> SpotArray -strong-> Spot -weak-> Cat
+@property (readonly, nonatomic) NSMutableArray* spotsArray; // Cats have strong link to Spots
 
 - (instancetype) initWithColor:(UIColor*)color;
 - (instancetype) initWithTitle:(NSString*)title color:(UIColor*)color;

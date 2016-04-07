@@ -18,7 +18,7 @@
         self.title = title;
         self.color = color;
         
-        //_spotsArray = [NSMutableArray array]; // (not needed if weak pointer?)
+        _spotsArray = [NSMutableArray array]; // for strong/weak (not needed for simple)
     }
     return self;
 }
@@ -75,7 +75,9 @@
         self.title = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(title))];
         self.color = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(color))];
         
+        // interesting: if spotsArray never encoded, it doesn't exist and no run-time error decoding
         //_spotsArray = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(spotsArray))];
+        _spotsArray = [NSMutableArray new]; // new array for now just to non-archive features (like saveSpot, deleteSpot, setCat, addCat, deleteCat)
     }
     return self;
 }
@@ -84,7 +86,7 @@
     [aCoder encodeObject:self.title forKey:NSStringFromSelector(@selector(title))];
     [aCoder encodeObject:self.color forKey:NSStringFromSelector(@selector(color))];
     
-    //[aCoder encodeObject:self.spotsArray forKey:NSStringFromSelector(@selector(spotsArray))];
+    [aCoder encodeObject:self.spotsArray forKey:NSStringFromSelector(@selector(spotsArray))];
 }
 
 @end

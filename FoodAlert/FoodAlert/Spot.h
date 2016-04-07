@@ -23,7 +23,8 @@
 
 @property (nonatomic) BOOL saved;
 
-@property (nonatomic) Categorie* category; // not using cycles currently
+@property (weak, nonatomic) Categorie* category; // Category owns array of Spots, so weak link back
+@property (nonatomic) short savedSpotIndex;
 
 @property (nonatomic) NSString* notes;
 

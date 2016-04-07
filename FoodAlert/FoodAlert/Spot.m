@@ -23,6 +23,8 @@
         _phone = phone;
         _url = url;
         
+        self.savedSpotIndex = -1;
+        
         self.saved = NO;
         
         self.notes = @"";

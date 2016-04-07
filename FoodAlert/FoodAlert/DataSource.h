@@ -27,7 +27,7 @@
 // so searchVC can access
 @property (nonatomic) NSArray* currentSearchedSpots;
 
-//- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot;
+- (void) setCategory:(Categorie*)category forSpot:(Spot*)spot; // strong/weak
 
 - (void) filterSavedSpotsWithCategory:(Categorie*)category alwaysRefresh:(BOOL)alwaysRefresh;
 
