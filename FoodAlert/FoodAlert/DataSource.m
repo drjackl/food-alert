@@ -190,12 +190,17 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     [mutableArrayWithKVO removeObjectAtIndex:i];
     
     // also be sure to remove each spot under category!
-    // in strong/weak, won't have to filter
-    NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-    [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
-        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak (maybe should use simple solution so not archiving twice on each set)
+    // simple solution: use filter to find all spots with same category to nil out
+//    NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
+//    [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
+//        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak (maybe should use simple solution so not archiving twice on each set)
+//    }];
+//    // for now, setCategory:forSpot: does the archiving, but we could probably set them manually and then archive once at the end
+    
+    // set category property of spots with category to nil (strong/weak uses cat's spotArray)
+    [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
+        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj];
     }];
-    // for now, setCategory:forSpot: does the archiving, but we could probably set them manually and then archive once at the end
 
     
     // recycle the color back to unusedColors array
