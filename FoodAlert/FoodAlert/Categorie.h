@@ -22,9 +22,6 @@
 - (instancetype) initWithColor:(UIColor*)color;
 - (instancetype) initWithTitle:(NSString*)title color:(UIColor*)color;
 
-// should only be called by Spot's setCategory method to maintain strong/weak cyclical reference
-//- (void) addSpot:(Spot*)spot;
-//- (void) removeSpot:(Spot*)sSpot;
-//- (void) removeAllSpots; // called when category being removed
+// at one point thought of doing the linking in Category by adding, removing and removing all Spot(s)
 
 @end

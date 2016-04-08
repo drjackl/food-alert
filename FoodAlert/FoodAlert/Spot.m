@@ -32,26 +32,7 @@
     return self;
 }
 
-// set the spot <--> category relationship here
-//- (void) setCategory:(Categorie*)category {
-////    // hmm, not removing old category
-////    // if there was an old category, remove spot from its spotsArray
-////    if (_category) { // don't think i need this check
-////        [_category removeSpot:self];
-////    }
-////    
-////    // spot <--> category
-////    [category addSpot:self];
-////    _category = category;
-//    
-//    [_category.spotsArray removeObject:self];
-//    [category.spotsArray addObject:self];
-//    _category = category;
-//    
-//    // each linking needs to persist (but not on startup encoding ...)
-//    [[DataSource sharedInstance] archiveSavedSpots];
-//    [[DataSource sharedInstance] archiveCategories];
-//}
+// thought of setting Spot/Category link in setCategory setter, but you don't want to archive anything when setting category in initWithCoder, so this method is DataSource's setCategory:forSpot:
 
 - (NSString*) formattedAddressWithSeparator:(NSString*)separator {
     NSMutableString* formattedString = [NSMutableString string];
@@ -68,6 +49,7 @@
     self = [super init];
     //self = [super initWithCoder:aDecoder]; // why doesn't this work?
     if (self) {
+        // this should work, but seems like Apple's code still buggy for this
 //        NSValue* coordinateValue = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(coordinate))];
 //        _coordinate = coordinateValue.MKCoordinateValue;
         CLLocationCoordinate2D coordinateToDecode;
@@ -82,9 +64,8 @@
         _url = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(url))];
         
         self.saved = [aDecoder decodeBoolForKey:NSStringFromSelector(@selector(saved))];
-        
-//        // needed for strong property
-//        self.category = [aDecoder decodeObjectForKey:NSStringFromSelector(@selector(category))];
+
+        // for simple solution, just decoded category strong property normally; since weak now, this gets set when spot added to category
         
         // strong/weak
         self.savedSpotIndex = [aDecoder decodeIntForKey:NSStringFromSelector(@selector(savedSpotIndex))];
@@ -95,6 +76,7 @@
 }
 
 - (void) encodeWithCoder:(NSCoder*)aCoder {
+    // this should work, but seems like Apple's code still buggy for this
 //    NSValue* coordinateValue = [NSValue valueWithMKCoordinate:self.coordinate];
 //    [aCoder encodeObject:coordinateValue forKey:NSStringFromSelector(@selector(coordinate))];
     [aCoder encodeDouble:self.coordinate.latitude forKey:@"latitude"];
@@ -108,8 +90,7 @@
     
     [aCoder encodeBool:self.saved forKey:NSStringFromSelector(@selector(saved))];
     
-//    // needed if cat a strong property (simple solution)
-//    [aCoder encodeObject:self.category forKey:NSStringFromSelector(@selector(category))];
+    // for simple solution, encode the category normally. for strong/weak, don't encode since we'll establish this weak link by looking at category's strong link to the spot
     
     // strong/weak
     [aCoder encodeInt:self.savedSpotIndex forKey:NSStringFromSelector(@selector(savedSpotIndex))];
