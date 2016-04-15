@@ -16,7 +16,7 @@
 #import "CalloutViewController.h"
 #import "CategoryPresentationController.h"
 
-@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CalloutViewControllerDelegate/*, CategorySelectViewControllerDelegate*/>
+@interface MapViewController () <MKMapViewDelegate, CLLocationManagerDelegate, CalloutViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView* mapView;
 
 @property (nonatomic) CLLocationManager* locationManager;
@@ -83,19 +83,14 @@
 }
 
 
-#pragma mark - Navigation
+/*#pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 
-    // no longer using category select here (in callout now)
-//    if ([segue.identifier isEqualToString:@"categorySelect"]) {
-//        self.categorySelectModal = (CategorySelectViewController*)segue.destinationViewController;
-//        self.categorySelectModal.delegate = self;
-//    }
-}
+}*/
 
 
 #pragma mark - KVO (searchSpots and savedSpotsBeingShown)
@@ -117,10 +112,8 @@
         else if ([keyPath isEqualToString:NSStringFromSelector(@selector(savedSpotsBeingShown))]) {
             NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
             if (kindOfChange == NSKeyValueChangeSetting) {
-                // replace old if there's old (need NULL check only if never init to empty array)
-                //if ([change[NSKeyValueChangeOldKey] isKindOfClass:[NSArray class]]) {
-                    [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
-                //}
+                // replace old if there's old (need nil check only if never init to empty array)
+                [self.mapView removeAnnotations:change[NSKeyValueChangeOldKey]];
                 // set new
                 [self.mapView addAnnotations:change[NSKeyValueChangeNewKey]];
             }
@@ -137,19 +130,6 @@
         } // end else if keyPath is @"savedSpots"
     } // end if object is [DataSource sharedInstance]
 }
-
-
-//#pragma mark - Category Select VC (modal) delegate
-//
-//// was implemented for custom MKAV and standard callout (category was right accessory view)
-//- (void) didSelectCategory:(Categorie*)category {
-//    self.currentSelectedSpot.category = category;
-//    //[self updateCategoryButtonOfAnnotationView:self.currentAnnotationView]; // default callouts, now done in Callout VC delegate
-//    
-//    // somehow, these aren't saving ... or are they now ...
-//    [[DataSource sharedInstance] archiveCategories];
-//    [[DataSource sharedInstance] archiveSavedSpots];
-//}
 
 
 #pragma mark - Callout VC delegate
@@ -177,16 +157,13 @@
     return [UIImage imageNamed:@"map"];
 }
 
+
 #pragma mark - Map View methods
 
 - (MKCoordinateRegion) currentRegion {
     return self.mapView.region;
 }
 
-// seems like it was an early helper method
-//- (void) addSpots:(NSArray*)spotsArray {
-//    [self.mapView addAnnotations:spotsArray];
-//}
 
 #pragma mark - Map View delegate
 
@@ -276,8 +253,7 @@
             // KVO on Spots too?
             self.currentSelectedSpot.notes = textViewText;
             
-            //[[DataSource sharedInstance] saveSpot:self.currentSelectedSpot];
-            // should not be adding another spot (just do normal save)
+            // should not be adding another spot (just do normal archive)
             [[DataSource sharedInstance] archiveSavedSpots];
         }
     }
@@ -369,25 +345,26 @@
 - (void) locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region {
     NSLog(@"Entering region: %@", region.identifier);
     
-    // maybe these get sent automatically? probably not
+    // instantiate notification
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    
     //localNotification.regionTriggersOnce = YES; // this is default
-    //localNotification.region = region; // i think adding region might've been delaying this notification from presenting immediately
+    
+    // setting region here is wrong. at this point, notification needs to fire immediately since we just entered a region. setting a region now will delay notification til the next region event (which will be an exit)
+    //localNotification.region = region;
+    
+    // these fields not shown in lock screen or top notification bar
     //localNotification.alertAction = @"Go! Go! Go!";
     //localNotification.alertTitle = NSLocalizedString(@"Nearing Spot!", @"alert notification title");
+    //localNotification.alertLaunchImage = @"second";
+
     NSString* alertDetails = [NSString stringWithFormat:@"You are about a half mile away from %@", [ self decodeTitleFromRegionID:region.identifier]];
     localNotification.alertBody = NSLocalizedString(alertDetails, @"alert notification details");
-    //localNotification.alertLaunchImage = @"second";
+    
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 }
 
-//- (void) locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-//    NSLog(@"Exiting region: %@", region);
-//}
-
-//- (void) locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
-//    NSLog(@"Did determine state for region: %@", region);
-//}
+// don't care about exiting region (or anything other than entering)
 
 // this method should be called if too many regions added, or something related to that
 //- (void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {

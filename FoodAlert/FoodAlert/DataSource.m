@@ -66,17 +66,13 @@
         
         self.filterCategory = category;
         
-        if (category) {
-//            NSArray* filteredArray = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-//            self.savedSpotsBeingShown = filteredArray;
-            
+        if (category) { // (could be reduced to a ternary)
+            // strong/weak uses Cat's spots property, whereas simple solution had to filter for Cat
             self.savedSpotsBeingShown = [category.spotsArray copy];
         } else {
             self.savedSpotsBeingShown = [self.savedSpots copy]; // always want a different object to trigger refreshing
         }
     }
-    
-    //self.savedSpotsBeingShown = category.spotsInCategory ? category.spotsInCategory : [NSArray new]; // using Cat property of spots (vs. filtering each time)
 }
 
 - (void) refreshSavedSpotsBeingShown {
@@ -104,6 +100,7 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     }
 }
 
+// returns the sorted savedSpots but also sets the savedSpotsByDistance property
 - (NSArray*) sortSavedSpots:(CLLocation*)currentLocation {
     self.savedSpotsByDistance = [self.savedSpots sortedArrayUsingFunction:distanceSort context:(__bridge void*_Nullable)(currentLocation)];
     return self.savedSpotsByDistance;
@@ -189,15 +186,7 @@ NSInteger distanceSort (id spot1, id spot2, void* context) {
     NSMutableArray* mutableArrayWithKVO = [self mutableArrayValueForKey:NSStringFromSelector(@selector(categories))];
     [mutableArrayWithKVO removeObjectAtIndex:i];
     
-    // also be sure to remove each spot under category!
-    // simple solution: use filter to find all spots with same category to nil out
-//    NSArray* spotsWithCategory = [self.savedSpots filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"category = %@", category]];
-//    [spotsWithCategory enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
-//        [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj]; // strong/weak (maybe should use simple solution so not archiving twice on each set)
-//    }];
-//    // for now, setCategory:forSpot: does the archiving, but we could probably set them manually and then archive once at the end
-    
-    // set category property of spots with category to nil (strong/weak uses cat's spotArray)
+    // set category property of spots with category to nil (strong/weak uses cat's spotArray, whereas simple solution used filtering)
     [category.spotsArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL*_Nonnull stop) {
         [[DataSource sharedInstance] setCategory:nil forSpot:(Spot*)obj];
     }];

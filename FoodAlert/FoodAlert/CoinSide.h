@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @protocol CoinSide <NSObject>
-
 - (UIImage*) buttonImage;
 - (NSString*) buttonName;
-
 @end
